@@ -9,8 +9,8 @@ PROJET_8/
 ├── notebooks/              # analyses, drift, optimisation
 ├── scripts/                # scripts d'import, inférence, monitoring
 ├── model/                  # artefacts modèle et schémas
-├── data/                   # jeux de référence, exemples, logs locaux
-├── dashboard/              # futur dashboard monitoring
+├── data/                   # jeux de référence, exemples, journaux locaux
+├── dashboard/              # futur tableau de bord de monitoring
 ├── docs/                   # documentation projet
 ├── Dockerfile
 ├── requirements.txt

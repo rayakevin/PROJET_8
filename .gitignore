@@ -26,6 +26,8 @@ data/sample/*.parquet
 # Model artifacts exported locally
 model/artifacts/*
 !model/artifacts/.gitkeep
+!model/artifacts/mlflow_model/
+!model/artifacts/mlflow_model/**
 model/legacy_mlflow/
 mlruns/
 mlartifacts/
@@ -41,3 +43,4 @@ reports/
 Thumbs.db
 .idea/
 .vscode/
+

@@ -1,0 +1,3677 @@
+{
+  "source": "preparation_modelisation_p6_prepare_modeling_tables",
+  "id_column": "SK_ID_CURR",
+  "target_column": "TARGET",
+  "missing_threshold": 0.95,
+  "feature_count": 733,
+  "train_rows": 307507,
+  "test_rows": 48744,
+  "class_rate": 0.08072986956394489,
+  "features": [
+    {
+      "name": "amt_annuity",
+      "dtype": "float64",
+      "missing_ratio_train": 3.9023501904021696e-05
+    },
+    {
+      "name": "amt_credit",
+      "dtype": "float64",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "amt_goods_price",
+      "dtype": "float64",
+      "missing_ratio_train": 0.0009040444607765027
+    },
+    {
+      "name": "amt_income_total",
+      "dtype": "float64",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "amt_req_credit_bureau_day",
+      "dtype": "float64",
+      "missing_ratio_train": 0.13501806462942306
+    },
+    {
+      "name": "amt_req_credit_bureau_hour",
+      "dtype": "float64",
+      "missing_ratio_train": 0.13501806462942306
+    },
+    {
+      "name": "amt_req_credit_bureau_mon",
+      "dtype": "float64",
+      "missing_ratio_train": 0.13501806462942306
+    },
+    {
+      "name": "amt_req_credit_bureau_qrt",
+      "dtype": "float64",
+      "missing_ratio_train": 0.13501806462942306
+    },
+    {
+      "name": "amt_req_credit_bureau_week",
+      "dtype": "float64",
+      "missing_ratio_train": 0.13501806462942306
+    },
+    {
+      "name": "amt_req_credit_bureau_year",
+      "dtype": "float64",
+      "missing_ratio_train": 0.13501806462942306
+    },
+    {
+      "name": "annuity_to_income_ratio",
+      "dtype": "float64",
+      "missing_ratio_train": 3.9023501904021696e-05
+    },
+    {
+      "name": "apartments_avg",
+      "dtype": "float64",
+      "missing_ratio_train": 0.5075006422618021
+    },
+    {
+      "name": "apartments_medi",
+      "dtype": "float64",
+      "missing_ratio_train": 0.5075006422618021
+    },
+    {
+      "name": "apartments_mode",
+      "dtype": "float64",
+      "missing_ratio_train": 0.5075006422618021
+    },
+    {
+      "name": "basementarea_avg",
+      "dtype": "float64",
+      "missing_ratio_train": 0.5851639149677893
+    },
+    {
+      "name": "basementarea_medi",
+      "dtype": "float64",
+      "missing_ratio_train": 0.5851639149677893
+    },
+    {
+      "name": "basementarea_mode",
+      "dtype": "float64",
+      "missing_ratio_train": 0.5851639149677893
+    },
+    {
+      "name": "cnt_children",
+      "dtype": "int64",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "cnt_fam_members",
+      "dtype": "float64",
+      "missing_ratio_train": 6.503916984003616e-06
+    },
+    {
+      "name": "code_gender",
+      "dtype": "int64",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "commonarea_avg",
+      "dtype": "float64",
+      "missing_ratio_train": 0.6987223055084925
+    },
+    {
+      "name": "commonarea_medi",
+      "dtype": "float64",
+      "missing_ratio_train": 0.6987223055084925
+    },
+    {
+      "name": "commonarea_mode",
+      "dtype": "float64",
+      "missing_ratio_train": 0.6987223055084925
+    },
+    {
+      "name": "credit_to_annuity_ratio",
+      "dtype": "float64",
+      "missing_ratio_train": 3.9023501904021696e-05
+    },
+    {
+      "name": "credit_to_goods_ratio",
+      "dtype": "float64",
+      "missing_ratio_train": 0.0009040444607765027
+    },
+    {
+      "name": "credit_to_income_ratio",
+      "dtype": "float64",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "days_birth",
+      "dtype": "int64",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "days_employed",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1800739495361081
+    },
+    {
+      "name": "days_employed_anom",
+      "dtype": "int64",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "days_employed_perc",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1800739495361081
+    },
+    {
+      "name": "days_id_publish",
+      "dtype": "int64",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "days_last_phone_change",
+      "dtype": "float64",
+      "missing_ratio_train": 3.251958492001808e-06
+    },
+    {
+      "name": "days_registration",
+      "dtype": "float64",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "def_30_cnt_social_circle",
+      "dtype": "float64",
+      "missing_ratio_train": 0.003320249620333846
+    },
+    {
+      "name": "def_60_cnt_social_circle",
+      "dtype": "float64",
+      "missing_ratio_train": 0.003320249620333846
+    },
+    {
+      "name": "elevators_avg",
+      "dtype": "float64",
+      "missing_ratio_train": 0.5329634772541764
+    },
+    {
+      "name": "elevators_medi",
+      "dtype": "float64",
+      "missing_ratio_train": 0.5329634772541764
+    },
+    {
+      "name": "elevators_mode",
+      "dtype": "float64",
+      "missing_ratio_train": 0.5329634772541764
+    },
+    {
+      "name": "emergencystate_mode_no",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "emergencystate_mode_yes",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "emergencystate_mode_nan",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "entrances_avg",
+      "dtype": "float64",
+      "missing_ratio_train": 0.5034909774411639
+    },
+    {
+      "name": "entrances_medi",
+      "dtype": "float64",
+      "missing_ratio_train": 0.5034909774411639
+    },
+    {
+      "name": "entrances_mode",
+      "dtype": "float64",
+      "missing_ratio_train": 0.5034909774411639
+    },
+    {
+      "name": "ext_sources_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.000559336860624311
+    },
+    {
+      "name": "ext_sources_std",
+      "dtype": "float64",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "ext_source_1",
+      "dtype": "float64",
+      "missing_ratio_train": 0.5638115555093055
+    },
+    {
+      "name": "ext_source_2",
+      "dtype": "float64",
+      "missing_ratio_train": 0.0021462926047211934
+    },
+    {
+      "name": "ext_source_3",
+      "dtype": "float64",
+      "missing_ratio_train": 0.19825564946489024
+    },
+    {
+      "name": "flag_document_16",
+      "dtype": "int64",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "flag_document_18",
+      "dtype": "int64",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "flag_document_3",
+      "dtype": "int64",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "flag_document_5",
+      "dtype": "int64",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "flag_document_6",
+      "dtype": "int64",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "flag_document_8",
+      "dtype": "int64",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "flag_email",
+      "dtype": "int64",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "flag_emp_phone",
+      "dtype": "int64",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "flag_own_car",
+      "dtype": "int64",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "flag_own_realty",
+      "dtype": "int64",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "flag_phone",
+      "dtype": "int64",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "flag_work_phone",
+      "dtype": "int64",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "floorsmax_avg",
+      "dtype": "float64",
+      "missing_ratio_train": 0.4976114364876247
+    },
+    {
+      "name": "floorsmax_medi",
+      "dtype": "float64",
+      "missing_ratio_train": 0.4976114364876247
+    },
+    {
+      "name": "floorsmax_mode",
+      "dtype": "float64",
+      "missing_ratio_train": 0.4976114364876247
+    },
+    {
+      "name": "floorsmin_avg",
+      "dtype": "float64",
+      "missing_ratio_train": 0.6784886197712572
+    },
+    {
+      "name": "floorsmin_medi",
+      "dtype": "float64",
+      "missing_ratio_train": 0.6784886197712572
+    },
+    {
+      "name": "floorsmin_mode",
+      "dtype": "float64",
+      "missing_ratio_train": 0.6784886197712572
+    },
+    {
+      "name": "fondkapremont_mode_nan",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "fondkapremont_mode_not_specified",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "fondkapremont_mode_org_spec_account",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "fondkapremont_mode_reg_oper_account",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "fondkapremont_mode_reg_oper_spec_account",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "hour_appr_process_start",
+      "dtype": "int64",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "housetype_mode_block_of_flats",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "housetype_mode_nan",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "id_publish_to_birth_ratio",
+      "dtype": "float64",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "income_per_person",
+      "dtype": "float64",
+      "missing_ratio_train": 6.503916984003616e-06
+    },
+    {
+      "name": "landarea_avg",
+      "dtype": "float64",
+      "missing_ratio_train": 0.5937685971376261
+    },
+    {
+      "name": "landarea_medi",
+      "dtype": "float64",
+      "missing_ratio_train": 0.5937685971376261
+    },
+    {
+      "name": "landarea_mode",
+      "dtype": "float64",
+      "missing_ratio_train": 0.5937685971376261
+    },
+    {
+      "name": "live_city_not_work_city",
+      "dtype": "int64",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "live_region_not_work_region",
+      "dtype": "int64",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "livingapartments_avg",
+      "dtype": "float64",
+      "missing_ratio_train": 0.683551919143304
+    },
+    {
+      "name": "livingapartments_medi",
+      "dtype": "float64",
+      "missing_ratio_train": 0.683551919143304
+    },
+    {
+      "name": "livingapartments_mode",
+      "dtype": "float64",
+      "missing_ratio_train": 0.683551919143304
+    },
+    {
+      "name": "livingarea_avg",
+      "dtype": "float64",
+      "missing_ratio_train": 0.5019365412819871
+    },
+    {
+      "name": "livingarea_medi",
+      "dtype": "float64",
+      "missing_ratio_train": 0.5019365412819871
+    },
+    {
+      "name": "livingarea_mode",
+      "dtype": "float64",
+      "missing_ratio_train": 0.5019365412819871
+    },
+    {
+      "name": "name_contract_type_cash_loans",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "name_contract_type_revolving_loans",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "name_education_type_higher_education",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "name_education_type_incomplete_higher",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "name_education_type_lower_secondary",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "name_education_type_secondary_secondary_special",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "name_family_status_civil_marriage",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "name_family_status_married",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "name_family_status_separated",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "name_family_status_single_not_married",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "name_family_status_widow",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "name_housing_type_house_apartment",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "name_housing_type_municipal_apartment",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "name_housing_type_office_apartment",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "name_housing_type_rented_apartment",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "name_housing_type_with_parents",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "name_income_type_commercial_associate",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "name_income_type_pensioner",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "name_income_type_state_servant",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "name_income_type_working",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "name_type_suite_children",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "name_type_suite_family",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "name_type_suite_other_b",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "name_type_suite_spouse_partner",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "name_type_suite_unaccompanied",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "nonlivingapartments_avg",
+      "dtype": "float64",
+      "missing_ratio_train": 0.69433216154429
+    },
+    {
+      "name": "nonlivingapartments_medi",
+      "dtype": "float64",
+      "missing_ratio_train": 0.69433216154429
+    },
+    {
+      "name": "nonlivingapartments_mode",
+      "dtype": "float64",
+      "missing_ratio_train": 0.69433216154429
+    },
+    {
+      "name": "nonlivingarea_avg",
+      "dtype": "float64",
+      "missing_ratio_train": 0.5517923169228668
+    },
+    {
+      "name": "nonlivingarea_medi",
+      "dtype": "float64",
+      "missing_ratio_train": 0.5517923169228668
+    },
+    {
+      "name": "nonlivingarea_mode",
+      "dtype": "float64",
+      "missing_ratio_train": 0.5517923169228668
+    },
+    {
+      "name": "obs_30_cnt_social_circle",
+      "dtype": "float64",
+      "missing_ratio_train": 0.003320249620333846
+    },
+    {
+      "name": "obs_60_cnt_social_circle",
+      "dtype": "float64",
+      "missing_ratio_train": 0.003320249620333846
+    },
+    {
+      "name": "occupation_type_accountants",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "occupation_type_cleaning_staff",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "occupation_type_cooking_staff",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "occupation_type_core_staff",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "occupation_type_drivers",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "occupation_type_high_skill_tech_staff",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "occupation_type_laborers",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "occupation_type_low_skill_laborers",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "occupation_type_managers",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "occupation_type_medicine_staff",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "occupation_type_private_service_staff",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "occupation_type_sales_staff",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "occupation_type_security_staff",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "occupation_type_nan",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "organization_type_agriculture",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "organization_type_bank",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "organization_type_business_entity_type_1",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "organization_type_business_entity_type_2",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "organization_type_business_entity_type_3",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "organization_type_construction",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "organization_type_government",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "organization_type_housing",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "organization_type_industry_type_11",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "organization_type_industry_type_3",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "organization_type_industry_type_9",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "organization_type_kindergarten",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "organization_type_medicine",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "organization_type_military",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "organization_type_other",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "organization_type_police",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "organization_type_postal",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "organization_type_restaurant",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "organization_type_school",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "organization_type_security",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "organization_type_security_ministries",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "organization_type_self_employed",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "organization_type_services",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "organization_type_trade_type_2",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "organization_type_trade_type_3",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "organization_type_trade_type_7",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "organization_type_transport_type_2",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "organization_type_transport_type_4",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "organization_type_xna",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "own_car_age",
+      "dtype": "float64",
+      "missing_ratio_train": 0.6599101809064509
+    },
+    {
+      "name": "payment_rate",
+      "dtype": "float64",
+      "missing_ratio_train": 3.9023501904021696e-05
+    },
+    {
+      "name": "phone_change_to_birth_ratio",
+      "dtype": "float64",
+      "missing_ratio_train": 3.251958492001808e-06
+    },
+    {
+      "name": "region_population_relative",
+      "dtype": "float64",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "region_rating_client",
+      "dtype": "int64",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "region_rating_client_w_city",
+      "dtype": "int64",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "reg_city_not_live_city",
+      "dtype": "int64",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "reg_city_not_work_city",
+      "dtype": "int64",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "reg_region_not_live_region",
+      "dtype": "int64",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "reg_region_not_work_region",
+      "dtype": "int64",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "totalarea_mode",
+      "dtype": "float64",
+      "missing_ratio_train": 0.4826881989678284
+    },
+    {
+      "name": "wallsmaterial_mode_block",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "wallsmaterial_mode_mixed",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "wallsmaterial_mode_monolithic",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "wallsmaterial_mode_others",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "wallsmaterial_mode_panel",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "wallsmaterial_mode_stone_brick",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "wallsmaterial_mode_wooden",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "wallsmaterial_mode_nan",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "weekday_appr_process_start_friday",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "weekday_appr_process_start_monday",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "weekday_appr_process_start_saturday",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "weekday_appr_process_start_sunday",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "weekday_appr_process_start_thursday",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "weekday_appr_process_start_tuesday",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "weekday_appr_process_start_wednesday",
+      "dtype": "uint8",
+      "missing_ratio_train": 0.0
+    },
+    {
+      "name": "years_beginexpluatation_avg",
+      "dtype": "float64",
+      "missing_ratio_train": 0.4878132855512232
+    },
+    {
+      "name": "years_beginexpluatation_medi",
+      "dtype": "float64",
+      "missing_ratio_train": 0.4878132855512232
+    },
+    {
+      "name": "years_beginexpluatation_mode",
+      "dtype": "float64",
+      "missing_ratio_train": 0.4878132855512232
+    },
+    {
+      "name": "years_build_avg",
+      "dtype": "float64",
+      "missing_ratio_train": 0.6649799841954818
+    },
+    {
+      "name": "years_build_medi",
+      "dtype": "float64",
+      "missing_ratio_train": 0.6649799841954818
+    },
+    {
+      "name": "years_build_mode",
+      "dtype": "float64",
+      "missing_ratio_train": 0.6649799841954818
+    },
+    {
+      "name": "buro_days_credit_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1431512128179196
+    },
+    {
+      "name": "buro_days_credit_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1431512128179196
+    },
+    {
+      "name": "buro_days_credit_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1431512128179196
+    },
+    {
+      "name": "buro_days_credit_var",
+      "dtype": "float64",
+      "missing_ratio_train": 0.2604558595414088
+    },
+    {
+      "name": "buro_days_credit_enddate_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.15046486746643165
+    },
+    {
+      "name": "buro_days_credit_enddate_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.15046486746643165
+    },
+    {
+      "name": "buro_days_credit_enddate_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.15046486746643165
+    },
+    {
+      "name": "buro_days_credit_update_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1431512128179196
+    },
+    {
+      "name": "buro_credit_day_overdue_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1431512128179196
+    },
+    {
+      "name": "buro_credit_day_overdue_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1431512128179196
+    },
+    {
+      "name": "buro_amt_credit_max_overdue_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.4020233685737235
+    },
+    {
+      "name": "buro_amt_credit_sum_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.14315446477641158
+    },
+    {
+      "name": "buro_amt_credit_sum_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.14315446477641158
+    },
+    {
+      "name": "buro_amt_credit_sum_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1431512128179196
+    },
+    {
+      "name": "buro_amt_credit_sum_debt_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1670856273190529
+    },
+    {
+      "name": "buro_amt_credit_sum_debt_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1670856273190529
+    },
+    {
+      "name": "buro_amt_credit_sum_debt_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1431512128179196
+    },
+    {
+      "name": "buro_amt_credit_sum_overdue_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1431512128179196
+    },
+    {
+      "name": "buro_amt_credit_sum_limit_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.21160168711606564
+    },
+    {
+      "name": "buro_amt_credit_sum_limit_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1431512128179196
+    },
+    {
+      "name": "buro_amt_annuity_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7398140530134273
+    },
+    {
+      "name": "buro_amt_annuity_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7398140530134273
+    },
+    {
+      "name": "buro_cnt_credit_prolong_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1431512128179196
+    },
+    {
+      "name": "buro_months_balance_min_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7000686163241813
+    },
+    {
+      "name": "buro_months_balance_max_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7000686163241813
+    },
+    {
+      "name": "buro_months_balance_size_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7000686163241813
+    },
+    {
+      "name": "buro_months_balance_size_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1431512128179196
+    },
+    {
+      "name": "buro_credit_active_active_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1431512128179196
+    },
+    {
+      "name": "buro_credit_active_bad_debt_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1431512128179196
+    },
+    {
+      "name": "buro_credit_active_closed_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1431512128179196
+    },
+    {
+      "name": "buro_credit_active_sold_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1431512128179196
+    },
+    {
+      "name": "buro_credit_currency_currency_1_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1431512128179196
+    },
+    {
+      "name": "buro_credit_currency_currency_2_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1431512128179196
+    },
+    {
+      "name": "buro_credit_currency_currency_3_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1431512128179196
+    },
+    {
+      "name": "buro_credit_currency_currency_4_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1431512128179196
+    },
+    {
+      "name": "buro_credit_type_another_type_of_loan_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1431512128179196
+    },
+    {
+      "name": "buro_credit_type_car_loan_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1431512128179196
+    },
+    {
+      "name": "buro_credit_type_cash_loan_non_earmarked_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1431512128179196
+    },
+    {
+      "name": "buro_credit_type_consumer_credit_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1431512128179196
+    },
+    {
+      "name": "buro_credit_type_credit_card_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1431512128179196
+    },
+    {
+      "name": "buro_credit_type_interbank_credit_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1431512128179196
+    },
+    {
+      "name": "buro_credit_type_loan_for_business_development_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1431512128179196
+    },
+    {
+      "name": "buro_credit_type_loan_for_purchase_of_shares_margin_lending_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1431512128179196
+    },
+    {
+      "name": "buro_credit_type_loan_for_the_purchase_of_equipment_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1431512128179196
+    },
+    {
+      "name": "buro_credit_type_loan_for_working_capital_replenishment_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1431512128179196
+    },
+    {
+      "name": "buro_credit_type_microloan_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1431512128179196
+    },
+    {
+      "name": "buro_credit_type_mobile_operator_loan_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1431512128179196
+    },
+    {
+      "name": "buro_credit_type_mortgage_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1431512128179196
+    },
+    {
+      "name": "buro_credit_type_real_estate_loan_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1431512128179196
+    },
+    {
+      "name": "buro_credit_type_unknown_type_of_loan_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1431512128179196
+    },
+    {
+      "name": "buro_status_0_mean_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7000686163241813
+    },
+    {
+      "name": "buro_status_1_mean_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7000686163241813
+    },
+    {
+      "name": "buro_status_2_mean_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7000686163241813
+    },
+    {
+      "name": "buro_status_3_mean_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7000686163241813
+    },
+    {
+      "name": "buro_status_4_mean_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7000686163241813
+    },
+    {
+      "name": "buro_status_5_mean_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7000686163241813
+    },
+    {
+      "name": "buro_status_c_mean_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7000686163241813
+    },
+    {
+      "name": "buro_status_x_mean_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7000686163241813
+    },
+    {
+      "name": "buro_count",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1431512128179196
+    },
+    {
+      "name": "active_days_credit_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.29385022129577537
+    },
+    {
+      "name": "active_days_credit_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.29385022129577537
+    },
+    {
+      "name": "active_days_credit_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.29385022129577537
+    },
+    {
+      "name": "active_days_credit_var",
+      "dtype": "float64",
+      "missing_ratio_train": 0.5348301014285853
+    },
+    {
+      "name": "active_days_credit_enddate_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.3229975252595876
+    },
+    {
+      "name": "active_days_credit_enddate_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.3229975252595876
+    },
+    {
+      "name": "active_days_credit_enddate_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.3229975252595876
+    },
+    {
+      "name": "active_days_credit_update_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.29385022129577537
+    },
+    {
+      "name": "active_credit_day_overdue_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.29385022129577537
+    },
+    {
+      "name": "active_credit_day_overdue_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.29385022129577537
+    },
+    {
+      "name": "active_amt_credit_max_overdue_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.6226524924635862
+    },
+    {
+      "name": "active_amt_credit_sum_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.29385347325426736
+    },
+    {
+      "name": "active_amt_credit_sum_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.29385347325426736
+    },
+    {
+      "name": "active_amt_credit_sum_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.29385022129577537
+    },
+    {
+      "name": "active_amt_credit_sum_debt_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.3284380518167066
+    },
+    {
+      "name": "active_amt_credit_sum_debt_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.3284380518167066
+    },
+    {
+      "name": "active_amt_credit_sum_debt_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.29385022129577537
+    },
+    {
+      "name": "active_amt_credit_sum_overdue_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.29385022129577537
+    },
+    {
+      "name": "active_amt_credit_sum_limit_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.38627738555545077
+    },
+    {
+      "name": "active_amt_credit_sum_limit_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.29385022129577537
+    },
+    {
+      "name": "active_amt_annuity_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.8005053543496571
+    },
+    {
+      "name": "active_amt_annuity_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.8005053543496571
+    },
+    {
+      "name": "active_cnt_credit_prolong_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.29385022129577537
+    },
+    {
+      "name": "active_months_balance_min_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7511633881505136
+    },
+    {
+      "name": "active_months_balance_max_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7511633881505136
+    },
+    {
+      "name": "active_months_balance_size_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7511633881505136
+    },
+    {
+      "name": "active_months_balance_size_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.29385022129577537
+    },
+    {
+      "name": "active_count",
+      "dtype": "float64",
+      "missing_ratio_train": 0.29385022129577537
+    },
+    {
+      "name": "closed_days_credit_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.2515259815223718
+    },
+    {
+      "name": "closed_days_credit_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.2515259815223718
+    },
+    {
+      "name": "closed_days_credit_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.2515259815223718
+    },
+    {
+      "name": "closed_days_credit_var",
+      "dtype": "float64",
+      "missing_ratio_train": 0.42552202063692857
+    },
+    {
+      "name": "closed_days_credit_enddate_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.2564754623471986
+    },
+    {
+      "name": "closed_days_credit_enddate_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.2564754623471986
+    },
+    {
+      "name": "closed_days_credit_enddate_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.2564754623471986
+    },
+    {
+      "name": "closed_days_credit_update_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.2515259815223718
+    },
+    {
+      "name": "closed_credit_day_overdue_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.2515259815223718
+    },
+    {
+      "name": "closed_credit_day_overdue_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.2515259815223718
+    },
+    {
+      "name": "closed_amt_credit_max_overdue_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.523467758457531
+    },
+    {
+      "name": "closed_amt_credit_sum_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.2515259815223718
+    },
+    {
+      "name": "closed_amt_credit_sum_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.2515259815223718
+    },
+    {
+      "name": "closed_amt_credit_sum_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.2515259815223718
+    },
+    {
+      "name": "closed_amt_credit_sum_debt_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.29000315439973723
+    },
+    {
+      "name": "closed_amt_credit_sum_debt_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.29000315439973723
+    },
+    {
+      "name": "closed_amt_credit_sum_debt_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.2515259815223718
+    },
+    {
+      "name": "closed_amt_credit_sum_overdue_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.2515259815223718
+    },
+    {
+      "name": "closed_amt_credit_sum_limit_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.35296432276338424
+    },
+    {
+      "name": "closed_amt_credit_sum_limit_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.2515259815223718
+    },
+    {
+      "name": "closed_amt_annuity_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7853414719014526
+    },
+    {
+      "name": "closed_amt_annuity_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7853414719014526
+    },
+    {
+      "name": "closed_cnt_credit_prolong_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.2515259815223718
+    },
+    {
+      "name": "closed_months_balance_min_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7374531311482341
+    },
+    {
+      "name": "closed_months_balance_max_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7374531311482341
+    },
+    {
+      "name": "closed_months_balance_size_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7374531311482341
+    },
+    {
+      "name": "closed_months_balance_size_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.2515259815223718
+    },
+    {
+      "name": "closed_count",
+      "dtype": "float64",
+      "missing_ratio_train": 0.2515259815223718
+    },
+    {
+      "name": "prev_sk_id_prev_nunique",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_amt_annuity_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.0548637917185625
+    },
+    {
+      "name": "prev_amt_annuity_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.0548637917185625
+    },
+    {
+      "name": "prev_amt_annuity_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.0548637917185625
+    },
+    {
+      "name": "prev_amt_application_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_amt_application_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_amt_application_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_amt_credit_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_amt_credit_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_amt_credit_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_app_credit_perc_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05424591960508216
+    },
+    {
+      "name": "prev_app_credit_perc_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05424591960508216
+    },
+    {
+      "name": "prev_app_credit_perc_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05424591960508216
+    },
+    {
+      "name": "prev_app_credit_perc_var",
+      "dtype": "float64",
+      "missing_ratio_train": 0.25381536030074114
+    },
+    {
+      "name": "prev_amt_down_payment_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1102609046298133
+    },
+    {
+      "name": "prev_amt_down_payment_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1102609046298133
+    },
+    {
+      "name": "prev_amt_down_payment_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1102609046298133
+    },
+    {
+      "name": "prev_amt_goods_price_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05667838455709951
+    },
+    {
+      "name": "prev_amt_goods_price_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05667838455709951
+    },
+    {
+      "name": "prev_amt_goods_price_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05667838455709951
+    },
+    {
+      "name": "prev_hour_appr_process_start_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_hour_appr_process_start_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_hour_appr_process_start_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_rate_down_payment_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1102609046298133
+    },
+    {
+      "name": "prev_rate_down_payment_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1102609046298133
+    },
+    {
+      "name": "prev_rate_down_payment_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1102609046298133
+    },
+    {
+      "name": "prev_days_decision_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_days_decision_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_days_decision_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_cnt_payment_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.0548572878015785
+    },
+    {
+      "name": "prev_cnt_payment_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_contract_type_cash_loans_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_contract_type_consumer_loans_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_contract_type_revolving_loans_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_contract_type_xna_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_weekday_appr_process_start_friday_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_weekday_appr_process_start_monday_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_weekday_appr_process_start_saturday_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_weekday_appr_process_start_sunday_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_weekday_appr_process_start_thursday_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_weekday_appr_process_start_tuesday_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_weekday_appr_process_start_wednesday_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_flag_last_appl_per_contract_n_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_flag_last_appl_per_contract_y_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_cash_loan_purpose_building_a_house_or_an_annex_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_cash_loan_purpose_business_development_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_cash_loan_purpose_buying_a_garage_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_cash_loan_purpose_buying_a_holiday_home_land_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_cash_loan_purpose_buying_a_home_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_cash_loan_purpose_buying_a_new_car_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_cash_loan_purpose_buying_a_used_car_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_cash_loan_purpose_car_repairs_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_cash_loan_purpose_education_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_cash_loan_purpose_everyday_expenses_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_cash_loan_purpose_furniture_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_cash_loan_purpose_gasification_water_supply_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_cash_loan_purpose_hobby_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_cash_loan_purpose_journey_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_cash_loan_purpose_medicine_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_cash_loan_purpose_money_for_a_third_person_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_cash_loan_purpose_other_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_cash_loan_purpose_payments_on_other_loans_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_cash_loan_purpose_purchase_of_electronic_equipment_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_cash_loan_purpose_refusal_to_name_the_goal_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_cash_loan_purpose_repairs_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_cash_loan_purpose_urgent_needs_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_cash_loan_purpose_wedding_gift_holiday_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_cash_loan_purpose_xap_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_cash_loan_purpose_xna_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_contract_status_approved_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_contract_status_canceled_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_contract_status_refused_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_contract_status_unused_offer_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_payment_type_cash_through_the_bank_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_payment_type_cashless_from_the_account_of_the_employer_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_payment_type_non_cash_from_your_account_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_payment_type_xna_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_code_reject_reason_client_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_code_reject_reason_hc_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_code_reject_reason_limit_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_code_reject_reason_sco_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_code_reject_reason_scofr_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_code_reject_reason_system_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_code_reject_reason_verif_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_code_reject_reason_xap_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_code_reject_reason_xna_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_type_suite_children_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_type_suite_family_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_type_suite_group_of_people_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_type_suite_other_a_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_type_suite_other_b_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_type_suite_spouse_partner_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_type_suite_unaccompanied_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_type_suite_nan_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_client_type_new_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_client_type_refreshed_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_client_type_repeater_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_client_type_xna_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_goods_category_additional_service_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_goods_category_animals_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_goods_category_audio_video_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_goods_category_auto_accessories_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_goods_category_clothing_and_accessories_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_goods_category_computers_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_goods_category_construction_materials_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_goods_category_consumer_electronics_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_goods_category_direct_sales_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_goods_category_education_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_goods_category_fitness_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_goods_category_furniture_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_goods_category_gardening_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_goods_category_homewares_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_goods_category_insurance_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_goods_category_jewelry_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_goods_category_medical_supplies_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_goods_category_medicine_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_goods_category_mobile_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_goods_category_office_appliances_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_goods_category_other_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_goods_category_photo_cinema_equipment_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_goods_category_sport_and_leisure_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_goods_category_tourism_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_goods_category_vehicles_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_goods_category_weapon_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_goods_category_xna_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_portfolio_cards_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_portfolio_cars_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_portfolio_cash_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_portfolio_pos_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_portfolio_xna_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_product_type_xna_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_product_type_walk_in_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_product_type_x_sell_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_channel_type_ap_cash_loan_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_channel_type_car_dealer_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_channel_type_channel_of_corporate_sales_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_channel_type_contact_center_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_channel_type_country_wide_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_channel_type_credit_and_cash_offices_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_channel_type_regional_local_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_channel_type_stone_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_seller_industry_auto_technology_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_seller_industry_clothing_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_seller_industry_connectivity_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_seller_industry_construction_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_seller_industry_consumer_electronics_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_seller_industry_furniture_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_seller_industry_industry_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_seller_industry_jewelry_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_seller_industry_mlm_partners_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_seller_industry_tourism_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_seller_industry_xna_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_yield_group_xna_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_yield_group_high_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_yield_group_low_action_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_yield_group_low_normal_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_name_yield_group_middle_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_product_combination_card_street_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_product_combination_card_x_sell_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_product_combination_cash_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_product_combination_cash_street_high_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_product_combination_cash_street_low_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_product_combination_cash_street_middle_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_product_combination_cash_x_sell_high_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_product_combination_cash_x_sell_low_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_product_combination_cash_x_sell_middle_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_product_combination_pos_household_with_interest_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_product_combination_pos_household_without_interest_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_product_combination_pos_industry_with_interest_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_product_combination_pos_industry_without_interest_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_product_combination_pos_mobile_with_interest_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_product_combination_pos_mobile_without_interest_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_product_combination_pos_other_with_interest_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_product_combination_pos_others_without_interest_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_product_combination_nan_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "prev_count",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05350772502739775
+    },
+    {
+      "name": "approved_sk_id_prev_nunique",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05673366785146355
+    },
+    {
+      "name": "approved_amt_annuity_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05674017176844755
+    },
+    {
+      "name": "approved_amt_annuity_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05674017176844755
+    },
+    {
+      "name": "approved_amt_annuity_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05674017176844755
+    },
+    {
+      "name": "approved_amt_application_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05673366785146355
+    },
+    {
+      "name": "approved_amt_application_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05673366785146355
+    },
+    {
+      "name": "approved_amt_application_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05673366785146355
+    },
+    {
+      "name": "approved_amt_credit_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05673366785146355
+    },
+    {
+      "name": "approved_amt_credit_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05673366785146355
+    },
+    {
+      "name": "approved_amt_credit_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05673366785146355
+    },
+    {
+      "name": "approved_app_credit_perc_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05676293547789156
+    },
+    {
+      "name": "approved_app_credit_perc_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05676293547789156
+    },
+    {
+      "name": "approved_app_credit_perc_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05676293547789156
+    },
+    {
+      "name": "approved_app_credit_perc_var",
+      "dtype": "float64",
+      "missing_ratio_train": 0.3065491192070424
+    },
+    {
+      "name": "approved_amt_down_payment_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1177924404972895
+    },
+    {
+      "name": "approved_amt_down_payment_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1177924404972895
+    },
+    {
+      "name": "approved_amt_down_payment_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1177924404972895
+    },
+    {
+      "name": "approved_amt_goods_price_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.059917335215133316
+    },
+    {
+      "name": "approved_amt_goods_price_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.059917335215133316
+    },
+    {
+      "name": "approved_amt_goods_price_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.059917335215133316
+    },
+    {
+      "name": "approved_hour_appr_process_start_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05673366785146355
+    },
+    {
+      "name": "approved_hour_appr_process_start_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05673366785146355
+    },
+    {
+      "name": "approved_hour_appr_process_start_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05673366785146355
+    },
+    {
+      "name": "approved_rate_down_payment_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1177924404972895
+    },
+    {
+      "name": "approved_rate_down_payment_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1177924404972895
+    },
+    {
+      "name": "approved_rate_down_payment_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.1177924404972895
+    },
+    {
+      "name": "approved_days_decision_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05673366785146355
+    },
+    {
+      "name": "approved_days_decision_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05673366785146355
+    },
+    {
+      "name": "approved_days_decision_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05673366785146355
+    },
+    {
+      "name": "approved_cnt_payment_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05673366785146355
+    },
+    {
+      "name": "approved_cnt_payment_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05673366785146355
+    },
+    {
+      "name": "approved_count",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05673366785146355
+    },
+    {
+      "name": "refused_sk_id_prev_nunique",
+      "dtype": "float64",
+      "missing_ratio_train": 0.6738610828371386
+    },
+    {
+      "name": "refused_amt_annuity_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7022311687213625
+    },
+    {
+      "name": "refused_amt_annuity_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7022311687213625
+    },
+    {
+      "name": "refused_amt_annuity_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7022311687213625
+    },
+    {
+      "name": "refused_amt_application_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.6738610828371386
+    },
+    {
+      "name": "refused_amt_application_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.6738610828371386
+    },
+    {
+      "name": "refused_amt_application_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.6738610828371386
+    },
+    {
+      "name": "refused_amt_credit_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.6738610828371386
+    },
+    {
+      "name": "refused_amt_credit_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.6738610828371386
+    },
+    {
+      "name": "refused_amt_credit_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.6738610828371386
+    },
+    {
+      "name": "refused_app_credit_perc_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.6898932382027075
+    },
+    {
+      "name": "refused_app_credit_perc_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.6898932382027075
+    },
+    {
+      "name": "refused_app_credit_perc_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.6898932382027075
+    },
+    {
+      "name": "refused_app_credit_perc_var",
+      "dtype": "float64",
+      "missing_ratio_train": 0.8401402244501751
+    },
+    {
+      "name": "refused_amt_down_payment_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.8531155388332623
+    },
+    {
+      "name": "refused_amt_down_payment_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.8531155388332623
+    },
+    {
+      "name": "refused_amt_down_payment_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.8531155388332623
+    },
+    {
+      "name": "refused_amt_goods_price_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.6968231617491635
+    },
+    {
+      "name": "refused_amt_goods_price_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.6968231617491635
+    },
+    {
+      "name": "refused_amt_goods_price_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.6968231617491635
+    },
+    {
+      "name": "refused_hour_appr_process_start_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.6738610828371386
+    },
+    {
+      "name": "refused_hour_appr_process_start_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.6738610828371386
+    },
+    {
+      "name": "refused_hour_appr_process_start_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.6738610828371386
+    },
+    {
+      "name": "refused_rate_down_payment_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.8531155388332623
+    },
+    {
+      "name": "refused_rate_down_payment_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.8531155388332623
+    },
+    {
+      "name": "refused_rate_down_payment_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.8531155388332623
+    },
+    {
+      "name": "refused_days_decision_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.6738610828371386
+    },
+    {
+      "name": "refused_days_decision_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.6738610828371386
+    },
+    {
+      "name": "refused_days_decision_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.6738610828371386
+    },
+    {
+      "name": "refused_cnt_payment_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7022311687213625
+    },
+    {
+      "name": "refused_cnt_payment_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.6738610828371386
+    },
+    {
+      "name": "refused_count",
+      "dtype": "float64",
+      "missing_ratio_train": 0.6738610828371386
+    },
+    {
+      "name": "pos_months_balance_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05875313407499667
+    },
+    {
+      "name": "pos_months_balance_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05875313407499667
+    },
+    {
+      "name": "pos_months_balance_size",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05875313407499667
+    },
+    {
+      "name": "pos_sk_dpd_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05875313407499667
+    },
+    {
+      "name": "pos_sk_dpd_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05875313407499667
+    },
+    {
+      "name": "pos_sk_dpd_def_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05875313407499667
+    },
+    {
+      "name": "pos_sk_dpd_def_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05875313407499667
+    },
+    {
+      "name": "pos_name_contract_status_active_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05875313407499667
+    },
+    {
+      "name": "pos_name_contract_status_amortized_debt_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05875313407499667
+    },
+    {
+      "name": "pos_name_contract_status_approved_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05875313407499667
+    },
+    {
+      "name": "pos_name_contract_status_canceled_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05875313407499667
+    },
+    {
+      "name": "pos_name_contract_status_completed_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05875313407499667
+    },
+    {
+      "name": "pos_name_contract_status_demand_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05875313407499667
+    },
+    {
+      "name": "pos_name_contract_status_returned_to_the_store_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05875313407499667
+    },
+    {
+      "name": "pos_name_contract_status_signed_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05875313407499667
+    },
+    {
+      "name": "pos_name_contract_status_xna_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05875313407499667
+    },
+    {
+      "name": "pos_count",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05875313407499667
+    },
+    {
+      "name": "instal_num_instalment_version_nunique",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05160207735108469
+    },
+    {
+      "name": "instal_dpd_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05162809301902071
+    },
+    {
+      "name": "instal_dpd_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05162809301902071
+    },
+    {
+      "name": "instal_dpd_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05160207735108469
+    },
+    {
+      "name": "instal_dbd_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05162809301902071
+    },
+    {
+      "name": "instal_dbd_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05162809301902071
+    },
+    {
+      "name": "instal_dbd_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05160207735108469
+    },
+    {
+      "name": "instal_payment_perc_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05163784889449671
+    },
+    {
+      "name": "instal_payment_perc_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05163784889449671
+    },
+    {
+      "name": "instal_payment_perc_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05160207735108469
+    },
+    {
+      "name": "instal_payment_perc_var",
+      "dtype": "float64",
+      "missing_ratio_train": 0.053875196336993954
+    },
+    {
+      "name": "instal_payment_diff_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05162809301902071
+    },
+    {
+      "name": "instal_payment_diff_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05162809301902071
+    },
+    {
+      "name": "instal_payment_diff_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05160207735108469
+    },
+    {
+      "name": "instal_payment_diff_var",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05386544046151795
+    },
+    {
+      "name": "instal_amt_instalment_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05160207735108469
+    },
+    {
+      "name": "instal_amt_instalment_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05160207735108469
+    },
+    {
+      "name": "instal_amt_instalment_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05160207735108469
+    },
+    {
+      "name": "instal_amt_payment_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05162809301902071
+    },
+    {
+      "name": "instal_amt_payment_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05162809301902071
+    },
+    {
+      "name": "instal_amt_payment_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05162809301902071
+    },
+    {
+      "name": "instal_amt_payment_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05160207735108469
+    },
+    {
+      "name": "instal_days_entry_payment_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05162809301902071
+    },
+    {
+      "name": "instal_days_entry_payment_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05162809301902071
+    },
+    {
+      "name": "instal_days_entry_payment_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05160207735108469
+    },
+    {
+      "name": "instal_count",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05160207735108469
+    },
+    {
+      "name": "cc_months_balance_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_months_balance_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_months_balance_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_months_balance_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_months_balance_var",
+      "dtype": "float64",
+      "missing_ratio_train": 0.719443785019528
+    },
+    {
+      "name": "cc_amt_balance_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_amt_balance_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_amt_balance_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_amt_balance_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_amt_balance_var",
+      "dtype": "float64",
+      "missing_ratio_train": 0.719443785019528
+    },
+    {
+      "name": "cc_amt_credit_limit_actual_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_amt_credit_limit_actual_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_amt_credit_limit_actual_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_amt_credit_limit_actual_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_amt_credit_limit_actual_var",
+      "dtype": "float64",
+      "missing_ratio_train": 0.719443785019528
+    },
+    {
+      "name": "cc_amt_drawings_atm_current_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.8011752577990094
+    },
+    {
+      "name": "cc_amt_drawings_atm_current_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.8011752577990094
+    },
+    {
+      "name": "cc_amt_drawings_atm_current_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.8011752577990094
+    },
+    {
+      "name": "cc_amt_drawings_atm_current_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_amt_drawings_atm_current_var",
+      "dtype": "float64",
+      "missing_ratio_train": 0.8026288832449343
+    },
+    {
+      "name": "cc_amt_drawings_current_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_amt_drawings_current_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_amt_drawings_current_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_amt_drawings_current_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_amt_drawings_current_var",
+      "dtype": "float64",
+      "missing_ratio_train": 0.719443785019528
+    },
+    {
+      "name": "cc_amt_drawings_other_current_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.8011752577990094
+    },
+    {
+      "name": "cc_amt_drawings_other_current_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.8011752577990094
+    },
+    {
+      "name": "cc_amt_drawings_other_current_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.8011752577990094
+    },
+    {
+      "name": "cc_amt_drawings_other_current_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_amt_drawings_other_current_var",
+      "dtype": "float64",
+      "missing_ratio_train": 0.8026288832449343
+    },
+    {
+      "name": "cc_amt_drawings_pos_current_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.8011752577990094
+    },
+    {
+      "name": "cc_amt_drawings_pos_current_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.8011752577990094
+    },
+    {
+      "name": "cc_amt_drawings_pos_current_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.8011752577990094
+    },
+    {
+      "name": "cc_amt_drawings_pos_current_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_amt_drawings_pos_current_var",
+      "dtype": "float64",
+      "missing_ratio_train": 0.8026288832449343
+    },
+    {
+      "name": "cc_amt_inst_min_regularity_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_amt_inst_min_regularity_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_amt_inst_min_regularity_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_amt_inst_min_regularity_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_amt_inst_min_regularity_var",
+      "dtype": "float64",
+      "missing_ratio_train": 0.719443785019528
+    },
+    {
+      "name": "cc_amt_payment_current_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.8014354144783696
+    },
+    {
+      "name": "cc_amt_payment_current_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.8014354144783696
+    },
+    {
+      "name": "cc_amt_payment_current_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.8014354144783696
+    },
+    {
+      "name": "cc_amt_payment_current_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_amt_payment_current_var",
+      "dtype": "float64",
+      "missing_ratio_train": 0.8028695281733425
+    },
+    {
+      "name": "cc_amt_payment_total_current_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_amt_payment_total_current_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_amt_payment_total_current_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_amt_payment_total_current_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_amt_payment_total_current_var",
+      "dtype": "float64",
+      "missing_ratio_train": 0.719443785019528
+    },
+    {
+      "name": "cc_amt_receivable_principal_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_amt_receivable_principal_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_amt_receivable_principal_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_amt_receivable_principal_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_amt_receivable_principal_var",
+      "dtype": "float64",
+      "missing_ratio_train": 0.719443785019528
+    },
+    {
+      "name": "cc_amt_recivable_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_amt_recivable_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_amt_recivable_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_amt_recivable_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_amt_recivable_var",
+      "dtype": "float64",
+      "missing_ratio_train": 0.719443785019528
+    },
+    {
+      "name": "cc_amt_total_receivable_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_amt_total_receivable_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_amt_total_receivable_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_amt_total_receivable_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_amt_total_receivable_var",
+      "dtype": "float64",
+      "missing_ratio_train": 0.719443785019528
+    },
+    {
+      "name": "cc_cnt_drawings_atm_current_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.8011752577990094
+    },
+    {
+      "name": "cc_cnt_drawings_atm_current_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.8011752577990094
+    },
+    {
+      "name": "cc_cnt_drawings_atm_current_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.8011752577990094
+    },
+    {
+      "name": "cc_cnt_drawings_atm_current_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_cnt_drawings_atm_current_var",
+      "dtype": "float64",
+      "missing_ratio_train": 0.8026288832449343
+    },
+    {
+      "name": "cc_cnt_drawings_current_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_cnt_drawings_current_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_cnt_drawings_current_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_cnt_drawings_current_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_cnt_drawings_current_var",
+      "dtype": "float64",
+      "missing_ratio_train": 0.719443785019528
+    },
+    {
+      "name": "cc_cnt_drawings_other_current_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.8011752577990094
+    },
+    {
+      "name": "cc_cnt_drawings_other_current_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.8011752577990094
+    },
+    {
+      "name": "cc_cnt_drawings_other_current_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.8011752577990094
+    },
+    {
+      "name": "cc_cnt_drawings_other_current_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_cnt_drawings_other_current_var",
+      "dtype": "float64",
+      "missing_ratio_train": 0.8026288832449343
+    },
+    {
+      "name": "cc_cnt_drawings_pos_current_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.8011752577990094
+    },
+    {
+      "name": "cc_cnt_drawings_pos_current_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.8011752577990094
+    },
+    {
+      "name": "cc_cnt_drawings_pos_current_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.8011752577990094
+    },
+    {
+      "name": "cc_cnt_drawings_pos_current_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_cnt_drawings_pos_current_var",
+      "dtype": "float64",
+      "missing_ratio_train": 0.8026288832449343
+    },
+    {
+      "name": "cc_cnt_instalment_mature_cum_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_cnt_instalment_mature_cum_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_cnt_instalment_mature_cum_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_cnt_instalment_mature_cum_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_cnt_instalment_mature_cum_var",
+      "dtype": "float64",
+      "missing_ratio_train": 0.719443785019528
+    },
+    {
+      "name": "cc_sk_dpd_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_sk_dpd_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_sk_dpd_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_sk_dpd_var",
+      "dtype": "float64",
+      "missing_ratio_train": 0.719443785019528
+    },
+    {
+      "name": "cc_sk_dpd_def_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_sk_dpd_def_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_sk_dpd_def_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_sk_dpd_def_var",
+      "dtype": "float64",
+      "missing_ratio_train": 0.719443785019528
+    },
+    {
+      "name": "cc_name_contract_status_active_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_name_contract_status_active_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_name_contract_status_active_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_name_contract_status_active_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_name_contract_status_active_var",
+      "dtype": "float64",
+      "missing_ratio_train": 0.719443785019528
+    },
+    {
+      "name": "cc_name_contract_status_approved_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_name_contract_status_approved_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_name_contract_status_approved_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_name_contract_status_approved_var",
+      "dtype": "float64",
+      "missing_ratio_train": 0.719443785019528
+    },
+    {
+      "name": "cc_name_contract_status_completed_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_name_contract_status_completed_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_name_contract_status_completed_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_name_contract_status_completed_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_name_contract_status_completed_var",
+      "dtype": "float64",
+      "missing_ratio_train": 0.719443785019528
+    },
+    {
+      "name": "cc_name_contract_status_demand_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_name_contract_status_demand_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_name_contract_status_demand_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_name_contract_status_demand_var",
+      "dtype": "float64",
+      "missing_ratio_train": 0.719443785019528
+    },
+    {
+      "name": "cc_name_contract_status_refused_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_name_contract_status_refused_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_name_contract_status_refused_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_name_contract_status_refused_var",
+      "dtype": "float64",
+      "missing_ratio_train": 0.719443785019528
+    },
+    {
+      "name": "cc_name_contract_status_sent_proposal_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_name_contract_status_sent_proposal_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_name_contract_status_sent_proposal_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_name_contract_status_sent_proposal_var",
+      "dtype": "float64",
+      "missing_ratio_train": 0.719443785019528
+    },
+    {
+      "name": "cc_name_contract_status_signed_min",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_name_contract_status_signed_max",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_name_contract_status_signed_mean",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_name_contract_status_signed_sum",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "cc_name_contract_status_signed_var",
+      "dtype": "float64",
+      "missing_ratio_train": 0.719443785019528
+    },
+    {
+      "name": "cc_count",
+      "dtype": "float64",
+      "missing_ratio_train": 0.7173885472525828
+    },
+    {
+      "name": "new_bureau_debt_ratio",
+      "dtype": "float64",
+      "missing_ratio_train": 0.14667308386475755
+    },
+    {
+      "name": "new_active_debt_ratio",
+      "dtype": "float64",
+      "missing_ratio_train": 0.30386300149264894
+    },
+    {
+      "name": "new_approval_rate",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05673366785146355
+    },
+    {
+      "name": "new_refusal_rate",
+      "dtype": "float64",
+      "missing_ratio_train": 0.6738610828371386
+    },
+    {
+      "name": "new_late_payment_ratio",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05160207735108469
+    },
+    {
+      "name": "new_pos_dpd_ratio",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05875313407499667
+    },
+    {
+      "name": "new_credit_to_prev_credit_ratio",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05424591960508216
+    },
+    {
+      "name": "new_current_to_approved_credit_ratio",
+      "dtype": "float64",
+      "missing_ratio_train": 0.05676293547789156
+    },
+    {
+      "name": "new_current_to_income_credit_ratio",
+      "dtype": "float64",
+      "missing_ratio_train": 0.0
+    }
+  ]
+}

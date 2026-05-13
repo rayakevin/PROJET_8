@@ -1,0 +1,17 @@
+{
+  "best_model_on_valid_cost": "lightgbm_bonus",
+  "best_model_on_test_business_fbeta": "lightgbm_bonus",
+  "model_retained_for_optimization": "lightgbm_bonus",
+  "top_models_valid_cost": [
+    "lightgbm_bonus",
+    "sgd_log_loss",
+    "hist_gradient_boosting",
+    "dummy_classifier"
+  ],
+  "top_models_test_business_fbeta": [
+    "lightgbm_bonus",
+    "sgd_log_loss",
+    "hist_gradient_boosting",
+    "dummy_classifier"
+  ]
+}
