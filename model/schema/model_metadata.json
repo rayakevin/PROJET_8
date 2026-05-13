@@ -1,0 +1,48 @@
+{
+  "legacy_project_path": "C:\\Users\\kevin\\Desktop\\FORMATION AI\\01_FORMATION AI ENGINEER\\02_PROJETS\\06_PROJET 06\\P6\\P6_MLOps_1-2",
+  "selected_model_name": "lightgbm_bonus",
+  "selected_model_family": "Boosting externe",
+  "selection_source": "notebook_02",
+  "registered_model_name": "P6_HOME_CREDIT_DEFAULT_RISK_MODEL",
+  "registered_model_version": "1",
+  "decision_threshold_default": 0.5,
+  "decision_threshold_business": 0.45,
+  "business_cost": {
+    "false_negative_cost": 10.0,
+    "false_positive_cost": 1.0
+  },
+  "best_params": {
+    "learning_rate": 0.03,
+    "min_child_samples": 100,
+    "num_leaves": 63,
+    "reg_lambda": 0.0
+  },
+  "holdout_metrics": {
+    "baseline_default_0_5": {
+      "roc_auc": 0.7872307418355787,
+      "pr_auc": 0.2867394825673331,
+      "business_fbeta": 0.5565602784139922,
+      "business_cost_per_obs": 0.4847972423661019,
+      "recall": 0.6851963746223565,
+      "precision": 0.19342733682055946
+    },
+    "tuned_default_0_5": {
+      "roc_auc": 0.7877808543633725,
+      "pr_auc": 0.2874404429076317,
+      "business_fbeta": 0.5529779532741035,
+      "business_cost_per_obs": 0.4859516763682482,
+      "recall": 0.6769385699899295,
+      "precision": 0.19531613203161322
+    },
+    "tuned_business_threshold_0_45": {
+      "roc_auc": 0.7877808543633725,
+      "pr_auc": 0.2874404429076317,
+      "business_fbeta": 0.5688328742096175,
+      "business_cost_per_obs": 0.491171018828656,
+      "recall": 0.7297079556898288,
+      "precision": 0.17750232717652245
+    }
+  },
+  "important_note": "Le seuil m?tier am?liore le rappel et le F-b?ta m?tier sur le jeu de validation final, mais le co?t m?tier export? est l?g?rement moins bon que la r?f?rence au seuil 0.5. Ce compromis devra ?tre document? avant usage en production.",
+  "artifact_policy": "L'artefact MLflow retenu est versionn? dans model/artifacts/mlflow_model pour le PoC de d?ploiement de la Mission 8. L'API devra charger cet artefact local avec mlflow.pyfunc.load_model et ne devra pas d?pendre de l'ancienne base de suivi mlflow.db."
+}

@@ -1,0 +1,2 @@
+selected_model_name,selected_model_family,selection_source,why_included,search_space_size,model_rows,holdout_rows,class_rate_model,class_rate_holdout,lightgbm_gpu_platform_id,lightgbm_gpu_device_id,lightgbm_gpu_vendor,lightgbm_gpu_name
+lightgbm_bonus,Boosting externe,notebook_02,benchmark bonus plus puissant et bon candidat pour l'optimisation,16,246005,61502,0.08073006646206378,0.08072908198107379,1,0,NVIDIA Corporation,NVIDIA RTX PRO 5000 Blackwell Generation Laptop GPU
