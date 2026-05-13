@@ -1,0 +1,57 @@
+{
+  "run": {
+    "executed_at_utc": "2026-05-13T10:45:15+00:00",
+    "python_version": "3.12.13",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "sample_size": 5000,
+    "random_state": 42
+  },
+  "dataset_path": "<ancien projet local>/data/processed/application_train_full.parquet",
+  "model": {
+    "name": "lightgbm_bonus",
+    "family": "Boosting externe",
+    "version": "1",
+    "threshold": 0.45,
+    "feature_count": 733,
+    "artifact_path": "model\\artifacts\\mlflow_model"
+  },
+  "data": {
+    "raw_rows": 307507,
+    "raw_columns": 735,
+    "aligned_rows": 307507,
+    "aligned_columns": 735,
+    "evaluated_rows": 5000,
+    "target_rate": 0.0808
+  },
+  "metrics": {
+    "threshold": 0.45,
+    "accuracy": 0.7272,
+    "precision": 0.20909090909090908,
+    "recall": 0.8539603960396039,
+    "f1": 0.3359298928919182,
+    "business_fbeta": 0.6669595782073814,
+    "roc_auc": 0.8699719515032444,
+    "pr_auc": 0.3852824249594404,
+    "false_negatives": 59,
+    "false_positives": 1305,
+    "business_cost": 1895.0,
+    "business_cost_per_obs": 0.379
+  },
+  "latency": {
+    "model_load_time_ms": 293.3847999665886,
+    "batch_inference_time_ms": 34.09650002140552,
+    "batch_latency_per_row_ms": 0.006819300004281104,
+    "single_row_count": 100,
+    "single_row_latency_mean_ms": 1.7382139980327338,
+    "single_row_latency_p50_ms": 1.8577499431557953,
+    "single_row_latency_p95_ms": 2.2999849228654057
+  },
+  "historical_holdout_metrics": {
+    "roc_auc": 0.7877808543633725,
+    "pr_auc": 0.2874404429076317,
+    "business_fbeta": 0.5688328742096175,
+    "business_cost_per_obs": 0.491171018828656,
+    "recall": 0.7297079556898288,
+    "precision": 0.17750232717652245
+  }
+}

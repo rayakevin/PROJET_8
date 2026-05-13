@@ -1,4 +1,4 @@
-﻿"""Vérifie que le modèle MLflow importé peut être chargé.
+"""Vérifie que le modèle MLflow importé peut être chargé.
 
 Ce script appartient à l'étape d'import du modèle. Il ne sert pas encore le modèle ;
 il vérifie seulement que l'artefact MLflow versionné est suffisamment autonome
@@ -8,7 +8,6 @@ pour la future API.
 from pathlib import Path
 
 import mlflow.pyfunc
-
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 MODEL_DIR = PROJECT_ROOT / "model" / "artifacts" / "mlflow_model"
