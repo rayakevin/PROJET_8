@@ -28,6 +28,8 @@ model/artifacts/*
 !model/artifacts/.gitkeep
 !model/artifacts/mlflow_model/
 !model/artifacts/mlflow_model/**
+!model/artifacts/mlflow_model_top30_optimized/
+!model/artifacts/mlflow_model_top30_optimized/**
 model/legacy_mlflow/
 mlruns/
 mlartifacts/

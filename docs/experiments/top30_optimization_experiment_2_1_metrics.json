@@ -1,0 +1,176 @@
+{
+  "run": {
+    "executed_at_utc": "2026-05-13T11:25:18+00:00",
+    "python_version": "3.12.13",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "random_state": 42
+  },
+  "dataset_path": "<ancien projet local>/data/processed/application_train_full.parquet",
+  "importance_path": "<ancien projet local>/data/processed/reports/lightgbm_bonus_native_importance.csv",
+  "data": {
+    "raw_rows": 307507,
+    "raw_columns": 735,
+    "aligned_rows": 307507,
+    "aligned_columns": 735,
+    "model_rows": 246005,
+    "holdout_rows": 61502,
+    "validation_rows": 49201,
+    "holdout_target_rate": 0.08072908198107379
+  },
+  "feature_count": 30,
+  "features": [
+    "ext_sources_mean",
+    "credit_to_annuity_ratio",
+    "days_birth",
+    "ext_source_1",
+    "ext_source_2",
+    "payment_rate",
+    "credit_to_goods_ratio",
+    "amt_annuity",
+    "days_employed",
+    "approved_cnt_payment_mean",
+    "ext_source_3",
+    "days_employed_perc",
+    "prev_cnt_payment_mean",
+    "new_active_debt_ratio",
+    "annuity_to_income_ratio",
+    "instal_amt_payment_sum",
+    "new_late_payment_ratio",
+    "own_car_age",
+    "buro_amt_credit_max_overdue_mean",
+    "code_gender",
+    "amt_goods_price",
+    "days_id_publish",
+    "active_days_credit_max",
+    "active_days_credit_enddate_max",
+    "amt_credit",
+    "instal_days_entry_payment_max",
+    "new_bureau_debt_ratio",
+    "instal_payment_diff_mean",
+    "instal_dpd_mean",
+    "cc_cnt_drawings_atm_current_mean"
+  ],
+  "threshold_grid": {
+    "start": 0.1,
+    "stop": 0.9,
+    "step": 0.01
+  },
+  "business_cost": {
+    "false_negative_cost": 10.0,
+    "false_positive_cost": 1.0
+  },
+  "baseline_holdout_metrics": {
+    "roc_auc": 0.7877808543633725,
+    "pr_auc": 0.2874404429076317,
+    "business_fbeta": 0.5688328742096175,
+    "business_cost_per_obs": 0.491171018828656,
+    "recall": 0.7297079556898288,
+    "precision": 0.17750232717652245
+  },
+  "raw_top30_training_time_ms": 1566.8685999698937,
+  "raw_top30_holdout": {
+    "threshold": 0.45,
+    "metrics": {
+      "threshold": 0.45,
+      "accuracy": 0.6843842476667426,
+      "precision": 0.16821313734497015,
+      "recall": 0.7375629405840887,
+      "f1": 0.2739480082289134,
+      "business_fbeta": 0.5640156818818259,
+      "roc_auc": 0.7786947673636213,
+      "pr_auc": 0.27133649017876565,
+      "false_negatives": 1303,
+      "false_positives": 18108,
+      "business_cost": 31138.0,
+      "business_cost_per_obs": 0.5062924782933889
+    },
+    "latency": {
+      "batch_inference_time_ms": 63.53460007812828,
+      "batch_latency_per_row_ms": 0.0010330493329993866,
+      "single_row_count": 100,
+      "single_row_latency_mean_ms": 0.5323270044755191,
+      "single_row_latency_p50_ms": 0.5204000044614077,
+      "single_row_latency_p95_ms": 0.5825200059916823
+    }
+  },
+  "search": {
+    "candidate_count": 16,
+    "best_validation_row": {
+      "search_rank": 14,
+      "learning_rate": 0.03,
+      "num_leaves": 63,
+      "min_child_samples": 50,
+      "reg_lambda": 1.0,
+      "training_time_ms": 2036.3452999154106,
+      "selected_threshold": 0.5,
+      "valid_roc_auc": 0.7770401288089789,
+      "valid_pr_auc": 0.2608821240871289,
+      "valid_business_fbeta": 0.5479914419565458,
+      "valid_business_cost_per_obs": 0.4980996321212984,
+      "valid_recall": 0.6800100704934542,
+      "valid_precision": 0.1863015588357015
+    }
+  },
+  "selected_params": {
+    "learning_rate": 0.03,
+    "num_leaves": 63,
+    "min_child_samples": 50,
+    "reg_lambda": 1.0
+  },
+  "selected_threshold": 0.5,
+  "threshold_profiles": {
+    "recall_priority": 0.45,
+    "cost_priority": 0.5
+  },
+  "optimized_training_time_ms": 1814.6307000424713,
+  "optimized_business_threshold_holdout": {
+    "threshold": 0.45,
+    "metrics": {
+      "threshold": 0.45,
+      "accuracy": 0.6859289128808819,
+      "precision": 0.16937750541399807,
+      "recall": 0.7403826787512588,
+      "f1": 0.27568621568921553,
+      "business_fbeta": 0.5667035723795777,
+      "roc_auc": 0.7795778828615492,
+      "pr_auc": 0.27245299339536333,
+      "false_negatives": 1289,
+      "false_positives": 18027,
+      "business_cost": 30917.0,
+      "business_cost_per_obs": 0.5026990992162856
+    },
+    "latency": {
+      "batch_inference_time_ms": 69.01980005204678,
+      "batch_latency_per_row_ms": 0.0011222366760763353,
+      "single_row_count": 100,
+      "single_row_latency_mean_ms": 0.6438659969717264,
+      "single_row_latency_p50_ms": 0.6133000133559108,
+      "single_row_latency_p95_ms": 0.7652850006707013
+    }
+  },
+  "optimized_holdout": {
+    "threshold": 0.5,
+    "metrics": {
+      "threshold": 0.5,
+      "accuracy": 0.7323339078403954,
+      "precision": 0.18534128852153922,
+      "recall": 0.6819738167170192,
+      "f1": 0.29146939829560126,
+      "business_fbeta": 0.5483885216213432,
+      "roc_auc": 0.7795778828615492,
+      "pr_auc": 0.27245299339536333,
+      "false_negatives": 1579,
+      "false_positives": 14883,
+      "business_cost": 30673.0,
+      "business_cost_per_obs": 0.4987317485610224
+    },
+    "latency": {
+      "batch_inference_time_ms": 84.60499998182058,
+      "batch_latency_per_row_ms": 0.0013756463201492729,
+      "single_row_count": 100,
+      "single_row_latency_mean_ms": 0.5508820002432913,
+      "single_row_latency_p50_ms": 0.5348999984562397,
+      "single_row_latency_p95_ms": 0.5733099475037307
+    }
+  }
+}

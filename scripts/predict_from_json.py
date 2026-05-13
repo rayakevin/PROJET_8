@@ -1,4 +1,4 @@
-﻿"""Exécute une prédiction locale à partir d'un fichier JSON de variables.
+"""Exécute une prédiction locale à partir d'un fichier JSON de variables.
 
 Format d'entrée attendu :
 
@@ -23,7 +23,6 @@ from time import perf_counter
 
 import mlflow.pyfunc
 import pandas as pd
-
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 MODEL_DIR = PROJECT_ROOT / "model" / "artifacts" / "mlflow_model"

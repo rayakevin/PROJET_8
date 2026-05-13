@@ -1,0 +1,35 @@
+{
+  "model_name": "lightgbm_top30_optimized",
+  "model_family": "LightGBM",
+  "source_experiment": "2.1",
+  "selection_objective": "minimize_business_cost_per_observation",
+  "artifact_path": "model/artifacts/mlflow_model_top30_optimized",
+  "schema_path": "model/schema/top30_feature_schema.json",
+  "selected_threshold": 0.5,
+  "threshold_profiles": {
+    "recall_priority": 0.45,
+    "cost_priority": 0.5
+  },
+  "selected_params": {
+    "learning_rate": 0.03,
+    "num_leaves": 63,
+    "min_child_samples": 50,
+    "reg_lambda": 1.0
+  },
+  "holdout_metrics": {
+    "threshold": 0.5,
+    "accuracy": 0.7323339078403954,
+    "precision": 0.18534128852153922,
+    "recall": 0.6819738167170192,
+    "f1": 0.29146939829560126,
+    "business_fbeta": 0.5483885216213432,
+    "roc_auc": 0.7795778828615492,
+    "pr_auc": 0.27245299339536333,
+    "false_negatives": 1579,
+    "false_positives": 14883,
+    "business_cost": 30673.0,
+    "business_cost_per_obs": 0.4987317485610224
+  },
+  "feature_count": 30,
+  "created_at_utc": "2026-05-13T11:25:18+00:00"
+}

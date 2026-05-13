@@ -1,0 +1,190 @@
+{
+  "source": "experience_2_1_top30_optimization",
+  "feature_count": 30,
+  "features": [
+    {
+      "feature": "ext_sources_mean",
+      "rank": 1,
+      "importance": 369.0,
+      "importance_type": "feature_importances_"
+    },
+    {
+      "feature": "credit_to_annuity_ratio",
+      "rank": 2,
+      "importance": 352.0,
+      "importance_type": "feature_importances_"
+    },
+    {
+      "feature": "days_birth",
+      "rank": 3,
+      "importance": 297.0,
+      "importance_type": "feature_importances_"
+    },
+    {
+      "feature": "ext_source_1",
+      "rank": 4,
+      "importance": 279.0,
+      "importance_type": "feature_importances_"
+    },
+    {
+      "feature": "ext_source_2",
+      "rank": 5,
+      "importance": 272.0,
+      "importance_type": "feature_importances_"
+    },
+    {
+      "feature": "payment_rate",
+      "rank": 6,
+      "importance": 270.0,
+      "importance_type": "feature_importances_"
+    },
+    {
+      "feature": "credit_to_goods_ratio",
+      "rank": 7,
+      "importance": 268.0,
+      "importance_type": "feature_importances_"
+    },
+    {
+      "feature": "amt_annuity",
+      "rank": 8,
+      "importance": 262.0,
+      "importance_type": "feature_importances_"
+    },
+    {
+      "feature": "days_employed",
+      "rank": 9,
+      "importance": 262.0,
+      "importance_type": "feature_importances_"
+    },
+    {
+      "feature": "approved_cnt_payment_mean",
+      "rank": 10,
+      "importance": 220.0,
+      "importance_type": "feature_importances_"
+    },
+    {
+      "feature": "ext_source_3",
+      "rank": 11,
+      "importance": 217.0,
+      "importance_type": "feature_importances_"
+    },
+    {
+      "feature": "days_employed_perc",
+      "rank": 12,
+      "importance": 211.0,
+      "importance_type": "feature_importances_"
+    },
+    {
+      "feature": "prev_cnt_payment_mean",
+      "rank": 13,
+      "importance": 184.0,
+      "importance_type": "feature_importances_"
+    },
+    {
+      "feature": "new_active_debt_ratio",
+      "rank": 14,
+      "importance": 176.0,
+      "importance_type": "feature_importances_"
+    },
+    {
+      "feature": "annuity_to_income_ratio",
+      "rank": 15,
+      "importance": 174.0,
+      "importance_type": "feature_importances_"
+    },
+    {
+      "feature": "instal_amt_payment_sum",
+      "rank": 16,
+      "importance": 170.0,
+      "importance_type": "feature_importances_"
+    },
+    {
+      "feature": "new_late_payment_ratio",
+      "rank": 17,
+      "importance": 161.0,
+      "importance_type": "feature_importances_"
+    },
+    {
+      "feature": "own_car_age",
+      "rank": 18,
+      "importance": 153.0,
+      "importance_type": "feature_importances_"
+    },
+    {
+      "feature": "buro_amt_credit_max_overdue_mean",
+      "rank": 19,
+      "importance": 141.0,
+      "importance_type": "feature_importances_"
+    },
+    {
+      "feature": "code_gender",
+      "rank": 20,
+      "importance": 139.0,
+      "importance_type": "feature_importances_"
+    },
+    {
+      "feature": "amt_goods_price",
+      "rank": 21,
+      "importance": 130.0,
+      "importance_type": "feature_importances_"
+    },
+    {
+      "feature": "days_id_publish",
+      "rank": 22,
+      "importance": 130.0,
+      "importance_type": "feature_importances_"
+    },
+    {
+      "feature": "active_days_credit_max",
+      "rank": 23,
+      "importance": 124.0,
+      "importance_type": "feature_importances_"
+    },
+    {
+      "feature": "active_days_credit_enddate_max",
+      "rank": 24,
+      "importance": 124.0,
+      "importance_type": "feature_importances_"
+    },
+    {
+      "feature": "amt_credit",
+      "rank": 25,
+      "importance": 123.0,
+      "importance_type": "feature_importances_"
+    },
+    {
+      "feature": "instal_days_entry_payment_max",
+      "rank": 26,
+      "importance": 123.0,
+      "importance_type": "feature_importances_"
+    },
+    {
+      "feature": "new_bureau_debt_ratio",
+      "rank": 27,
+      "importance": 118.0,
+      "importance_type": "feature_importances_"
+    },
+    {
+      "feature": "instal_payment_diff_mean",
+      "rank": 28,
+      "importance": 113.0,
+      "importance_type": "feature_importances_"
+    },
+    {
+      "feature": "instal_dpd_mean",
+      "rank": 29,
+      "importance": 109.0,
+      "importance_type": "feature_importances_"
+    },
+    {
+      "feature": "cc_cnt_drawings_atm_current_mean",
+      "rank": 30,
+      "importance": 107.0,
+      "importance_type": "feature_importances_"
+    }
+  ],
+  "preprocessing": {
+    "column_name_normalization": "lowercase_and_special_characters_to_underscores",
+    "missing_value_policy": "LightGBM native handling"
+  }
+}
