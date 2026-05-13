@@ -1,0 +1,43 @@
+﻿# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Environments
+.venv/
+.env
+.env.*
+
+# Data and local production storage
+data/raw/
+data/production/*.db
+data/production/*.sqlite
+data/production/*.jsonl
+data/production/*.parquet
+data/reference/*.parquet
+data/reference/*.csv
+data/sample/*.parquet
+
+# Model artifacts exported locally
+model/artifacts/*
+!model/artifacts/.gitkeep
+model/legacy_mlflow/
+mlruns/
+mlartifacts/
+mlflow.db
+*.db
+*.sqlite
+
+# Generated reports
+reports/
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

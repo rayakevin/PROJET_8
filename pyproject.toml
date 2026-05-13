@@ -1,0 +1,10 @@
+﻿[project]
+name = "projet-8-credit-scoring-mlops"
+version = "0.1.0"
+description = "Deployment and monitoring project for a Home Credit scoring model."
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = []
+
+[project.optional-dependencies]
+dev = []
