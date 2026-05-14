@@ -109,7 +109,10 @@ Configuration GitHub à ajouter dans `Settings > Secrets and variables > Actions
 
 Le job de déploiement ne se lance que sur un `push` vers `main`, donc après fusion d'une PR.
 Le workflow prépare un dépôt Space minimal contenant `Dockerfile`, `pyproject.toml`, `uv.lock`,
-`app/` et `model/`, puis le pousse vers :
+`app/` et `model/`, puis l'envoie vers Hugging Face avec `huggingface_hub` et `hf_xet`.
+Ce mode d'envoi permet de stocker correctement les artefacts binaires du modèle.
+
+Space cible :
 
 ```text
 https://huggingface.co/spaces/<HF_USERNAME>/<HF_SPACE_NAME>
