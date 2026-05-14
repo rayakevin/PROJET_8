@@ -31,4 +31,5 @@ uv run streamlit run ui/streamlit_app.py
 Le workflow GitHub Actions déploie cette interface dans un deuxième Hugging Face Space, distinct
 du Space API.
 
-Le Space UI doit utiliser le SDK `Streamlit`.
+Le Space UI est déployé avec le SDK `Docker`.
+Le conteneur lance Streamlit sur le port `8501`.
