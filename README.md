@@ -58,6 +58,63 @@ Vérification du modèle MLflow importé :
 uv run python scripts/check_model_load.py
 ```
 
+## API, Docker et CI/CD
+
+L'API FastAPI expose le modèle de scoring via les routes suivantes :
+
+- `GET /health` : vérification de disponibilité de l'API ;
+- `GET /model/info` : métadonnées du modèle chargé ;
+- `POST /predict` : prédiction pour un client à partir de données brutes ;
+- `POST /predict/batch` : prédictions pour un lot de clients.
+
+Lancement local de l'API :
+
+```powershell
+uv run uvicorn app.main:app --reload
+```
+
+Build et lancement Docker :
+
+```powershell
+docker build -t credit-scoring-api .
+docker run --rm --name credit-scoring-api -p 8000:8000 credit-scoring-api
+```
+
+Tests locaux :
+
+```powershell
+uv run ruff check .
+uv run ruff format --check .
+uv run pytest
+```
+
+Le workflow GitHub Actions `.github/workflows/ci-cd.yml` exécute :
+
+- les contrôles Ruff ;
+- les tests Pytest ;
+- le build de l'image Docker ;
+- un smoke test Docker sur `/health`, `/model/info` et `/predict/batch` ;
+- le déploiement vers Hugging Face Spaces après merge sur `main`.
+
+### Déploiement Hugging Face Spaces
+
+Le déploiement continu nécessite un Space Hugging Face créé une première fois avec le SDK
+`Docker`.
+
+Configuration GitHub à ajouter dans `Settings > Secrets and variables > Actions` :
+
+- secret `HF_TOKEN` : token Hugging Face avec droit d'écriture sur le Space ;
+- variable `HF_USERNAME` : nom du compte ou de l'organisation Hugging Face ;
+- variable `HF_SPACE_NAME` : nom du Space cible.
+
+Le job de déploiement ne se lance que sur un `push` vers `main`, donc après fusion d'une PR.
+Le workflow prépare un dépôt Space minimal contenant `Dockerfile`, `pyproject.toml`, `uv.lock`,
+`app/` et `model/`, puis le pousse vers :
+
+```text
+https://huggingface.co/spaces/<HF_USERNAME>/<HF_SPACE_NAME>
+```
+
 ## Conventions de branches
 
 Branches permanentes :
