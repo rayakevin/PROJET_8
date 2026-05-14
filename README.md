@@ -95,6 +95,7 @@ Le workflow GitHub Actions `.github/workflows/ci-cd.yml` exécute :
 - le build de l'image Docker ;
 - un smoke test Docker sur `/health`, `/model/info` et `/predict/batch` ;
 - le déploiement vers Hugging Face Spaces après merge sur `main`.
+- le déploiement d'une interface Streamlit dans un deuxième Space Hugging Face.
 
 ### Déploiement Hugging Face Spaces
 
@@ -106,6 +107,7 @@ Configuration GitHub à ajouter dans `Settings > Secrets and variables > Actions
 - secret `HF_TOKEN` : token Hugging Face avec droit d'écriture sur le Space ;
 - variable `HF_USERNAME` : nom du compte ou de l'organisation Hugging Face ;
 - variable `HF_SPACE_NAME` : nom du Space cible.
+- variable `HF_UI_SPACE_NAME` : nom du Space Streamlit cible.
 
 Le job de déploiement ne se lance que sur un `push` vers `main`, donc après fusion d'une PR.
 Le workflow prépare un dépôt Space minimal contenant `Dockerfile`, `pyproject.toml`, `uv.lock`,
@@ -117,6 +119,26 @@ Space cible :
 ```text
 https://huggingface.co/spaces/<HF_USERNAME>/<HF_SPACE_NAME>
 ```
+
+### Interface Streamlit
+
+L'interface utilisateur Streamlit se trouve dans `ui/streamlit_app.py`.
+Elle est déployée dans un deuxième Space Hugging Face via le même workflow GitHub Actions.
+
+Lancement local :
+
+```powershell
+uv run streamlit run ui/streamlit_app.py
+```
+
+Par défaut, l'interface appelle l'API déployée sur :
+
+```text
+https://rayakevin-projet-8.hf.space
+```
+
+Pour changer l'API cible, définir la variable d'environnement `API_BASE_URL` dans le Space
+Streamlit ou modifier l'URL depuis la barre latérale de l'interface.
 
 ## Conventions de branches
 
