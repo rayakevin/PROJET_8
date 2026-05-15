@@ -5,6 +5,7 @@ from fastapi import Body, FastAPI, HTTPException
 from pydantic import BaseModel, ConfigDict, Field
 
 from app.services.inference_service import InferenceService
+from app.services.monitoring_service import MonitoringService
 from app.services.preprocessing_service import PreprocessingService
 
 app = FastAPI(
@@ -15,6 +16,7 @@ app = FastAPI(
 
 preprocessing_service = PreprocessingService()
 inference_service = InferenceService()
+monitoring_service = MonitoringService()
 
 
 RAW_DATA_EXAMPLE: dict[str, Any] = {
@@ -165,9 +167,10 @@ def predict(
         ),
     ],
 ) -> dict[str, Any]:
-    try:
-        start = perf_counter()
+    request_id = monitoring_service.create_request_id()
+    start = perf_counter()
 
+    try:
         preprocessing_start = perf_counter()
         features = preprocessing_service.transform(request.raw_data)
         preprocessing_latency_ms = (perf_counter() - preprocessing_start) * 1000
@@ -182,9 +185,25 @@ def predict(
         prediction["preprocessing_latency_ms"] = round(preprocessing_latency_ms, 3)
         prediction["inference_latency_ms"] = round(inference_latency_ms, 3)
 
+        monitoring_service.log_prediction_success(
+            request_id=request_id,
+            endpoint="/predict",
+            client_id=request.client_id,
+            features=features,
+            prediction=prediction,
+        )
+
         return prediction
 
     except ValueError as error:
+        latency_ms = (perf_counter() - start) * 1000
+        monitoring_service.log_prediction_error(
+            request_id=request_id,
+            endpoint="/predict",
+            client_id=request.client_id,
+            error=error,
+            latency_ms=round(latency_ms, 3),
+        )
         raise HTTPException(status_code=422, detail=str(error)) from error
 
 
@@ -203,21 +222,42 @@ def predict_batch(
         ),
     ],
 ) -> dict[str, Any]:
+    request_id = monitoring_service.create_request_id()
+    start = perf_counter()
+    current_client_id = None
+
     try:
-        start = perf_counter()
         predictions = []
 
         preprocessing_latency_ms = 0.0
         inference_latency_ms = 0.0
 
         for client in request.clients:
+            current_client_id = client.client_id
             preprocessing_start = perf_counter()
             features = preprocessing_service.transform(client.raw_data)
-            preprocessing_latency_ms += (perf_counter() - preprocessing_start) * 1000
+            client_preprocessing_latency_ms = (perf_counter() - preprocessing_start) * 1000
+            preprocessing_latency_ms += client_preprocessing_latency_ms
 
             inference_start = perf_counter()
             prediction = inference_service.predict(features, client_id=client.client_id)
-            inference_latency_ms += (perf_counter() - inference_start) * 1000
+            client_inference_latency_ms = (perf_counter() - inference_start) * 1000
+            inference_latency_ms += client_inference_latency_ms
+
+            prediction["latency_ms"] = round(
+                client_preprocessing_latency_ms + client_inference_latency_ms,
+                3,
+            )
+            prediction["preprocessing_latency_ms"] = round(client_preprocessing_latency_ms, 3)
+            prediction["inference_latency_ms"] = round(client_inference_latency_ms, 3)
+
+            monitoring_service.log_prediction_success(
+                request_id=request_id,
+                endpoint="/predict/batch",
+                client_id=client.client_id,
+                features=features,
+                prediction=prediction,
+            )
 
             predictions.append(prediction)
 
@@ -233,4 +273,12 @@ def predict_batch(
         }
 
     except ValueError as error:
+        latency_ms = (perf_counter() - start) * 1000
+        monitoring_service.log_prediction_error(
+            request_id=request_id,
+            endpoint="/predict/batch",
+            client_id=current_client_id,
+            error=error,
+            latency_ms=round(latency_ms, 3),
+        )
         raise HTTPException(status_code=422, detail=str(error)) from error

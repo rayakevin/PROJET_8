@@ -1,8 +1,17 @@
+import json
+from pathlib import Path
+
+import pytest
 from fastapi.testclient import TestClient
 
-from app.main import app
+import app.main as main_module
 
-client = TestClient(app)
+client = TestClient(main_module.app)
+
+
+@pytest.fixture(autouse=True)
+def isolate_monitoring_logs(tmp_path: Path) -> None:
+    main_module.monitoring_service.log_path = tmp_path / "api_predictions.jsonl"
 
 
 def valid_raw_data() -> dict:
@@ -95,6 +104,30 @@ def test_predict_returns_prediction_for_valid_raw_payload() -> None:
     assert body["latency_ms"] >= body["inference_latency_ms"]
 
 
+def test_predict_writes_monitoring_success_event() -> None:
+    response = client.post(
+        "/predict",
+        json={
+            "client_id": 100001,
+            "raw_data": valid_raw_data(),
+        },
+    )
+
+    assert response.status_code == 200
+
+    events = [
+        json.loads(line)
+        for line in main_module.monitoring_service.log_path.read_text(encoding="utf-8").splitlines()
+    ]
+
+    assert len(events) == 1
+    assert events[0]["endpoint"] == "/predict"
+    assert events[0]["status"] == "success"
+    assert events[0]["client_id"] == 100001
+    assert len(events[0]["features"]) == 30
+    assert 0 <= events[0]["score"] <= 1
+
+
 def test_predict_rejects_missing_application_block() -> None:
     response = client.post(
         "/predict",
@@ -106,6 +139,30 @@ def test_predict_rejects_missing_application_block() -> None:
 
     assert response.status_code == 422
     assert response.json()["detail"] == "raw_data.application est obligatoire"
+
+
+def test_predict_writes_monitoring_error_event() -> None:
+    response = client.post(
+        "/predict",
+        json={
+            "client_id": 100001,
+            "raw_data": {},
+        },
+    )
+
+    assert response.status_code == 422
+
+    events = [
+        json.loads(line)
+        for line in main_module.monitoring_service.log_path.read_text(encoding="utf-8").splitlines()
+    ]
+
+    assert len(events) == 1
+    assert events[0]["endpoint"] == "/predict"
+    assert events[0]["status"] == "error"
+    assert events[0]["client_id"] == 100001
+    assert events[0]["error_type"] == "ValueError"
+    assert events[0]["error_message"] == "raw_data.application est obligatoire"
 
 
 def test_predict_batch_rejects_empty_client_list() -> None:
@@ -139,3 +196,33 @@ def test_predict_batch_returns_predictions_for_valid_raw_payloads() -> None:
     assert body["count"] == 2
     assert body["model_version"] == "lightgbm_top30_optimized"
     assert [item["client_id"] for item in body["predictions"]] == [100001, 100002]
+
+
+def test_predict_batch_writes_one_monitoring_event_per_client() -> None:
+    response = client.post(
+        "/predict/batch",
+        json={
+            "clients": [
+                {
+                    "client_id": 100001,
+                    "raw_data": valid_raw_data(),
+                },
+                {
+                    "client_id": 100002,
+                    "raw_data": valid_raw_data(),
+                },
+            ]
+        },
+    )
+
+    assert response.status_code == 200
+
+    events = [
+        json.loads(line)
+        for line in main_module.monitoring_service.log_path.read_text(encoding="utf-8").splitlines()
+    ]
+
+    assert len(events) == 2
+    assert {event["endpoint"] for event in events} == {"/predict/batch"}
+    assert {event["status"] for event in events} == {"success"}
+    assert [event["client_id"] for event in events] == [100001, 100002]
