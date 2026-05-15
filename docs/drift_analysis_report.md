@@ -154,8 +154,17 @@ Report([DataDriftPreset()])
 
 Le script compare les features TOP30 de référence aux features TOP30 observées dans les logs.
 
-Selon les caractéristiques des variables, Evidently applique des tests statistiques ou des distances
-de distribution. Les méthodes peuvent inclure :
+Le choix des métriques de drift n'est pas réalisé manuellement variable par variable. Le projet
+confie cette sélection au preset `DataDriftPreset` d'Evidently.
+
+Evidently analyse le type des variables, leur nature numérique ou discrète, et les distributions de
+référence et courantes. Il applique ensuite une méthode adaptée. Dans le rapport généré sur les 1 000
+candidats aléatoires, Evidently a utilisé :
+
+- la distance de Wasserstein normalisée pour 29 variables numériques ;
+- la distance de Jensen-Shannon pour la variable discrète `code_gender`.
+
+Les méthodes possibles incluent notamment :
 
 - distance de Wasserstein normalisée pour des variables numériques ;
 - distance de Jensen-Shannon pour certaines variables discrètes ;
@@ -171,6 +180,10 @@ Pour chaque variable, le rapport contient :
 
 Une variable est considérée comme driftée lorsque la distance ou le test dépasse le seuil retenu par
 Evidently.
+
+Cette automatisation est acceptable pour le PoC car elle évite de configurer manuellement 30 tests
+différents, tout en conservant une traçabilité complète : le rapport Evidently indique pour chaque
+feature la méthode appliquée, le seuil et la valeur mesurée.
 
 ## Visualisation
 

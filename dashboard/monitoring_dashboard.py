@@ -3,9 +3,11 @@ import os
 from pathlib import Path
 from typing import Any
 
+import altair as alt
 import pandas as pd
 import psycopg
 import streamlit as st
+import streamlit.components.v1 as components
 from psycopg.rows import dict_row
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -22,7 +24,7 @@ LATENCY_MAX_WARNING_THRESHOLD_MS = 5000
 MIN_EVENTS_FOR_DRIFT_READING = 100
 
 
-def load_jsonl_events(log_path: Path) -> list[dict[str, Any]]:
+def load_jsonl_events(log_path: Path, limit: int | None = None) -> list[dict[str, Any]]:
     if not log_path.exists():
         return []
 
@@ -30,6 +32,9 @@ def load_jsonl_events(log_path: Path) -> list[dict[str, Any]]:
     for line in log_path.read_text(encoding="utf-8").splitlines():
         if line.strip():
             events.append(json.loads(line))
+
+    if limit is not None:
+        return events[-limit:]
 
     return events
 
@@ -318,8 +323,10 @@ def display_event_charts(frame: pd.DataFrame) -> None:
         st.info("Aucun événement disponible pour les graphiques.")
         return
 
+    st.metric("Événements chargés", len(frame))
+
     st.subheader("Événements récents")
-    st.dataframe(frame.tail(100), use_container_width=True, hide_index=True)
+    st.dataframe(frame.tail(200), use_container_width=True, hide_index=True)
 
     latency_frame = frame.dropna(subset=["timestamp", "latency_ms"])
     if not latency_frame.empty:
@@ -329,7 +336,25 @@ def display_event_charts(frame: pd.DataFrame) -> None:
     score_frame = frame.dropna(subset=["score"])
     if not score_frame.empty:
         st.subheader("Distribution des scores")
-        st.bar_chart(score_frame["score"].value_counts(bins=10).sort_index())
+        chart = (
+            alt.Chart(score_frame)
+            .mark_bar()
+            .encode(
+                x=alt.X(
+                    "score:Q",
+                    bin=alt.Bin(maxbins=20, extent=[0, 1]),
+                    title="Score",
+                    scale=alt.Scale(domain=[0, 1]),
+                ),
+                y=alt.Y("count():Q", title="Nombre de clients"),
+                tooltip=[
+                    alt.Tooltip("count():Q", title="Nombre de clients"),
+                    alt.Tooltip("score:Q", bin=True, title="Intervalle de score"),
+                ],
+            )
+            .properties(height=320)
+        )
+        st.altair_chart(chart, use_container_width=True)
 
     status_counts = frame["status"].value_counts()
     if not status_counts.empty:
@@ -348,8 +373,8 @@ st.title("Monitoring API scoring")
 with st.sidebar:
     st.header("Sources")
     source = st.radio(
-        "Source des événements",
-        ["Rapport généré", "JSONL local", "PostgreSQL local"],
+        "Source des événements détaillés",
+        ["PostgreSQL local", "JSONL local"],
     )
     log_path = Path(st.text_input("Fichier JSONL", value=str(DEFAULT_LOG_PATH)))
     summary_path = Path(st.text_input("Synthèse JSON", value=str(DEFAULT_SUMMARY_PATH)))
@@ -357,7 +382,7 @@ with st.sidebar:
         st.text_input("Rapport Evidently HTML", value=str(DEFAULT_DRIFT_HTML_PATH))
     )
     database_url = st.text_input("URL PostgreSQL", value=DEFAULT_DATABASE_URL)
-    postgres_limit = st.number_input("Nombre d'événements PostgreSQL", 10, 10000, 1000, 10)
+    event_limit = st.number_input("Nombre d'événements récents à charger", 10, 10000, 1000, 10)
 
 summary = load_summary(summary_path)
 
@@ -380,12 +405,12 @@ with tab_summary:
 with tab_events:
     if source == "PostgreSQL local":
         try:
-            events = load_postgres_events(database_url, int(postgres_limit))
+            events = load_postgres_events(database_url, int(event_limit))
         except Exception as error:
             st.error(f"Impossible de lire PostgreSQL : {error}")
             events = []
     else:
-        events = load_jsonl_events(log_path)
+        events = load_jsonl_events(log_path, int(event_limit))
 
     display_event_charts(events_to_frame(events))
 
@@ -397,7 +422,15 @@ with tab_drift:
 
 with tab_report:
     if drift_html_path.exists():
-        st.link_button("Ouvrir le rapport Evidently", str(drift_html_path))
+        st.subheader("Rapport Evidently")
+        drift_html = drift_html_path.read_text(encoding="utf-8")
+        components.html(drift_html, height=900, scrolling=True)
+        st.download_button(
+            "Télécharger le rapport Evidently HTML",
+            data=drift_html,
+            file_name="data_drift_report.html",
+            mime="text/html",
+        )
     else:
         st.info("Le rapport HTML Evidently n'est pas encore généré.")
 

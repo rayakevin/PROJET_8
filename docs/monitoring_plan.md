@@ -219,8 +219,24 @@ La comparaison porte sur :
 - les 30 features de référence ;
 - les 30 features observées dans les logs de production ou de simulation.
 
-Evidently choisit les tests statistiques ou distances adaptés aux types de variables. Le rapport
-indique les colonnes driftées, la méthode appliquée, le seuil et la valeur observée.
+Le projet ne définit pas manuellement une métrique de drift différente pour chaque variable. Le choix
+méthodologique consiste à utiliser le preset `DataDriftPreset` d'Evidently afin d'automatiser la
+sélection des tests selon le type des données.
+
+Evidently inspecte les variables de référence et les variables observées, puis applique une méthode
+adaptée. Dans les rapports générés sur ce projet, les features numériques sont principalement
+évaluées avec la distance de Wasserstein normalisée, tandis que la variable discrète `code_gender`
+est évaluée avec la distance de Jensen-Shannon.
+
+Cette approche est retenue pour trois raisons :
+
+- elle évite de paramétrer manuellement 30 tests différents ;
+- elle limite le risque d'appliquer une méthode inadaptée au type de variable ;
+- elle reste auditable, car le rapport Evidently expose pour chaque colonne la méthode appliquée, le
+  seuil et la valeur observée.
+
+Les méthodes utilisées par Evidently doivent donc être interprétées comme le résultat du preset de
+drift retenu, et non comme un choix manuel colonne par colonne.
 
 ## Dashboard Streamlit
 
