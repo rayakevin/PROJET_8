@@ -1,3 +1,5 @@
+from collections.abc import AsyncIterator
+from contextlib import asynccontextmanager
 from time import perf_counter
 from typing import Annotated, Any
 
@@ -8,10 +10,18 @@ from app.services.inference_service import InferenceService
 from app.services.monitoring_service import MonitoringService
 from app.services.preprocessing_service import PreprocessingService
 
+
+@asynccontextmanager
+async def lifespan(app: FastAPI) -> AsyncIterator[None]:
+    inference_service.warm_up()
+    yield
+
+
 app = FastAPI(
     title="Credit Scoring API",
     description="API de scoring crédit basée sur un modèle LightGBM TOP30 optimisé.",
     version="0.1.0",
+    lifespan=lifespan,
 )
 
 preprocessing_service = PreprocessingService()
@@ -227,10 +237,8 @@ def predict_batch(
     current_client_id = None
 
     try:
-        predictions = []
-
         preprocessing_latency_ms = 0.0
-        inference_latency_ms = 0.0
+        transformed_clients = []
 
         for client in request.clients:
             current_client_id = client.client_id
@@ -238,24 +246,38 @@ def predict_batch(
             features = preprocessing_service.transform(client.raw_data)
             client_preprocessing_latency_ms = (perf_counter() - preprocessing_start) * 1000
             preprocessing_latency_ms += client_preprocessing_latency_ms
+            transformed_clients.append(
+                {
+                    "client_id": client.client_id,
+                    "features": features,
+                    "preprocessing_latency_ms": client_preprocessing_latency_ms,
+                }
+            )
 
-            inference_start = perf_counter()
-            prediction = inference_service.predict(features, client_id=client.client_id)
-            client_inference_latency_ms = (perf_counter() - inference_start) * 1000
-            inference_latency_ms += client_inference_latency_ms
+        inference_start = perf_counter()
+        batch_prediction = inference_service.predict_batch(transformed_clients)
+        inference_latency_ms = (perf_counter() - inference_start) * 1000
+        average_inference_latency_ms = inference_latency_ms / len(transformed_clients)
 
+        predictions = []
+        for transformed_client, prediction in zip(
+            transformed_clients,
+            batch_prediction["predictions"],
+            strict=True,
+        ):
+            client_preprocessing_latency_ms = transformed_client["preprocessing_latency_ms"]
             prediction["latency_ms"] = round(
-                client_preprocessing_latency_ms + client_inference_latency_ms,
+                client_preprocessing_latency_ms + average_inference_latency_ms,
                 3,
             )
             prediction["preprocessing_latency_ms"] = round(client_preprocessing_latency_ms, 3)
-            prediction["inference_latency_ms"] = round(client_inference_latency_ms, 3)
+            prediction["inference_latency_ms"] = round(average_inference_latency_ms, 3)
 
             monitoring_service.log_prediction_success(
                 request_id=request_id,
                 endpoint="/predict/batch",
-                client_id=client.client_id,
-                features=features,
+                client_id=prediction["client_id"],
+                features=transformed_client["features"],
                 prediction=prediction,
             )
 

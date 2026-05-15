@@ -95,6 +95,35 @@ class InferenceService:
     def build_frame(self, features: dict[str, float]) -> pd.DataFrame:
         return pd.DataFrame([{name: features[name] for name in self.feature_names}])
 
+    def warm_up(self) -> None:
+        features = {name: 0.0 for name in self.feature_names}
+        features.update(
+            {
+                "amt_credit": 100000.0,
+                "amt_annuity": 10000.0,
+                "amt_goods_price": 100000.0,
+                "days_birth": -12000.0,
+                "days_employed": -1000.0,
+                "annuity_to_income_ratio": 0.1,
+                "credit_to_annuity_ratio": 10.0,
+                "payment_rate": 0.1,
+            }
+        )
+        validated_features = self.validate_features(features)
+        frame = self.build_frame(validated_features)
+        self.load_model().predict_proba(frame)
+
+    def build_batch_frame(self, clients: list[dict]) -> tuple[pd.DataFrame, list[int | None]]:
+        rows = []
+        client_ids = []
+
+        for client in clients:
+            validated_features = self.validate_features(client["features"])
+            rows.append({name: validated_features[name] for name in self.feature_names})
+            client_ids.append(client.get("client_id"))
+
+        return pd.DataFrame(rows), client_ids
+
     def predict(self, features: dict, client_id: int | None = None) -> dict:
         validated_features = self.validate_features(features)
         frame = self.build_frame(validated_features)
@@ -121,10 +150,25 @@ class InferenceService:
             raise ValueError("Le lot de clients ne peut pas être vide")
 
         start = perf_counter()
-        predictions = [
-            self.predict(client["features"], client.get("client_id")) for client in clients
-        ]
+        frame, client_ids = self.build_batch_frame(clients)
+        model = self.load_model()
+        scores = model.predict_proba(frame)[:, 1]
         latency_ms = (perf_counter() - start) * 1000
+
+        predictions = []
+        for client_id, score in zip(client_ids, scores, strict=True):
+            score = float(score)
+            prediction = int(score >= self.threshold)
+            predictions.append(
+                {
+                    "client_id": client_id,
+                    "score": score,
+                    "threshold": self.threshold,
+                    "prediction": prediction,
+                    "decision": "high_risk" if prediction else "low_risk",
+                    "model_version": self.metadata["model_name"],
+                }
+            )
 
         return {
             "predictions": predictions,
