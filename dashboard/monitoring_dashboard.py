@@ -16,6 +16,10 @@ DEFAULT_DATABASE_URL = os.getenv(
     "MONITORING_DATABASE_URL",
     "postgresql://projet8:projet8@localhost:5433/projet8_monitoring",
 )
+ERROR_RATE_WARNING_THRESHOLD = 0.05
+LATENCY_P95_WARNING_THRESHOLD_MS = 2000
+LATENCY_MAX_WARNING_THRESHOLD_MS = 5000
+MIN_EVENTS_FOR_DRIFT_READING = 100
 
 
 def load_jsonl_events(log_path: Path) -> list[dict[str, Any]]:
@@ -101,6 +105,144 @@ def events_to_frame(events: list[dict[str, Any]]) -> pd.DataFrame:
     return frame
 
 
+def format_optional_float(value: Any, suffix: str = "") -> str:
+    if value is None:
+        return "N/A"
+
+    return f"{float(value):.3f}{suffix}"
+
+
+def format_optional_percent(value: Any) -> str:
+    if value is None:
+        return "N/A"
+
+    return f"{float(value):.2%}"
+
+
+def build_operational_findings(summary: dict[str, Any]) -> list[tuple[str, str]]:
+    operational = summary.get("operational", {})
+    latency = operational.get("latency_ms", {})
+    findings: list[tuple[str, str]] = []
+
+    error_rate = operational.get("error_rate")
+    if error_rate is not None and error_rate > ERROR_RATE_WARNING_THRESHOLD:
+        findings.append(
+            (
+                "warning",
+                (
+                    "Le taux d'erreur dépasse le seuil d'attention "
+                    f"de {ERROR_RATE_WARNING_THRESHOLD:.0%}."
+                ),
+            )
+        )
+    else:
+        findings.append(("success", "Le taux d'erreur reste sous le seuil d'attention."))
+
+    latency_p95 = latency.get("p95")
+    if latency_p95 is not None and latency_p95 > LATENCY_P95_WARNING_THRESHOLD_MS:
+        findings.append(
+            (
+                "warning",
+                (
+                    "La latence p95 dépasse le seuil d'attention "
+                    f"de {LATENCY_P95_WARNING_THRESHOLD_MS} ms."
+                ),
+            )
+        )
+    else:
+        findings.append(("success", "La latence p95 reste sous le seuil d'attention."))
+
+    latency_max = latency.get("max")
+    if latency_max is not None and latency_max > LATENCY_MAX_WARNING_THRESHOLD_MS:
+        findings.append(
+            (
+                "warning",
+                (
+                    "La latence maximale dépasse le seuil d'attention "
+                    f"de {LATENCY_MAX_WARNING_THRESHOLD_MS} ms."
+                ),
+            )
+        )
+
+    return findings
+
+
+def build_drift_findings(summary: dict[str, Any]) -> list[tuple[str, str]]:
+    drift = summary.get("drift", {})
+    current_rows = summary.get("current_feature_rows", 0)
+    findings: list[tuple[str, str]] = []
+
+    if current_rows < MIN_EVENTS_FOR_DRIFT_READING:
+        findings.append(
+            (
+                "warning",
+                (
+                    "Le volume observé est faible pour interpréter solidement le drift "
+                    f"({current_rows} lignes exploitables)."
+                ),
+            )
+        )
+
+    if drift.get("status") != "computed":
+        findings.append(("warning", drift.get("reason", "Le drift n'a pas pu être calculé.")))
+        return findings
+
+    if drift.get("drift_detected"):
+        findings.append(
+            (
+                "warning",
+                (
+                    "Evidently détecte une dérive sur les données observées. "
+                    "Le résultat doit être confirmé sur un volume plus large."
+                ),
+            )
+        )
+    else:
+        findings.append(("success", "Aucune dérive globale n'est détectée par Evidently."))
+
+    skipped_features = drift.get("skipped_features", [])
+    if skipped_features:
+        findings.append(
+            (
+                "warning",
+                (
+                    "Certaines features ont été exclues du calcul car elles sont vides "
+                    "dans la fenêtre observée."
+                ),
+            )
+        )
+
+    return findings
+
+
+def display_findings(findings: list[tuple[str, str]]) -> None:
+    for level, message in findings:
+        if level == "success":
+            st.success(message)
+        elif level == "warning":
+            st.warning(message)
+        else:
+            st.info(message)
+
+
+def display_analysis_overview(summary: dict[str, Any]) -> None:
+    drift = summary.get("drift", {})
+
+    st.subheader("Périmètre analysé")
+    columns = st.columns(4)
+    columns[0].metric("Source", summary.get("source", "N/A"))
+    columns[1].metric("Lignes drift", summary.get("current_feature_rows", 0))
+    columns[2].metric("Features modèle", summary.get("feature_count", 0))
+    columns[3].metric("Statut drift", drift.get("status", "N/A"))
+
+    st.caption(f"Source analysée : {summary.get('source_path', 'N/A')}")
+    st.caption(f"Référence utilisée : {summary.get('reference_path', 'N/A')}")
+
+    st.subheader("Lecture automatique")
+    display_findings(build_operational_findings(summary))
+    display_findings(build_drift_findings(summary))
+
+
 def display_operational_metrics(summary: dict[str, Any]) -> None:
     operational = summary.get("operational", {})
     latency = operational.get("latency_ms", {})
@@ -110,13 +252,16 @@ def display_operational_metrics(summary: dict[str, Any]) -> None:
     columns[0].metric("Événements", operational.get("total_events", 0))
     columns[1].metric("Succès", operational.get("success_count", 0))
     columns[2].metric("Erreurs", operational.get("error_count", 0))
-    columns[3].metric("Taux d'erreur", f"{operational.get('error_rate', 0):.2%}")
-    columns[4].metric("Latence p95", f"{latency.get('p95', 0)} ms")
+    columns[3].metric("Taux d'erreur", format_optional_percent(operational.get("error_rate")))
+    columns[4].metric("Latence p95", format_optional_float(latency.get("p95"), " ms"))
 
     columns = st.columns(3)
-    columns[0].metric("Latence moyenne", f"{latency.get('mean', 0)} ms")
-    columns[1].metric("Score moyen", f"{scores.get('mean', 0)}")
-    columns[2].metric("Score p95", f"{scores.get('p95', 0)}")
+    columns[0].metric("Latence moyenne", format_optional_float(latency.get("mean"), " ms"))
+    columns[1].metric("Score moyen", format_optional_float(scores.get("mean")))
+    columns[2].metric("Score p95", format_optional_float(scores.get("p95")))
+
+    st.subheader("Analyse opérationnelle")
+    display_findings(build_operational_findings(summary))
 
     decisions = operational.get("decisions", {})
     errors = operational.get("errors", {})
@@ -141,11 +286,31 @@ def display_drift_summary(summary: dict[str, Any]) -> None:
     columns = st.columns(3)
     columns[0].metric("Drift détecté", "Oui" if drift.get("drift_detected") else "Non")
     columns[1].metric("Variables driftées", drift.get("drifted_columns_count"))
-    columns[2].metric("Part driftée", f"{drift.get('drifted_columns_share', 0):.2%}")
+    columns[2].metric("Part driftée", format_optional_percent(drift.get("drifted_columns_share")))
+
+    st.subheader("Analyse du drift")
+    display_findings(build_drift_findings(summary))
 
     column_metrics = pd.DataFrame(drift.get("columns", []))
     if not column_metrics.empty:
+        column_metrics["drift_detected"] = column_metrics["value"] > column_metrics["threshold"]
+        drifted_columns = column_metrics[column_metrics["drift_detected"]].copy()
+        drifted_columns = drifted_columns.sort_values("value", ascending=False)
+
+        st.subheader("Variables les plus driftées")
+        st.dataframe(
+            drifted_columns[["column", "method", "threshold", "value"]].head(15),
+            use_container_width=True,
+            hide_index=True,
+        )
+
+        st.subheader("Détail des tests Evidently")
         st.dataframe(column_metrics, use_container_width=True, hide_index=True)
+
+    skipped_features = drift.get("skipped_features", [])
+    if skipped_features:
+        st.subheader("Features exclues du calcul")
+        st.write(", ".join(skipped_features))
 
 
 def display_event_charts(frame: pd.DataFrame) -> None:
@@ -196,13 +361,21 @@ with st.sidebar:
 
 summary = load_summary(summary_path)
 
-tab_summary, tab_events, tab_drift = st.tabs(["Synthèse", "Événements", "Drift"])
+tab_overview, tab_summary, tab_events, tab_drift, tab_report = st.tabs(
+    ["Vue d'ensemble", "Opérationnel", "Événements", "Drift", "Rapport"]
+)
+
+with tab_overview:
+    if summary:
+        display_analysis_overview(summary)
+    else:
+        st.info("Lancez d'abord le script d'analyse pour générer la synthèse de monitoring.")
 
 with tab_summary:
     if summary:
         display_operational_metrics(summary)
     else:
-        st.info("Lancez d'abord le script d'analyse pour générer la synthèse de monitoring.")
+        st.info("Aucune synthèse opérationnelle disponible.")
 
 with tab_events:
     if source == "PostgreSQL local":
@@ -219,8 +392,15 @@ with tab_events:
 with tab_drift:
     if summary:
         display_drift_summary(summary)
+    else:
+        st.info("Aucune synthèse de drift disponible.")
 
+with tab_report:
     if drift_html_path.exists():
         st.link_button("Ouvrir le rapport Evidently", str(drift_html_path))
     else:
         st.info("Le rapport HTML Evidently n'est pas encore généré.")
+
+    if summary:
+        st.subheader("Résumé JSON généré")
+        st.json(summary)
