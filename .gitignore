@@ -22,6 +22,9 @@ data/production/*.parquet
 data/reference/*.parquet
 data/reference/*.csv
 data/sample/*.parquet
+logs/
+monitoring/reference/*.parquet
+monitoring/reference/*.json
 
 # Model artifacts exported locally
 model/artifacts/*
@@ -39,6 +42,7 @@ mlflow.db
 
 # Generated reports
 reports/
+docs_perso/
 
 # OS / editors
 .DS_Store

@@ -29,7 +29,6 @@ dependencies = [
     "seaborn>=0.13.2",
     "shap>=0.51.0",
     "tqdm>=4.67.3",
-
     # Mission 8 deployment, API and monitoring stack.
     "evidently>=0.7.0",
     "fastapi>=0.115.0",
@@ -37,6 +36,7 @@ dependencies = [
     "pydantic-settings>=2.6.0",
     "streamlit>=1.40.0",
     "uvicorn[standard]>=0.32.0",
+    "psycopg[binary]>=3.2.0",
 ]
 
 [project.optional-dependencies]

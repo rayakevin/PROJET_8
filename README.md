@@ -2,7 +2,7 @@
 
 Ce dépôt est le nouveau projet de mise en production du modèle de scoring Home Credit issu du projet précédent.
 
-Pour l'instant, le dépôt contient la structure attendue pour l'étape 1 de la mission :
+Le dépôt contient les livrables des premières étapes de la mission :
 
 - code source applicatif ;
 - tests ;
@@ -10,13 +10,14 @@ Pour l'instant, le dépôt contient la structure attendue pour l'étape 1 de la 
 - scripts ;
 - emplacement des artefacts modèle ;
 - documentation ;
-- Dockerfile temporaire ;
-- fichiers de dépendances.
+- API FastAPI conteneurisée ;
+- CI/CD GitHub Actions ;
+- interface Streamlit ;
+- monitoring local avec PostgreSQL, Evidently et Streamlit.
 
 L'artefact MLflow du modèle retenu est importé dans `model/artifacts/mlflow_model/`.
 Les notebooks d'analyse du projet précédent sont conservés dans `notebooks/legacy/`.
 Les premiers scripts d'inférence locale sont disponibles dans `scripts/`.
-L'API sera ajoutée dans un commit dédié afin de conserver un historique clair et pertinent.
 
 ## Projet source
 
@@ -141,6 +142,55 @@ https://rayakevin-projet-8.hf.space
 
 Pour changer l'API cible, définir la variable d'environnement `API_BASE_URL` dans le Space
 Streamlit ou modifier l'URL depuis la barre latérale de l'interface.
+
+## Monitoring et drift
+
+L'API produit des logs structurés au format JSONL dans :
+
+```text
+logs/api_predictions.jsonl
+```
+
+Le stockage PostgreSQL local se lance avec :
+
+```powershell
+docker compose -f docker-compose.monitoring.yml up -d
+```
+
+Import des logs JSONL vers PostgreSQL :
+
+```powershell
+uv run python scripts/import_monitoring_logs_to_postgres.py --truncate
+```
+
+Construction de la référence de drift :
+
+```powershell
+uv run python scripts/build_monitoring_reference.py
+```
+
+Analyse automatique depuis le JSONL :
+
+```powershell
+uv run python scripts/analyze_monitoring_logs.py --source jsonl
+```
+
+Analyse automatique depuis PostgreSQL :
+
+```powershell
+uv run python scripts/analyze_monitoring_logs.py --source postgres
+```
+
+Dashboard local de monitoring :
+
+```powershell
+uv run streamlit run dashboard/monitoring_dashboard.py
+```
+
+Documentation détaillée :
+
+- `docs/monitoring_plan.md` ;
+- `docs/drift_analysis_report.md`.
 
 ## Conventions de branches
 
