@@ -192,6 +192,28 @@ Documentation détaillée :
 - `docs/monitoring_plan.md` ;
 - `docs/drift_analysis_report.md`.
 
+## Optimisation des performances
+
+L'étape d'optimisation s'appuie sur les métriques de monitoring et sur un benchmark local
+reproductible.
+
+Benchmark et profiling :
+
+```powershell
+uv run python scripts/benchmark_api_performance.py `
+  --endpoint batch `
+  --payload logs/batch_1000_random_clients.json `
+  --repeats 3 `
+  --profile `
+  --label optimized_vectorized_batch `
+  --reset-monitoring-log
+```
+
+Documentation détaillée :
+
+- `docs/optimization_plan.md` ;
+- `docs/optimization_report.md`.
+
 ## Conventions de branches
 
 Branches permanentes :
