@@ -43,6 +43,7 @@ mlflow.db
 # Generated reports
 reports/
 docs_perso/
+docs/perso/
 
 # OS / editors
 .DS_Store

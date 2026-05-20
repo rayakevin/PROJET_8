@@ -1,47 +1,71 @@
-﻿# PROJET_8 - Déploiement et monitoring du modèle de scoring
+# PROJET_8 - API MLOps de scoring crédit
 
-Ce dépôt est le nouveau projet de mise en production du modèle de scoring Home Credit issu du projet précédent.
+Ce dépôt contient la mise en production du modèle de scoring crédit issu du projet P6 Home Credit.
+Le projet couvre l'exposition du modèle via API, la conteneurisation, le CI/CD, une interface
+Streamlit, le monitoring local, la détection de drift et l'optimisation des performances.
 
-Le dépôt contient les livrables des premières étapes de la mission :
+## Vue d'ensemble
 
-- code source applicatif ;
-- tests ;
-- notebooks d'analyse ;
-- scripts ;
-- emplacement des artefacts modèle ;
-- documentation ;
-- API FastAPI conteneurisée ;
-- CI/CD GitHub Actions ;
-- interface Streamlit ;
-- monitoring local avec PostgreSQL, Evidently et Streamlit.
-
-L'artefact MLflow du modèle retenu est importé dans `model/artifacts/mlflow_model/`.
-Les notebooks d'analyse du projet précédent sont conservés dans `notebooks/legacy/`.
-Les premiers scripts d'inférence locale sont disponibles dans `scripts/`.
-
-## Projet source
-
-Ancien projet de modélisation :
+L'application expose un modèle LightGBM optimisé sur 30 features. L'API reçoit des données brutes
+métier proches des tables utilisateurs, les transforme en features modèle, calcule un score de risque
+et journalise les appels pour le monitoring.
 
 ```text
-C:\Users\kevin\Desktop\FORMATION AI\01_FORMATION AI ENGINEER\02_PROJETS\06_PROJET 06\P6\P6_MLOps_1-2
+Client ou Streamlit
+  -> API FastAPI
+  -> preprocessing des données brutes
+  -> modèle LightGBM TOP30 chargé via MLflow
+  -> réponse de scoring
+  -> logs JSONL
+  -> PostgreSQL local
+  -> analyse Evidently
+  -> dashboard Streamlit de monitoring
 ```
 
-## Objectifs Mission 8
+Le monitoring est volontairement local. Il permet de rejouer des appels, d'importer les logs dans
+PostgreSQL et d'analyser les anomalies sans maintenir une base cloud.
 
-- Exposer le modèle via une API.
-- Ajouter des tests automatisés.
-- Conteneuriser l'application avec Docker.
-- Mettre en place un pipeline CI/CD.
-- Stocker les appels de production simulés.
-- Analyser le drift et les performances.
-- Documenter le lancement et l'interprétation du monitoring.
+## Stack technique
 
-## Environnement
+| Besoin | Choix retenu | Justification |
+| --- | --- | --- |
+| Gestion Python | `uv`, Python 3.12 | Environnement reproductible et rapide à installer |
+| API | FastAPI | Swagger natif, validation Pydantic, simplicité Docker |
+| Modèle | LightGBM + MLflow | Modèle tabulaire performant et artefact traçable |
+| Interface utilisateur | Streamlit | UI légère pour tester le scoring |
+| Tests et qualité | Pytest, Ruff | Contrôles rapides intégrés au CI |
+| Conteneurisation | Docker | Déploiement identique en local et sur Hugging Face Spaces |
+| CI/CD | GitHub Actions | Tests, build Docker et déploiements automatisés |
+| Déploiement | Hugging Face Spaces | Solution simple pour exposer l'API et l'UI |
+| Monitoring | JSONL + PostgreSQL local | Stockage exploitable sans infrastructure lourde |
+| Drift | Evidently | Rapports automatiques de comparaison de distributions |
 
-Le projet utilise Python `3.12` et `uv`.
+Fluentd, Logstash, Elasticsearch, Kibana et Grafana n'ont pas été retenus. Ils sont adaptés à des
+architectures multi-services ou à fort volume, alors que ce projet contient une API principale et un
+PoC de monitoring local.
 
-Initialisation locale :
+## Architecture du dépôt
+
+```text
+app/                         API FastAPI et services applicatifs
+dashboard/                   dashboard local de monitoring
+docs/                        documentation projet et rapports
+model/                       artefacts MLflow et schémas modèle
+monitoring/                  schéma PostgreSQL et référence locale générée
+notebooks/legacy/            notebooks conservés du projet précédent
+scripts/                     scripts d'import, benchmark, monitoring et vérification
+tests/                       tests unitaires et d'intégration
+ui/                          interface Streamlit de scoring
+.github/workflows/ci-cd.yml  pipeline CI/CD
+Dockerfile                   image de l'API
+Dockerfile.ui                image de l'interface Streamlit
+docker-compose.monitoring.yml PostgreSQL local de monitoring
+pyproject.toml               configuration Python, dépendances et outils
+```
+
+## Installation locale
+
+Le projet utilise `uv`.
 
 ```powershell
 uv sync --extra dev
@@ -53,26 +77,36 @@ Activation manuelle de l'environnement virtuel :
 .venv\Scripts\Activate.ps1
 ```
 
-Vérification du modèle MLflow importé :
+Vérification du chargement du modèle :
 
 ```powershell
 uv run python scripts/check_model_load.py
 ```
 
-## API, Docker et CI/CD
+## API de scoring
 
-L'API FastAPI expose le modèle de scoring via les routes suivantes :
+Routes exposées :
 
-- `GET /health` : vérification de disponibilité de l'API ;
+- `GET /health` : état de l'API ;
 - `GET /model/info` : métadonnées du modèle chargé ;
-- `POST /predict` : prédiction pour un client à partir de données brutes ;
-- `POST /predict/batch` : prédictions pour un lot de clients.
+- `POST /predict` : scoring d'un client ;
+- `POST /predict/batch` : scoring d'un lot de clients.
 
-Lancement local de l'API :
+Lancement local :
 
 ```powershell
 uv run uvicorn app.main:app --reload
 ```
+
+Swagger local :
+
+```text
+http://127.0.0.1:8000/docs
+```
+
+Les exemples Swagger sont préremplis avec des payloads valides. L'API accepte des blocs bruts
+`application`, `bureau`, `previous_applications`, `installments_payments` et `credit_card_balance`.
+Le service de preprocessing reconstruit ensuite les 30 features attendues par le modèle.
 
 Build et lancement Docker :
 
@@ -81,83 +115,40 @@ docker build -t credit-scoring-api .
 docker run --rm --name credit-scoring-api -p 8000:8000 credit-scoring-api
 ```
 
-Tests locaux :
+## Interface Streamlit
 
-```powershell
-uv run ruff check .
-uv run ruff format --check .
-uv run pytest
-```
-
-Le workflow GitHub Actions `.github/workflows/ci-cd.yml` exécute :
-
-- les contrôles Ruff ;
-- les tests Pytest ;
-- le build de l'image Docker ;
-- un smoke test Docker sur `/health`, `/model/info` et `/predict/batch` ;
-- le déploiement vers Hugging Face Spaces après merge sur `main` ;
-- le déploiement d'une interface Streamlit dans un deuxième Space Hugging Face.
-
-### Déploiement Hugging Face Spaces
-
-Le déploiement continu nécessite un Space Hugging Face créé une première fois avec le SDK
-`Docker`.
-
-Configuration GitHub à ajouter dans `Settings > Secrets and variables > Actions` :
-
-- secret `HF_TOKEN` : token Hugging Face avec droit d'écriture sur le Space ;
-- variable `HF_USERNAME` : nom du compte ou de l'organisation Hugging Face ;
-- variable `HF_SPACE_NAME` : nom du Space API cible ;
-- variable `HF_UI_SPACE_NAME` : nom du Space Streamlit cible.
-
-Le job de déploiement ne se lance que sur un `push` vers `main`, donc après fusion d'une PR.
-Le workflow prépare un dépôt Space minimal contenant `Dockerfile`, `pyproject.toml`, `uv.lock`,
-`app/` et `model/`, puis l'envoie vers Hugging Face avec `huggingface_hub` et `hf_xet`.
-Ce mode d'envoi permet de stocker correctement les artefacts binaires du modèle.
-
-Space cible :
-
-```text
-https://huggingface.co/spaces/<HF_USERNAME>/<HF_SPACE_NAME>
-```
-
-### Interface Streamlit
-
-L'interface utilisateur Streamlit se trouve dans `ui/streamlit_app.py`.
-Elle est déployée dans un deuxième Space Hugging Face via le même workflow GitHub Actions.
-Ce Space utilise aussi le SDK `Docker`, car l'API Hugging Face de création de Space accepte
-les valeurs `gradio`, `docker` et `static`. Le conteneur UI lance Streamlit sur le port `8501`.
-
-Lancement local :
+L'interface de scoring se trouve dans `ui/streamlit_app.py`.
 
 ```powershell
 uv run streamlit run ui/streamlit_app.py
 ```
 
-Par défaut, l'interface appelle l'API déployée sur :
+Par défaut, elle appelle l'API Hugging Face :
 
 ```text
 https://rayakevin-projet-8.hf.space
 ```
 
-Pour changer l'API cible, définir la variable d'environnement `API_BASE_URL` dans le Space
-Streamlit ou modifier l'URL depuis la barre latérale de l'interface.
+L'URL peut être changée dans la barre latérale ou via la variable d'environnement `API_BASE_URL`.
 
-## Monitoring et drift
+## Monitoring local et drift
 
-L'API produit des logs structurés au format JSONL dans :
+L'API écrit des événements structurés dans :
 
 ```text
 logs/api_predictions.jsonl
 ```
 
-Le stockage PostgreSQL local se lance avec :
+Chaque événement contient les inputs modèle, le score, la décision, les temps de preprocessing et
+d'inférence, ainsi que les erreurs éventuelles.
+
+Lancement de PostgreSQL local :
 
 ```powershell
 docker compose -f docker-compose.monitoring.yml up -d
 ```
 
-Import des logs JSONL vers PostgreSQL :
+Import des logs :
 
 ```powershell
 uv run python scripts/import_monitoring_logs_to_postgres.py --truncate
@@ -169,35 +160,33 @@ Construction de la référence de drift :
 uv run python scripts/build_monitoring_reference.py
 ```
 
-Analyse automatique depuis le JSONL :
-
-```powershell
-uv run python scripts/analyze_monitoring_logs.py --source jsonl
-```
-
-Analyse automatique depuis PostgreSQL :
+Analyse automatique :
 
 ```powershell
 uv run python scripts/analyze_monitoring_logs.py --source postgres
 ```
 
-Dashboard local de monitoring :
+Dashboard de monitoring :
 
 ```powershell
 uv run streamlit run dashboard/monitoring_dashboard.py
 ```
 
-Documentation détaillée :
-
-- `docs/monitoring_plan.md` ;
-- `docs/drift_analysis_report.md`.
+Les rapports générés localement sont stockés dans `reports/monitoring/` et ne sont pas versionnés.
 
 ## Optimisation des performances
 
-L'étape d'optimisation s'appuie sur les métriques de monitoring et sur un benchmark local
-reproductible.
+Le projet mesure les performances avec `scripts/benchmark_api_performance.py`. Les optimisations
+retenues sont :
 
-Benchmark et profiling :
+- chargement et warm-up du modèle au démarrage de l'API ;
+- inférence batch vectorisée avec un seul appel `predict_proba` par lot ;
+- écriture groupée des logs JSONL pour les batchs.
+
+Sur un batch local de 1 000 clients, le débit est passé d'environ `793` à `4 658` clients par seconde,
+sans changement des décisions observées.
+
+Exemple de benchmark :
 
 ```powershell
 uv run python scripts/benchmark_api_performance.py `
@@ -205,89 +194,80 @@ uv run python scripts/benchmark_api_performance.py `
   --payload logs/batch_1000_random_clients.json `
   --repeats 3 `
   --profile `
-  --label optimized_vectorized_batch `
+  --label batch_vectorized_logs `
   --reset-monitoring-log
 ```
 
-Documentation détaillée :
+## CI/CD et déploiement Hugging Face
 
-- `docs/optimization_plan.md` ;
-- `docs/optimization_report.md`.
+Le workflow `.github/workflows/ci-cd.yml` exécute :
 
-## Conventions de branches
+- Ruff ;
+- Pytest ;
+- build Docker ;
+- smoke tests Docker ;
+- déploiement de l'API sur Hugging Face Spaces après merge sur `main` ;
+- déploiement de l'interface Streamlit sur un deuxième Space.
+
+Variables et secrets GitHub nécessaires :
+
+- secret `HF_TOKEN` : token Hugging Face avec droit d'écriture ;
+- variable `HF_USERNAME` : compte ou organisation Hugging Face ;
+- variable `HF_SPACE_NAME` : Space API ;
+- variable `HF_UI_SPACE_NAME` : Space Streamlit.
+
+Les Spaces utilisent le SDK `Docker`. Le workflow envoie un dépôt minimal vers Hugging Face avec
+`huggingface_hub` et `hf_xet`, ce qui permet de stocker les artefacts binaires du modèle.
+
+## Tests
+
+Commandes locales :
+
+```powershell
+uv run ruff check .
+uv run ruff format --check .
+uv run pytest
+```
+
+Les tests couvrent notamment le preprocessing, l'inférence, les endpoints FastAPI, le monitoring, les
+scripts de benchmark et les cas d'erreur.
+
+## Documentation
+
+Documents principaux :
+
+- `docs/project_structure.md` : architecture du dépôt ;
+- `docs/legacy_model_summary.md` : modèle historique importé ;
+- `docs/model_simplification_plan.md` : synthèse de simplification vers le modèle TOP30 ;
+- `docs/api_contract.md` : contrat d'API ;
+- `docs/monitoring_plan.md` : architecture de monitoring ;
+- `docs/drift_analysis_report.md` : rapport d'analyse de drift ;
+- `docs/optimization_plan.md` : protocole d'optimisation ;
+- `docs/optimization_report.md` : résultats d'optimisation.
+
+## Conventions Git
 
 Branches permanentes :
 
-- `main` : branche stable, livrable public, protégée après configuration GitHub.
+- `main` : branche stable et livrable public ;
 - `develop` : branche d'intégration.
 
 Branches temporaires :
 
-- `feature/<sujet>` : nouvelle fonctionnalité.
-- `fix/<sujet>` : correction d'anomalie.
-- `docs/<sujet>` : documentation.
-- `ci/<sujet>` : pipeline CI/CD.
-- `chore/<sujet>` : maintenance sans changement fonctionnel.
-- `perf/<sujet>` : optimisation de performance.
-- `test/<sujet>` : ajout ou correction de tests.
+- `feature/<sujet>` : nouvelle fonctionnalité ;
+- `fix/<sujet>` : correction ;
+- `docs/<sujet>` : documentation ;
+- `ci/<sujet>` : CI/CD ;
+- `perf/<sujet>` : optimisation ;
+- `test/<sujet>` : tests.
 
-Exemples :
-
-```text
-feature/import-modele
-feature/api-scoring
-ci/github-actions
-docs/soutenance
-perf/latence-inference
-```
-
-## Conventions de commits
-
-Format :
+Format de commit :
 
 ```text
-type: description courte à l'impératif ou à l'infinitif
+type: description courte
 ```
 
-Types autorisés :
+Types utilisés : `feat`, `fix`, `docs`, `test`, `ci`, `chore`, `refactor`, `perf`.
 
-- `feat` : ajout fonctionnel.
-- `fix` : correction.
-- `docs` : documentation.
-- `test` : tests.
-- `ci` : intégration ou déploiement continu.
-- `chore` : maintenance, configuration, nettoyage.
-- `refactor` : changement interne sans modification de comportement.
-- `perf` : amélioration de performance.
-
-Exemples :
-
-```text
-feat: importer les métadonnées du modèle historique
-test: ajouter les contrôles de chargement du modèle
-ci: ajouter le workflow de tests GitHub Actions
-docs: documenter la stratégie de monitoring
-```
-
-## Conventions de pull request
-
-Chaque PR doit viser `develop`, sauf livraison finale ou correction urgente vers `main`.
-
-Titre recommandé :
-
-```text
-[type] description courte
-```
-
-Checklist minimale :
-
-- Décrire l'objectif de la PR.
-- Lister les fichiers ou modules principaux modifiés.
-- Indiquer les tests exécutés ou expliquer pourquoi ils ne le sont pas encore.
-- Mentionner les impacts sur les artefacts modèle, les données ou le monitoring.
-- Joindre des captures ou journaux d'exécution si la PR touche l'API, le tableau de bord, Docker ou la CI/CD.
-
-Règle de fusion :
-
-- `feature/*` vers `develop`.
-- `develop` vers `main` lors d'un jalon stable.
+Les PR décrivent l'objectif, les principaux fichiers modifiés, les tests exécutés et les impacts sur
+l'API, le modèle, Docker, le monitoring ou le déploiement.

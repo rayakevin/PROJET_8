@@ -103,6 +103,33 @@ def test_write_event_appends_multiple_events(tmp_path: Path) -> None:
     assert [event["status"] for event in events] == ["success", "error"]
 
 
+def test_write_events_appends_multiple_jsonl_events(tmp_path: Path) -> None:
+    log_path = tmp_path / "api_predictions.jsonl"
+    service = MonitoringService(log_path=log_path)
+
+    service.write_events(
+        [
+            {
+                "request_id": "request-1",
+                "status": "success",
+                "score": 0.1,
+            },
+            {
+                "request_id": "request-2",
+                "status": "success",
+                "score": float("nan"),
+            },
+        ]
+    )
+
+    events = read_jsonl(log_path)
+
+    assert len(events) == 2
+    assert [event["request_id"] for event in events] == ["request-1", "request-2"]
+    assert events[0]["score"] == 0.1
+    assert events[1]["score"] is None
+
+
 def test_write_event_converts_infinite_values_to_null(tmp_path: Path) -> None:
     log_path = tmp_path / "api_predictions.jsonl"
     service = MonitoringService(log_path=log_path)

@@ -260,6 +260,7 @@ def predict_batch(
         average_inference_latency_ms = inference_latency_ms / len(transformed_clients)
 
         predictions = []
+        monitoring_events = []
         for transformed_client, prediction in zip(
             transformed_clients,
             batch_prediction["predictions"],
@@ -273,16 +274,19 @@ def predict_batch(
             prediction["preprocessing_latency_ms"] = round(client_preprocessing_latency_ms, 3)
             prediction["inference_latency_ms"] = round(average_inference_latency_ms, 3)
 
-            monitoring_service.log_prediction_success(
-                request_id=request_id,
-                endpoint="/predict/batch",
-                client_id=prediction["client_id"],
-                features=transformed_client["features"],
-                prediction=prediction,
+            monitoring_events.append(
+                monitoring_service.build_prediction_success_event(
+                    request_id=request_id,
+                    endpoint="/predict/batch",
+                    client_id=prediction["client_id"],
+                    features=transformed_client["features"],
+                    prediction=prediction,
+                )
             )
 
             predictions.append(prediction)
 
+        monitoring_service.write_events(monitoring_events)
         total_latency_ms = (perf_counter() - start) * 1000
 
         return {

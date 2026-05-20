@@ -1,187 +1,107 @@
-# Plan d'optimisation des performances
+# Protocole d'optimisation des performances
 
-## Objectif
-
-L'objectif de l'étape 4 est d'analyser les performances de l'API de scoring après déploiement et
-monitoring, puis de tester des optimisations mesurables sans introduire de régression fonctionnelle
-ou métier.
-
-La démarche retenue est volontairement progressive :
-
-```text
-mesurer -> profiler -> identifier -> optimiser -> comparer -> documenter
-```
-
-Avant toute optimisation, une baseline doit être figée avec un protocole reproductible.
+L'étape d'optimisation a utilisé les métriques de monitoring et un benchmark local reproductible pour
+identifier les goulots d'étranglement de l'API.
 
 ## Métriques suivies
 
-Les métriques principales à améliorer ou surveiller sont :
+Les métriques principales sont :
 
-| Métrique | Description | Objectif |
-| --- | --- | --- |
-| `latency_ms` | Temps total API par client | Réduire la latence moyenne et p95 |
-| `preprocessing_latency_ms` | Temps de transformation raw data vers features TOP30 | Vérifier que le preprocessing n'est pas le goulot |
-| `inference_latency_ms` | Temps d'appel au service d'inférence | Réduire le coût modèle |
-| `batch_latency_ms` | Temps total d'un appel `/predict/batch` | Améliorer le débit batch |
-| `latency_p95` | Latence p95 | Priorité sur l'expérience utilisateur |
-| `latency_max` | Latence maximale observée | Identifier le coût de premier appel ou les anomalies |
-| `throughput_clients_per_second` | Nombre de clients scorés par seconde | Mesurer la capacité batch |
-| `error_rate` | Taux d'erreur API | Ne pas dégrader la fiabilité |
+- latence totale API ;
+- latence vue par le client local ;
+- débit en clients par seconde ;
+- latence moyenne, médiane, p95 et maximale par client ;
+- temps de preprocessing ;
+- temps d'inférence ;
+- stabilité des scores et des décisions.
 
-Les métriques secondaires sont :
+L'utilisation GPU n'a pas été retenue comme métrique principale. Le modèle est un LightGBM tabulaire
+léger, exécuté efficacement en CPU.
 
-- consommation CPU ;
-- consommation mémoire ;
-- temps de chargement du modèle ;
-- stabilité des scores ;
-- nombre de prédictions modifiées.
+## Benchmark
 
-L'utilisation GPU n'est pas retenue comme métrique cible principale, car le modèle est un LightGBM
-tabulaire exécuté en CPU dans un conteneur Docker simple. Un GPU ne serait pas justifié dans cette
-configuration.
-
-## Baseline actuelle
-
-La baseline doit être construite sur un batch simulé de clients issus du dataset initial.
-
-Protocole recommandé :
-
-1. sélectionner un lot aléatoire de candidats ;
-2. appeler `/predict/batch` ;
-3. collecter les logs JSONL ;
-4. importer les logs dans PostgreSQL ;
-5. générer l'analyse de monitoring ;
-6. profiler le traitement avec `cProfile`.
-
-Dernière simulation locale disponible :
-
-| Indicateur | Valeur |
-| --- | ---: |
-| Clients simulés | 1 000 |
-| Succès API | 1 000 |
-| Erreurs API | 0 |
-| Taux d'erreur | 0 % |
-| Latence moyenne | 3,973 ms |
-| Latence p95 | 2,713 ms |
-| Latence maximale | 2 118,237 ms |
-| Score moyen | 0,387 |
-| Prédictions `low_risk` | 686 |
-| Prédictions `high_risk` | 314 |
-| Drift détecté | Oui |
-| Variables driftées | 1 sur 30 |
-
-La latence maximale est fortement influencée par le premier appel. Ce point devra être confirmé par
-profiling et pourra justifier une stratégie de warm-up.
-
-## Profiling
-
-Le profiling doit permettre d'identifier la part du temps passée dans :
-
-- le preprocessing ;
-- la validation des features ;
-- la construction des `DataFrame` Pandas ;
-- l'appel au modèle LightGBM ;
-- le logging ;
-- l'overhead FastAPI / TestClient lors des simulations locales.
-
-Outil retenu :
+Le script utilisé est :
 
 ```text
-cProfile
+scripts/benchmark_api_performance.py
 ```
 
-Le profiling est adapté ici car il permet d'identifier rapidement les fonctions Python les plus
-coûteuses sans modifier l'architecture applicative.
+Il mesure deux scénarios :
 
-## Hypothèses d'optimisation
+- `--endpoint single` : appels successifs à `/predict` ;
+- `--endpoint batch` : un appel à `/predict/batch` contenant plusieurs clients.
 
-### 1. Warm-up du modèle
+Exemple :
 
-Le premier appel peut être plus lent à cause du chargement, de l'initialisation ou de caches internes.
+```powershell
+uv run python scripts/benchmark_api_performance.py `
+  --endpoint batch `
+  --payload logs/batch_1000_random_clients.json `
+  --repeats 3 `
+  --profile `
+  --label batch_vectorized_logs `
+  --reset-monitoring-log
+```
 
-Optimisation envisagée :
+Le payload local `logs/batch_1000_random_clients.json` contient 1 000 clients tirés du dataset
+initial. Il n'est pas versionné car il dérive des données du projet P6.
 
-- exécuter une prédiction factice au démarrage de l'API ;
-- mesurer l'impact sur la latence maximale du premier appel utilisateur.
+## Goulots identifiés
 
-Critère d'acceptation :
+Les mesures ont mis en évidence trois coûts principaux :
 
-- réduction de la latence maximale ou du premier appel ;
-- aucune modification des scores.
+- le premier appel chargeait le modèle MLflow et le pickle LightGBM ;
+- le batch initial appelait le modèle client par client ;
+- le logging batch ouvrait et écrivait le fichier JSONL à chaque client.
 
-### 2. Inférence batch vectorisée
+Le preprocessing reste mesuré, mais il n'a pas été le goulot principal sur les tests réalisés.
 
-Le traitement batch actuel appelle l'inférence client par client. Cette approche est simple, mais elle
-peut multiplier les constructions de `DataFrame` et les appels au modèle.
+## Optimisations retenues
 
-Optimisation envisagée :
+### Warm-up au démarrage
 
-- préprocesser les clients ;
-- construire un seul `DataFrame` batch ;
-- appeler le modèle une seule fois avec toutes les lignes ;
-- reconstruire les réponses client à partir des scores.
+Le modèle est chargé au démarrage de FastAPI avec une prédiction factice. Le premier appel utilisateur
+ne subit donc plus le coût d'initialisation MLflow.
 
-Critère d'acceptation :
+### Inférence batch vectorisée
 
-- réduction du temps total batch ;
-- réduction de l'inférence moyenne ;
-- scores identiques ou écarts négligeables ;
-- décisions identiques.
+Le batch construit un seul `DataFrame` contenant les features TOP30 de tous les clients, puis appelle
+`predict_proba` une seule fois.
 
-### 3. Chargement direct du modèle
+```text
+N clients -> N preprocessings -> 1 DataFrame -> 1 prédiction vectorisée
+```
 
-Le modèle est actuellement chargé via l'artefact MLflow. Cette approche est traçable et compatible
-avec le projet, mais elle peut ajouter un overhead.
+### Écriture groupée des logs
 
-Optimisation envisageable :
+Les événements de monitoring d'un batch sont préparés en mémoire et écrits en une seule ouverture de
+fichier.
 
-- comparer le chargement MLflow actuel avec un chargement direct du modèle pickle si l'artefact le
-  permet ;
-- conserver MLflow si le gain est faible ou si la compatibilité est moins bonne.
+```text
+N événements -> préparation en mémoire -> 1 écriture JSONL groupée
+```
 
-Critère d'acceptation :
+Le format des logs reste inchangé : une ligne JSON par client.
 
-- gain mesurable ;
-- pas de perte de traçabilité critique ;
-- compatibilité Docker et CI/CD.
+## Pistes explorées ou écartées
 
-### 4. ONNX Runtime
+ONNX Runtime a été testé hors commit. La conversion fonctionnait et les décisions restaient
+identiques, mais l'inférence ONNX était plus lente que LightGBM natif sur ce modèle. L'option n'a pas
+été intégrée.
 
-ONNX Runtime est cité dans les ressources, mais il doit rester une piste expérimentale.
+Rust n'a pas été testé car l'environnement local ne disposait pas de `rustc` ni de `cargo`, et la
+réécriture aurait ajouté une complexité importante pour un gain incertain. Le goulot principal
+identifié se situait dans l'orchestration Python et les I/O, pas dans un calcul métier isolé.
 
-Pour un modèle LightGBM tabulaire, l'export ONNX peut être possible mais ajoute :
+Le GPU n'a pas été retenu pour des raisons de coût, de maintenance et de faible pertinence sur ce
+modèle tabulaire léger.
 
-- une dépendance supplémentaire ;
-- un risque de compatibilité ;
-- une étape de conversion ;
-- un besoin de comparaison fine des scores.
+## Validation
 
-Cette piste ne sera intégrée que si elle apporte un gain clair et reproductible sans régression.
+Les optimisations ont été retenues uniquement après vérification :
 
-## Non-régression
-
-Chaque optimisation doit être validée sur le même batch de référence.
-
-Contrôles attendus :
-
-- même nombre de prédictions ;
-- taux d'erreur inchangé ;
-- écart maximal de score documenté ;
-- nombre de décisions différentes documenté ;
-- métriques métier inchangées ou explicitement justifiées.
-
-Une optimisation ne doit pas être retenue si elle améliore la latence mais modifie significativement
-les décisions ou la qualité métier.
-
-## Livrables attendus
-
-L'étape 4 doit produire :
-
-- un script de benchmark reproductible ;
-- un profil `cProfile` exploitable ;
-- une baseline documentée ;
-- une ou plusieurs optimisations testées ;
-- un tableau comparatif avant / après ;
-- une justification de la configuration finale ;
-- un rapport détaillé dans `docs/optimization_report.md`.
+- mêmes décisions avant et après optimisation ;
+- scores équivalents à tolérance numérique près ;
+- tests Pytest passants ;
+- contrôles Ruff passants ;
+- amélioration mesurée sur benchmark local.

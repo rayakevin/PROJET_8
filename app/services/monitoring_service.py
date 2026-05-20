@@ -19,14 +19,27 @@ class MonitoringService:
     def write_event(self, event: dict[str, Any]) -> None:
         self.log_path.parent.mkdir(parents=True, exist_ok=True)
 
+        clean_event = self.prepare_event(event)
+
+        with self.log_path.open("a", encoding="utf-8") as file:
+            file.write(json.dumps(clean_event, ensure_ascii=False) + "\n")
+
+    def write_events(self, events: list[dict[str, Any]]) -> None:
+        if not events:
+            return
+
+        self.log_path.parent.mkdir(parents=True, exist_ok=True)
+        lines = [json.dumps(self.prepare_event(event), ensure_ascii=False) for event in events]
+
+        with self.log_path.open("a", encoding="utf-8") as file:
+            file.write("\n".join(lines) + "\n")
+
+    def prepare_event(self, event: dict[str, Any]) -> dict[str, Any]:
         event_with_timestamp = {
             "timestamp": datetime.now(UTC).isoformat(),
             **event,
         }
-        clean_event = self._json_safe(event_with_timestamp)
-
-        with self.log_path.open("a", encoding="utf-8") as file:
-            file.write(json.dumps(clean_event, ensure_ascii=False) + "\n")
+        return self._json_safe(event_with_timestamp)
 
     def log_prediction_success(
         self,
@@ -56,6 +69,33 @@ class MonitoringService:
                 "error_message": None,
             }
         )
+
+    def build_prediction_success_event(
+        self,
+        *,
+        request_id: str,
+        endpoint: str,
+        client_id: int | None,
+        features: dict[str, float],
+        prediction: dict[str, Any],
+    ) -> dict[str, Any]:
+        return {
+            "request_id": request_id,
+            "endpoint": endpoint,
+            "status": "success",
+            "client_id": client_id,
+            "model_version": prediction.get("model_version"),
+            "features": features,
+            "score": prediction.get("score"),
+            "threshold": prediction.get("threshold"),
+            "prediction": prediction.get("prediction"),
+            "decision": prediction.get("decision"),
+            "latency_ms": prediction.get("latency_ms"),
+            "preprocessing_latency_ms": prediction.get("preprocessing_latency_ms"),
+            "inference_latency_ms": prediction.get("inference_latency_ms"),
+            "error_type": None,
+            "error_message": None,
+        }
 
     def log_prediction_error(
         self,

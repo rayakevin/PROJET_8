@@ -1,22 +1,37 @@
-﻿# Modèle retenu depuis le projet P6
+# Modèles issus du projet P6
 
-Le modèle retenu pour PROJET_8 est le modèle MLflow final enregistré dans le projet précédent :
+Le projet a importé l'artefact MLflow final du P6 afin de conserver une baseline technique
+reproductible.
+
+## Baseline historique
 
 - modèle : `lightgbm_bonus` ;
-- famille : boosting externe LightGBM ;
+- famille : LightGBM ;
 - registre MLflow P6 : `P6_HOME_CREDIT_DEFAULT_RISK_MODEL` ;
-- version du registre MLflow P6 : `1` ;
-- exécution finale MLflow : `03_optimization_lightgbm_bonus` ;
-- artefact importé : `model/artifacts/mlflow_model/`.
+- version du registre P6 : `1` ;
+- exécution MLflow : `03_optimization_lightgbm_bonus` ;
+- artefact importé : `model/artifacts/mlflow_model/` ;
+- contrat d'entrée : 733 variables.
 
-## Pourquoi importer l'artefact MLflow ?
+Cet artefact reste utile pour tracer le point de départ du projet, mais il n'a pas été retenu pour
+l'API de production. Son contrat d'entrée était trop large pour une exposition réaliste.
 
-L'artefact MLflow contient le modèle sérialisé, le fichier `MLmodel` et les dépendances nécessaires.
-Cela permettra à l'API de charger le modèle avec `mlflow.pyfunc.load_model(...)` sans dépendre de l'ancienne base `mlflow.db`.
+## Modèle exposé par l'API
 
-## Seuils documentés
+Le modèle utilisé par l'API est le modèle simplifié et optimisé :
 
-- seuil par défaut : `0.5` ;
-- seuil métier retenu dans le notebook 03 : `0.45`.
+- modèle : `lightgbm_top30_optimized` ;
+- famille : LightGBM ;
+- artefact MLflow : `model/artifacts/mlflow_model_top30_optimized/` ;
+- schéma : `model/schema/top30_feature_schema.json` ;
+- métadonnées : `model/schema/top30_model_metadata.json` ;
+- contrat interne : 30 features.
 
-Point de vigilance : le seuil métier améliore le rappel et le F-bêta métier sur le jeu de validation final, mais le coût métier exporté est légèrement moins bon que la référence au seuil `0.5`. Ce compromis devra être explicité avant usage en production.
+L'API ne demande pas directement ces 30 features au consommateur. Elle reçoit des données brutes
+métier, puis le service de preprocessing reconstruit les features nécessaires.
+
+## Seuil de décision
+
+Le seuil retenu dans l'artefact TOP30 est `0.5`. Le choix a privilégié la réduction du coût métier
+moyen dans les expériences de simplification, tout en conservant un modèle plus simple à exposer,
+tester, monitorer et optimiser.

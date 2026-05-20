@@ -244,7 +244,8 @@ Limites identifiées :
 - pas de gestion fine des droits ;
 - pas de monitoring d'infrastructure temps réel.
 
-Ces limites sont acceptables pour l'étape 3, mais devront être traitées pour une production réelle.
+Ces limites sont acceptables pour l'étape 3. Une production réelle demanderait une politique de
+rétention, des sauvegardes, une gestion fine des droits et un système d'alerting.
 
 ## Conclusion
 
@@ -259,5 +260,5 @@ La solution mise en place couvre les attendus de l'étape 3 :
 - dashboard Streamlit ;
 - documentation des choix, limites et points de vigilance.
 
-Ce dispositif fournit une base exploitable pour l'étape suivante, dédiée à l'analyse des performances
-et aux optimisations post-déploiement.
+Ce dispositif a aussi servi de base à l'analyse des performances et aux optimisations
+post-déploiement.
