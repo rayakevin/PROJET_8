@@ -271,3 +271,5 @@ Types utilisés : `feat`, `fix`, `docs`, `test`, `ci`, `chore`, `refactor`, `per
 
 Les PR décrivent l'objectif, les principaux fichiers modifiés, les tests exécutés et les impacts sur
 l'API, le modèle, Docker, le monitoring ou le déploiement.
+
+Test CI/CD
