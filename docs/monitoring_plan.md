@@ -1,108 +1,74 @@
-# Plan de monitoring et de détection de dérive
+# Architecture de monitoring et de détection de drift
 
-## Objectif
-
-L'objectif de l'étape 3 est de mettre en place un prototype complet de monitoring pour l'API de
-scoring crédit.
-
-Le dispositif doit permettre de :
-
-- collecter les appels API ;
-- stocker les inputs modèle, outputs et temps d'exécution ;
-- analyser automatiquement les erreurs, latences et distributions observées ;
-- détecter une dérive des données ;
-- visualiser les indicateurs de suivi.
-
-L'approche retenue est un PoC local compatible avec le déploiement Hugging Face Spaces.
+Le monitoring mis en place couvre les logs d'appels API, les inputs modèle, les outputs, les temps
+d'exécution, les erreurs et la dérive des données.
 
 ## Architecture retenue
 
 ```text
 API FastAPI
-  -> preprocessing raw data vers features TOP30
-  -> inférence modèle
-  -> logging structuré JSONL
-  -> import optionnel vers PostgreSQL
-  -> analyse automatique Python + Evidently
+  -> logs structurés JSONL
+  -> import PostgreSQL local
+  -> analyse Pandas + Evidently
   -> rapports JSON / HTML
   -> dashboard Streamlit local
 ```
 
-Cette architecture couvre les attendus de l'étape tout en restant raisonnable pour un projet de
-formation. Elle évite d'ajouter une stack lourde de centralisation de logs alors que le projet ne
-contient qu'une API principale.
+Cette architecture est un PoC local complet. Elle répond aux attendus de la mission sans imposer une
+base cloud ou une stack de logs lourde à maintenir.
 
 ## Choix de stack
 
-| Besoin | Outil retenu | Justification |
+| Besoin | Outil retenu | Rôle |
 | --- | --- | --- |
-| Logging applicatif | Service Python de journalisation structurée en JSONL | Format structuré, simple à tester, exploitable localement |
-| Stockage | PostgreSQL local via Docker Compose | Base relationnelle robuste, requêtable, suffisante pour un PoC |
-| Analyse automatique | Python, Pandas | Calcul des métriques opérationnelles |
-| Détection de drift | Evidently | Bibliothèque spécialisée adaptée à la comparaison de distributions |
-| Visualisation | Streamlit | Dashboard léger, cohérent avec le reste du projet |
+| Journalisation | service Python interne | Écriture d'événements JSONL structurés |
+| Stockage | PostgreSQL local via Docker Compose | Requêtage et conservation des événements |
+| Analyse | Pandas | Métriques opérationnelles |
+| Drift | Evidently | Comparaison automatique des distributions |
+| Visualisation | Streamlit | Dashboard local de suivi |
 
-## Outils non retenus
-
-Fluentd et Logstash n'ont pas été retenus dans cette version du PoC.
-
-Ces outils sont utiles pour ingérer, transformer et router des logs provenant de plusieurs services
-ou serveurs. Dans ce projet, le volume est limité, l'architecture ne comporte qu'une API principale,
-et les logs sont déjà produits dans un format structuré directement exploitable.
-
-Elasticsearch, Kibana, Grafana ou une stack complète de logs n'ont pas non plus été mis en place.
-Ils représenteraient une complexité supérieure au besoin actuel. Le rôle de visualisation est couvert
-par Streamlit, et le stockage structuré est assuré par PostgreSQL.
+Fluentd et Logstash n'ont pas été utilisés. Ils servent surtout à collecter, transformer et router
+des logs entre plusieurs services. Ici, l'API produit déjà un format JSONL propre et directement
+exploitable. Elasticsearch, Kibana et Grafana ont aussi été écartés pour éviter une complexité
+disproportionnée dans un PoC local.
 
 ## Données journalisées
 
-Chaque appel aux routes de prédiction produit un événement structuré.
-
-Chemin local par défaut :
+Chemin par défaut :
 
 ```text
 logs/api_predictions.jsonl
 ```
 
-Champs communs :
+Champs principaux :
 
-| Champ | Description |
-| --- | --- |
-| `timestamp` | Date et heure UTC de l'événement |
-| `request_id` | Identifiant unique de la requête |
-| `endpoint` | Route appelée, par exemple `/predict` ou `/predict/batch` |
-| `status` | `success` ou `error` |
-| `client_id` | Identifiant client si fourni |
-| `model_version` | Version du modèle utilisé |
-| `latency_ms` | Latence totale |
-| `preprocessing_latency_ms` | Temps de preprocessing |
-| `inference_latency_ms` | Temps d'inférence |
-| `error_type` | Type d'erreur si l'appel échoue |
-| `error_message` | Message d'erreur si l'appel échoue |
+- `timestamp` ;
+- `request_id` ;
+- `endpoint` ;
+- `status` ;
+- `client_id` ;
+- `model_version` ;
+- `features` ;
+- `score` ;
+- `threshold` ;
+- `prediction` ;
+- `decision` ;
+- `latency_ms` ;
+- `preprocessing_latency_ms` ;
+- `inference_latency_ms` ;
+- `error_type` et `error_message`.
 
-Champs propres aux prédictions réussies :
+Les données brutes complètes ne sont pas conservées. Le monitoring stocke les 30 features réellement
+utilisées par le modèle, ce qui suffit pour l'analyse de drift tout en limitant l'exposition de
+données sensibles.
 
-| Champ | Description |
-| --- | --- |
-| `features` | Dictionnaire des 30 features consommées par le modèle |
-| `score` | Score de risque retourné par le modèle |
-| `threshold` | Seuil de décision |
-| `prediction` | Classe prédite, `0` ou `1` |
-| `decision` | Décision lisible, `low_risk` ou `high_risk` |
+## PostgreSQL local
 
-Les données brutes complètes ne sont pas conservées par défaut. Le monitoring stocke les features
-réellement utilisées par le modèle, ce qui limite l'exposition de données sensibles tout en permettant
-l'analyse de drift.
-
-## Stockage PostgreSQL
-
-Le stockage PostgreSQL est lancé localement avec :
+Lancement :
 
 ```powershell
 docker compose -f docker-compose.monitoring.yml up -d
 ```
-
-La base écoute sur le port local `5433`.
 
 URL par défaut :
 
@@ -110,49 +76,21 @@ URL par défaut :
 postgresql://projet8:projet8@localhost:5433/projet8_monitoring
 ```
 
-Le schéma SQL est versionné dans :
+Le schéma SQL est versionné dans `monitoring/db/schema.sql`. La table principale est
+`prediction_logs`. Elle contient les événements, les métriques de latence, les outputs modèle et les
+features TOP30 en `JSONB`.
 
-```text
-monitoring/db/schema.sql
-```
-
-La table principale est :
-
-```text
-prediction_logs
-```
-
-Elle contient les événements de prédiction, les métriques de latence, les outputs modèle et les
-features TOP30 au format JSONB.
-
-## Import des logs vers PostgreSQL
-
-Les logs JSONL peuvent être importés avec :
-
-```powershell
-uv run python scripts/import_monitoring_logs_to_postgres.py
-```
-
-Pour vider la table avant import :
+Import des logs :
 
 ```powershell
 uv run python scripts/import_monitoring_logs_to_postgres.py --truncate
 ```
 
-Pour utiliser une autre base :
-
-```powershell
-uv run python scripts/import_monitoring_logs_to_postgres.py `
-  --database-url "postgresql://user:password@host:5432/database"
-```
-
-La variable d'environnement `MONITORING_DATABASE_URL` peut aussi être utilisée.
+La variable `MONITORING_DATABASE_URL` permet de cibler une autre base.
 
 ## Référence de drift
 
-La détection de dérive nécessite une distribution de référence.
-
-La référence est construite depuis l'ancien dataset préparé du projet P6 :
+La référence est construite depuis le dataset préparé de l'ancien projet P6 :
 
 ```text
 D:\FORMATION AI\01_FORMATION AI ENGINEER\02_PROJETS\06_PROJET 06\P6\P6_MLOps_1-2\data\processed\application_train_full.parquet
@@ -170,20 +108,20 @@ Sortie locale :
 monitoring/reference/top30_reference.parquet
 ```
 
-Ce fichier n'est pas versionné dans Git, car il est généré localement.
+Ce fichier est généré localement et n'est pas versionné.
 
 ## Analyse automatique
-
-Analyse depuis le fichier JSONL :
-
-```powershell
-uv run python scripts/analyze_monitoring_logs.py --source jsonl
-```
 
 Analyse depuis PostgreSQL :
 
 ```powershell
 uv run python scripts/analyze_monitoring_logs.py --source postgres
+```
+
+Analyse depuis le JSONL :
+
+```powershell
+uv run python scripts/analyze_monitoring_logs.py --source jsonl
 ```
 
 Sorties générées :
@@ -194,95 +132,55 @@ reports/monitoring/data_drift_report.html
 reports/monitoring/data_drift_report.json
 ```
 
-Le script calcule notamment :
-
-- nombre total d'événements ;
-- nombre de succès ;
-- nombre d'erreurs ;
-- taux d'erreur ;
-- latence moyenne, médiane, p95 et maximale ;
-- score moyen, médian et p95 ;
-- répartition des décisions ;
-- répartition des types d'erreurs ;
-- détection de drift globale et par variable.
+Le script calcule les volumes, le taux d'erreur, les latences moyenne/médiane/p95/max, les scores,
+la répartition des décisions et la synthèse de drift.
 
 ## Détection de drift
 
-Le drift est analysé avec Evidently :
+Le projet utilise le preset Evidently :
 
 ```python
 Report([DataDriftPreset()])
 ```
 
-La comparaison porte sur :
+Evidently choisit automatiquement la méthode de comparaison selon le type de chaque variable. Dans
+les rapports générés sur ce projet, les variables numériques sont principalement évaluées avec la
+distance de Wasserstein normalisée, tandis que `code_gender` est évaluée avec la distance de
+Jensen-Shannon.
 
-- les 30 features de référence ;
-- les 30 features observées dans les logs de production ou de simulation.
+Le rapport Evidently indique pour chaque colonne :
 
-Le projet ne définit pas manuellement une métrique de drift différente pour chaque variable. Le choix
-méthodologique consiste à utiliser le preset `DataDriftPreset` d'Evidently afin d'automatiser la
-sélection des tests selon le type des données.
+- la méthode appliquée ;
+- le seuil ;
+- la valeur observée ;
+- le statut drifté ou non.
 
-Evidently inspecte les variables de référence et les variables observées, puis applique une méthode
-adaptée. Dans les rapports générés sur ce projet, les features numériques sont principalement
-évaluées avec la distance de Wasserstein normalisée, tandis que la variable discrète `code_gender`
-est évaluée avec la distance de Jensen-Shannon.
+Ce choix évite de configurer manuellement 30 tests différents et reste auditable grâce au rapport
+détaillé.
 
-Cette approche est retenue pour trois raisons :
+## Dashboard
 
-- elle évite de paramétrer manuellement 30 tests différents ;
-- elle limite le risque d'appliquer une méthode inadaptée au type de variable ;
-- elle reste auditable, car le rapport Evidently expose pour chaque colonne la méthode appliquée, le
-  seuil et la valeur observée.
-
-Les méthodes utilisées par Evidently doivent donc être interprétées comme le résultat du preset de
-drift retenu, et non comme un choix manuel colonne par colonne.
-
-## Dashboard Streamlit
-
-Le dashboard local de monitoring se lance avec :
+Lancement :
 
 ```powershell
 uv run streamlit run dashboard/monitoring_dashboard.py
 ```
 
-Il permet de visualiser :
+Le dashboard affiche :
 
-- la synthèse opérationnelle ;
-- les événements récents ;
-- l'évolution des latences ;
-- la distribution des scores ;
-- la répartition des statuts ;
-- la synthèse de drift ;
-- le chemin du rapport HTML Evidently.
-
-Le dashboard peut lire les événements depuis le JSONL local ou depuis PostgreSQL.
+- synthèse opérationnelle ;
+- événements récents depuis JSONL ou PostgreSQL ;
+- distribution des scores ;
+- latences ;
+- statuts ;
+- synthèse du drift ;
+- rapport Evidently HTML intégré.
 
 ## Points de vigilance
 
-La détection de drift nécessite un volume suffisant d'événements. Sur quelques appels seulement, les
-résultats peuvent être instables ou peu représentatifs.
+Le drift doit être interprété sur un volume suffisant. Quelques appels isolés produisent des signaux
+instables. Les analyses locales ont été réalisées sur des lots simulés de plusieurs centaines à
+plusieurs milliers de clients.
 
-Pour une lecture fiable, il est préférable d'analyser :
-
-- au moins 100 prédictions pour un premier diagnostic ;
-- plusieurs centaines ou milliers de prédictions pour une analyse plus robuste ;
-- une fenêtre temporelle stable, par exemple une journée de production simulée.
-
-Le stockage local PostgreSQL reste un PoC. En production réelle, il faudrait ajouter une stratégie de
-rétention, une gestion des accès, des sauvegardes, et éventuellement un système d'alerting.
-
-## Livrables
-
-L'étape 3 contient désormais :
-
-- un service de logging structuré intégré à l'API ;
-- un format de logs JSONL ;
-- un stockage PostgreSQL local ;
-- un schéma SQL versionné ;
-- un script d'import JSONL vers PostgreSQL ;
-- un script de construction de référence ;
-- un script d'analyse automatique JSONL ou PostgreSQL ;
-- des rapports Evidently JSON et HTML ;
-- un dashboard Streamlit local ;
-- une documentation des choix, limites et points de vigilance.
+Pour une production réelle, il resterait à ajouter une politique de rétention, une gestion fine des
+accès, des sauvegardes, un alerting et un stockage cloud managé.

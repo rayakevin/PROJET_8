@@ -15,7 +15,9 @@ RUN pip install --no-cache-dir uv
 RUN uv sync --frozen --no-dev
 
 COPY app ./app
-COPY model ./model
+COPY model/artifacts/mlflow_model_top30_optimized ./model/artifacts/mlflow_model_top30_optimized
+COPY model/schema/top30_feature_schema.json ./model/schema/top30_feature_schema.json
+COPY model/schema/top30_model_metadata.json ./model/schema/top30_model_metadata.json
 
 EXPOSE 8000
 

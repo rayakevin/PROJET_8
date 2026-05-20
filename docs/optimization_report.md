@@ -1,173 +1,53 @@
 # Rapport d'optimisation des performances
 
-## Objectif
-
-Cette étape analyse les performances de l'API de scoring après mise en place du déploiement et du
-monitoring. L'objectif est d'identifier les goulots d'étranglement, de tester des optimisations, puis
-de démontrer l'amélioration obtenue sans régression fonctionnelle.
+Cette étape a mesuré les performances de l'API déployable, identifié les goulots d'étranglement et
+intégré les optimisations utiles sans changer le contrat API ni les décisions du modèle.
 
 ## Protocole
 
-Le benchmark est réalisé localement sur un batch de `1 000` candidats issus du dataset initial.
+Les benchmarks ont été réalisés localement avec `scripts/benchmark_api_performance.py` sur un payload
+de 1 000 clients issus du dataset initial.
 
-Payload utilisé :
+Scénarios mesurés :
 
-```text
-logs/batch_1000_random_clients.json
-```
+- `/predict` : 1 000 appels unitaires successifs ;
+- `/predict/batch` : un appel batch contenant 1 000 clients.
 
-Ce fichier est généré localement et n'est pas versionné dans Git.
+Les mesures suivies sont la latence totale, la latence par client, le p95, le débit, le temps de
+preprocessing, le temps d'inférence, les scores et la répartition des décisions.
 
-Le script de benchmark permet de mesurer deux modes :
+## Baseline
 
-- `--endpoint batch` : un appel à `/predict/batch` contenant 1 000 clients ;
-- `--endpoint single` : 1 000 appels successifs à `/predict`.
+Le batch initial traitait les clients un par un. Sur le troisième run, après chargement du modèle, les
+résultats étaient :
 
-Exemple pour le batch :
-
-```powershell
-uv run python scripts/benchmark_api_performance.py `
-  --endpoint batch `
-  --payload logs/batch_1000_random_clients.json `
-  --repeats 3 `
-  --profile `
-  --label batch_vectorized_after_warmup `
-  --reset-monitoring-log
-```
-
-Exemple pour l'endpoint unitaire :
-
-```powershell
-uv run python scripts/benchmark_api_performance.py `
-  --endpoint single `
-  --payload logs/batch_1000_random_clients.json `
-  --repeats 3 `
-  --profile `
-  --label single_endpoint_after_warmup `
-  --reset-monitoring-log
-```
-
-Le script mesure :
-
-- la latence totale ;
-- la latence vue par le client local ;
-- le débit en clients par seconde ;
-- la latence moyenne, médiane, p95 et maximale par client ;
-- le temps de preprocessing ;
-- le temps d'inférence ;
-- la distribution des scores ;
-- la répartition des décisions.
-
-Un profil `cProfile` est généré afin d'identifier les fonctions les plus coûteuses.
-
-## Baseline batch
-
-La baseline batch correspond au traitement initial, dans lequel `/predict/batch` appelait le modèle
-client par client.
-
-Résultats sur le troisième run, après échauffement :
-
-| Métrique | Baseline |
+| Métrique | Baseline batch |
 | --- | ---: |
 | Clients | 1 000 |
-| Latence batch API | 1 172,451 ms |
+| Latence API | 1 172,451 ms |
 | Latence murale locale | 1 260,325 ms |
 | Débit | 793,446 clients/s |
 | Latence moyenne par client | 0,818 ms |
 | Latence p95 par client | 0,972 ms |
 | Inférence moyenne par client | 0,732 ms |
-| Inférence p95 par client | 0,821 ms |
-| `low_risk` | 686 |
-| `high_risk` | 314 |
-| Score moyen | 0,387 |
 
-Le premier run était plus lent en raison du chargement du modèle :
-
-| Métrique | Premier run baseline |
-| --- | ---: |
-| Latence batch API | 4 350,205 ms |
-| Latence maximale par client | 1 939,614 ms |
-
-Le profil `cProfile` confirme que le premier run est fortement influencé par le chargement MLflow et
-pickle du modèle. Une fois le modèle chargé, le coût principal reste la répétition de nombreux appels
-d'inférence individuels.
-
-## Baseline endpoint unitaire
-
-L'endpoint `/predict` a aussi été mesuré avec 1 000 appels successifs.
-
-Avant warm-up, sur le premier run :
-
-| Métrique | Avant warm-up |
-| --- | ---: |
-| Latence murale totale | 13 085,774 ms |
-| Débit | 76,419 clients/s |
-| Latence moyenne par client | 7,763 ms |
-| Latence p95 par client | 7,185 ms |
-| Latence maximale par client | 1 840,029 ms |
-| Inférence moyenne par client | 7,236 ms |
-| Inférence maximale par client | 1 838,920 ms |
-
-Cette mesure confirme que le premier appel unitaire subit le coût de chargement du modèle.
+Le premier appel était beaucoup plus lent, car il chargeait le modèle MLflow et le modèle LightGBM
+sérialisé. Sur l'endpoint unitaire, le premier run atteignait `13 085,774 ms` pour 1 000 appels, avec
+une latence maximale par client de `1 840,029 ms`.
 
 ## Goulots identifiés
 
-Deux goulots principaux ont été observés :
+Les profils `cProfile` et les métriques de monitoring ont mis en évidence trois points :
 
-- le traitement batch initial multipliait les constructions de `DataFrame` et les appels
-  `predict_proba` ;
-- le premier appel utilisateur payait le coût de chargement du modèle MLflow et du modèle pickle.
+- le chargement du modèle était payé par le premier utilisateur ;
+- `/predict/batch` répétait les appels `predict_proba` client par client ;
+- le logging batch ouvrait le fichier JSONL pour chaque événement.
 
-Le preprocessing reste mesuré, mais il n'apparaît pas comme le goulot principal.
+## Optimisation 1 : warm-up du modèle
 
-## Optimisation 1 : inférence batch vectorisée
+Le modèle est chargé au démarrage de FastAPI avec une prédiction factice.
 
-L'optimisation intégrée consiste à vectoriser l'inférence batch :
-
-```text
-N clients -> validation -> 1 DataFrame batch -> 1 appel predict_proba
-```
-
-Le preprocessing reste réalisé client par client, car les payloads raw sont composés de blocs métier
-hétérogènes. En revanche, une fois les features TOP30 construites, l'inférence est exécutée en une
-seule fois sur un `DataFrame` contenant toutes les lignes du batch.
-
-Fichiers modifiés :
-
-- `app/services/inference_service.py` ;
-- `app/main.py`.
-
-Résultats batch sur le troisième run :
-
-| Métrique | Baseline | Optimisé | Évolution |
-| --- | ---: | ---: | ---: |
-| Latence batch API | 1 172,451 ms | 647,807 ms | -44,75 % |
-| Latence murale locale | 1 260,325 ms | 746,862 ms | -40,74 % |
-| Débit | 793,446 clients/s | 1 338,935 clients/s | +68,75 % |
-| Latence moyenne par client | 0,818 ms | 0,108 ms | -86,80 % |
-| Latence p95 par client | 0,972 ms | 0,293 ms | -69,86 % |
-| Inférence moyenne par client | 0,732 ms | 0,016 ms | -97,81 % |
-| Inférence p95 par client | 0,821 ms | 0,016 ms | -98,05 % |
-
-Les décisions restent identiques :
-
-| Décision | Baseline | Optimisé |
-| --- | ---: | ---: |
-| `low_risk` | 686 | 686 |
-| `high_risk` | 314 | 314 |
-
-Le score moyen reste identique :
-
-```text
-0,387
-```
-
-## Optimisation 2 : warm-up du modèle
-
-Un warm-up est exécuté au démarrage de l'application FastAPI. Il charge le modèle et exécute une
-prédiction factice, afin que le premier utilisateur ne supporte pas le coût d'initialisation.
-
-Résultats sur le premier run de 1 000 appels à `/predict` :
+Résultat sur 1 000 appels unitaires :
 
 | Métrique | Avant warm-up | Après warm-up | Évolution |
 | --- | ---: | ---: | ---: |
@@ -176,76 +56,74 @@ Résultats sur le premier run de 1 000 appels à `/predict` :
 | Latence moyenne par client | 7,763 ms | 2,081 ms | -73,19 % |
 | Latence p95 par client | 7,185 ms | 2,976 ms | -58,58 % |
 | Latence maximale par client | 1 840,029 ms | 8,595 ms | -99,53 % |
-| Inférence moyenne par client | 7,236 ms | 1,621 ms | -77,60 % |
-| Inférence maximale par client | 1 838,920 ms | 7,443 ms | -99,60 % |
 
-Les décisions restent identiques :
+Les décisions sont restées identiques : 686 `low_risk` et 314 `high_risk`.
 
-| Décision | Avant warm-up | Après warm-up |
-| --- | ---: | ---: |
-| `low_risk` | 686 | 686 |
-| `high_risk` | 314 | 314 |
+## Optimisation 2 : inférence batch vectorisée
 
-Le score moyen reste identique :
+Le batch construit maintenant un seul `DataFrame` de features et appelle `predict_proba` une seule
+fois.
 
 ```text
-0,387
+N clients -> N preprocessings -> 1 DataFrame -> 1 appel modèle
 ```
+
+Résultat sur `/predict/batch` :
+
+| Métrique | Baseline | Batch vectorisé | Évolution |
+| --- | ---: | ---: | ---: |
+| Latence API | 1 172,451 ms | 647,807 ms | -44,75 % |
+| Latence murale locale | 1 260,325 ms | 746,862 ms | -40,74 % |
+| Débit | 793,446 clients/s | 1 338,935 clients/s | +68,75 % |
+| Latence moyenne par client | 0,818 ms | 0,108 ms | -86,80 % |
+| Latence p95 par client | 0,972 ms | 0,293 ms | -69,86 % |
+| Inférence moyenne par client | 0,732 ms | 0,016 ms | -97,81 % |
+
+Les décisions sont restées identiques.
+
+## Optimisation 3 : écriture groupée des logs
+
+Après vectorisation, le coût d'écriture des événements de monitoring devenait visible sur les gros
+batchs. Le service prépare maintenant les événements en mémoire et les écrit en une seule ouverture
+de fichier.
+
+Le format reste inchangé : une ligne JSON par client.
+
+Résultat sur `/predict/batch` :
+
+| Métrique | Batch vectorisé | Batch vectorisé + logs groupés | Évolution |
+| --- | ---: | ---: | ---: |
+| Latence API | 647,807 ms | 104,735 ms | -83,83 % |
+| Latence murale locale | 746,862 ms | 214,667 ms | -71,26 % |
+| Débit | 1 338,935 clients/s | 4 658,378 clients/s | +247,92 % |
+| Latence moyenne par client | 0,108 ms | 0,084 ms | -22,22 % |
+| Latence p95 par client | 0,293 ms | 0,212 ms | -27,65 % |
+
+Les décisions sont restées identiques : 686 `low_risk` et 314 `high_risk`.
 
 ## Non-régression
 
-Un test automatisé compare l'inférence individuelle et l'inférence batch vectorisée sur les mêmes
-features.
-
-Contrôles réalisés :
+Les contrôles automatisés comparent l'inférence individuelle et l'inférence batch vectorisée :
 
 - même `client_id` ;
-- même score, à tolérance numérique près ;
-- même classe prédite ;
+- score équivalent à tolérance numérique près ;
+- même prédiction ;
 - même décision.
 
-Test ajouté :
-
-```text
-tests/test_inference_service.py
-```
-
-La suite de tests complète passe après optimisation.
-
-## Choix final
-
-Deux optimisations sont retenues :
-
-- inférence batch vectorisée ;
-- warm-up du modèle au démarrage de l'API.
-
-Elles présentent un bon compromis :
-
-- gain important sur la latence batch ;
-- gain important sur le débit ;
-- réduction forte du coût du premier appel unitaire ;
-- pas de dépendance supplémentaire ;
-- compatibilité avec LightGBM et MLflow ;
-- pas de modification du contrat API ;
-- pas de régression sur les décisions observées.
+Les tests de monitoring vérifient aussi l'écriture groupée des événements JSONL.
 
 ## Pistes non retenues
 
-### ONNX Runtime
+ONNX Runtime a été testé hors commit. La conversion fonctionnait, les décisions étaient identiques,
+mais l'inférence était plus lente que LightGBM natif sur ce modèle. L'option n'a pas été conservée.
 
-ONNX Runtime n'est pas intégré à ce stade. Pour ce modèle LightGBM, l'export ONNX ajouterait une
-dépendance, une étape de conversion et un besoin de validation fine des scores. Le gain n'est pas
-nécessaire pour atteindre une amélioration démontrable dans cette étape.
+Le GPU n'a pas été retenu, car le modèle est tabulaire, léger et déjà rapide en CPU.
 
-### GPU
+Le chargement direct du pickle n'a pas été retenu afin de conserver la traçabilité MLflow et la
+compatibilité avec le pipeline actuel.
 
-Le GPU n'est pas retenu. Le modèle est tabulaire, léger, et exécuté efficacement en CPU. Le coût de
-déploiement et de maintenance d'une ressource GPU ne serait pas justifié.
-
-### Changement de format d'artefact
-
-Le chargement direct du pickle n'est pas retenu dans cette version. MLflow apporte une traçabilité
-utile pour le projet et reste compatible avec le pipeline CI/CD actuel.
+Rust n'a pas été intégré. L'environnement local ne contenait pas l'outillage Rust et les gains les
+plus importants ont été obtenus par vectorisation et réduction des I/O.
 
 ## Configuration finale
 
@@ -254,15 +132,17 @@ Configuration conservée :
 - Python 3.12 ;
 - FastAPI ;
 - LightGBM ;
-- MLflow pour l'artefact modèle ;
-- Pandas pour la construction du `DataFrame` ;
+- MLflow ;
+- Pandas ;
 - Docker ;
 - Hugging Face Spaces ;
 - GitHub Actions.
 
 Optimisations intégrées :
 
-- inférence batch vectorisée dans le service d'inférence ;
-- warm-up du modèle au démarrage de l'API.
+- warm-up du modèle au démarrage ;
+- inférence batch vectorisée ;
+- écriture groupée des logs batch.
 
-Cette configuration améliore la performance sans augmenter la complexité d'exploitation.
+La configuration finale améliore fortement la latence et le débit sans ajout de dépendance, sans
+changement du contrat API et sans régression observée sur les décisions.

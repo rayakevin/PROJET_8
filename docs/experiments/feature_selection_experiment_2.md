@@ -43,8 +43,8 @@ les modèles réduits avec la baseline historique dans un cadre simple et stable
 - Meilleur score PR-AUC : modèle top `100` variables.
 - Meilleur compromis sous `50` variables : modèle top
   `50` variables.
-- La réduction du contrat d'entrée est forte dès le top `20`, mais le choix final devra intégrer
-  la performance, la stabilité, la facilité de production des variables et l'explicabilité.
+- La réduction du contrat d'entrée est forte dès le top `20`. Le choix final a intégré la
+  performance, la stabilité, la facilité de production des variables et l'explicabilité.
 
 ## Top 20 variables natives
 
