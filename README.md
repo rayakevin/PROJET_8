@@ -4,6 +4,52 @@ Ce dépôt contient la mise en production du modèle de scoring crédit issu du 
 Le projet couvre l'exposition du modèle via API, la conteneurisation, le CI/CD, une interface
 Streamlit, le monitoring local, la détection de drift et l'optimisation des performances.
 
+## Démarrage rapide pour une démo live
+
+Cette section permet de lancer le projet rapidement depuis un poste Windows, même avec peu
+d'expérience technique.
+
+Prérequis à installer ou ouvrir avant de commencer :
+
+- Python `3.12` ;
+- `uv` ;
+- Docker Desktop lancé.
+
+Depuis PowerShell :
+
+```powershell
+git clone https://github.com/rayakevin/PROJET_8.git
+cd PROJET_8
+```
+
+Préparer l'environnement et lancer l'API :
+
+```powershell
+powershell -ExecutionPolicy Bypass -File demo_live\01_preparer_et_lancer_api.ps1
+```
+
+Ce script installe les dépendances, vérifie le modèle, démarre PostgreSQL pour le monitoring, lance
+l'API FastAPI, génère quelques événements de monitoring, prépare l'analyse, puis démarre les deux
+interfaces Streamlit.
+
+Tester le projet dans le navigateur :
+
+```text
+Swagger API : http://127.0.0.1:8000/docs
+Interface Streamlit API : http://127.0.0.1:8501
+Dashboard monitoring : http://127.0.0.1:8502
+```
+
+Déclencher le pipeline CI/CD GitHub Actions :
+
+```powershell
+powershell -ExecutionPolicy Bypass -File demo_live\02_declencher_pipeline_cicd.ps1
+```
+
+Ce script crée une branche `feature/demo-ci-cd-trigger-*`, fait une modification minimale contrôlée,
+commit, push et affiche le lien vers GitHub Actions. Le déploiement Hugging Face ne part que lors
+d'un push sur `main`.
+
 ## Vue d'ensemble
 
 L'application expose un modèle LightGBM optimisé sur 30 features. L'API reçoit des données brutes
