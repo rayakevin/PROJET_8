@@ -4,6 +4,52 @@ Ce dépôt contient la mise en production du modèle de scoring crédit issu du 
 Le projet couvre l'exposition du modèle via API, la conteneurisation, le CI/CD, une interface
 Streamlit, le monitoring local, la détection de drift et l'optimisation des performances.
 
+## Démarrage rapide pour une démo live
+
+Cette section permet de lancer le projet rapidement depuis un poste Windows, même avec peu
+d'expérience technique.
+
+Prérequis à installer ou ouvrir avant de commencer :
+
+- Python `3.12` ;
+- `uv` ;
+- Docker Desktop lancé.
+
+Depuis PowerShell :
+
+```powershell
+git clone https://github.com/rayakevin/PROJET_8.git
+cd PROJET_8
+```
+
+Préparer l'environnement et lancer l'API :
+
+```powershell
+powershell -ExecutionPolicy Bypass -File demo_live\01_preparer_et_lancer_api.ps1
+```
+
+Ce script installe les dépendances, vérifie le modèle, démarre PostgreSQL pour le monitoring, lance
+l'API FastAPI, génère quelques événements de monitoring, prépare l'analyse, puis démarre les deux
+interfaces Streamlit.
+
+Tester le projet dans le navigateur :
+
+```text
+Swagger API : http://127.0.0.1:8000/docs
+Interface Streamlit API : http://127.0.0.1:8501
+Dashboard monitoring : http://127.0.0.1:8502
+```
+
+Déclencher le pipeline CI/CD GitHub Actions :
+
+```powershell
+powershell -ExecutionPolicy Bypass -File demo_live\02_declencher_pipeline_cicd.ps1
+```
+
+Ce script crée une branche `feature/demo-ci-cd-trigger-*`, fait une modification minimale contrôlée,
+commit, push et affiche le lien vers GitHub Actions. Le déploiement Hugging Face ne part que lors
+d'un push sur `main`.
+
 ## Vue d'ensemble
 
 L'application expose un modèle LightGBM optimisé sur 30 features. L'API reçoit des données brutes
@@ -51,8 +97,9 @@ app/                         API FastAPI et services applicatifs
 dashboard/                   dashboard local de monitoring
 docs/                        documentation projet et rapports
 model/                       artefacts MLflow et schémas modèle
+data/reference/              échantillon de données et importance LightGBM versionnés
 monitoring/                  schéma PostgreSQL et référence locale générée
-notebooks/legacy/            notebooks conservés du projet précédent
+notebooks/                   notebook d'analyse du drift
 scripts/                     scripts d'import, benchmark, monitoring et vérification
 tests/                       tests unitaires et d'intégration
 ui/                          interface Streamlit de scoring
@@ -65,9 +112,26 @@ pyproject.toml               configuration Python, dépendances et outils
 
 ## Installation locale
 
-Le projet utilise `uv`.
+Le dépôt est installable sans dépendance à un ancien dossier local du projet P6. Les artefacts
+minimums nécessaires au fonctionnement et aux contrôles sont versionnés :
+
+- modèle API TOP30 : `model/artifacts/mlflow_model_top30_optimized/` ;
+- schémas modèle : `model/schema/` ;
+- échantillon de modélisation : `data/reference/application_train_modeling_sample.parquet` ;
+- importance native LightGBM : `data/reference/lightgbm_bonus_native_importance.csv` ;
+- référence de drift TOP30 : `monitoring/reference/top30_reference.parquet`.
+
+Prérequis :
+
+- Python `3.12` ;
+- `uv` ;
+- Docker, uniquement pour lancer PostgreSQL local ou construire les images.
+
+Depuis un clone propre :
 
 ```powershell
+git clone <url-du-repo>
+cd PROJET_8
 uv sync --extra dev
 ```
 
@@ -81,6 +145,14 @@ Vérification du chargement du modèle :
 
 ```powershell
 uv run python scripts/check_model_load.py
+```
+
+Contrôles qualité :
+
+```powershell
+uv run ruff check .
+uv run ruff format --check .
+uv run pytest
 ```
 
 ## API de scoring
@@ -154,7 +226,8 @@ Import des logs :
 uv run python scripts/import_monitoring_logs_to_postgres.py --truncate
 ```
 
-Construction de la référence de drift :
+La référence de drift TOP30 est déjà versionnée dans `monitoring/reference/`. Pour la régénérer
+depuis l'échantillon versionné :
 
 ```powershell
 uv run python scripts/build_monitoring_reference.py
@@ -237,7 +310,6 @@ scripts de benchmark et les cas d'erreur.
 Documents principaux :
 
 - `docs/project_structure.md` : architecture du dépôt ;
-- `docs/legacy_model_summary.md` : modèle historique importé ;
 - `docs/model_simplification_plan.md` : synthèse de simplification vers le modèle TOP30 ;
 - `docs/api_contract.md` : contrat d'API ;
 - `docs/monitoring_plan.md` : architecture de monitoring ;

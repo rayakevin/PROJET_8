@@ -1,1 +1,0 @@
-SHAP global et local produits avec succès.

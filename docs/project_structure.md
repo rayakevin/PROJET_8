@@ -9,9 +9,10 @@ PROJET_8/
 ├── app/                     # API FastAPI et services de preprocessing, inférence, monitoring
 ├── dashboard/               # dashboard Streamlit local de monitoring
 ├── docs/                    # documentation projet et rapports d'expérience
+├── data/reference/          # données légères versionnées pour installer et rejouer les contrôles
 ├── model/                   # artefacts MLflow, schémas et métadonnées modèle
-├── monitoring/              # schéma PostgreSQL et référence de drift générée localement
-├── notebooks/legacy/        # notebooks conservés de l'ancien projet P6
+├── monitoring/              # schéma PostgreSQL et référence de drift TOP30
+├── notebooks/               # notebook d'analyse du drift
 ├── scripts/                 # scripts de contrôle, benchmark, import et analyse
 ├── tests/                   # tests unitaires et d'intégration
 ├── ui/                      # interface Streamlit de scoring
@@ -22,9 +23,12 @@ PROJET_8/
 └── uv.lock
 ```
 
-Les données brutes, les rapports générés, la référence de drift locale, les logs, la base MLflow
-historique et les caches d'outils ne sont pas versionnés. Cette règle évite de publier des fichiers
-lourds, sensibles ou dépendants de l'environnement local.
+Les données brutes complètes, les rapports générés, les logs, la base MLflow historique, les anciens
+notebooks de construction et les caches d'outils ne sont pas versionnés. Le dépôt embarque uniquement
+les artefacts légers nécessaires à une installation autonome : l'échantillon
+`data/reference/application_train_modeling_sample.parquet`, l'importance
+`data/reference/lightgbm_bonus_native_importance.csv` et la référence de drift
+`monitoring/reference/top30_reference.parquet`.
 
 ## Logique applicative
 

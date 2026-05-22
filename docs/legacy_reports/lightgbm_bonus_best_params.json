@@ -1,6 +1,0 @@
-{
-  "learning_rate": 0.03,
-  "min_child_samples": 100,
-  "num_leaves": 63,
-  "reg_lambda": 0.0
-}

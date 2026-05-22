@@ -7,8 +7,8 @@ les hyperparamètres LightGBM et le seuil de décision métier.
 
 ## Protocole
 
-- Données : `<ancien projet local>/data/processed/application_train_full.parquet`
-- Importance utilisée : `<ancien projet local>/data/processed/reports/lightgbm_bonus_native_importance.csv`
+- Données : `data/reference/application_train_modeling_sample.parquet`
+- Importance utilisée : `data/reference/lightgbm_bonus_native_importance.csv`
 - Split final : holdout stratifié de `20 %`, `random_state=42`
 - Validation interne : `20 %` du jeu d'entraînement, stratifiée
 - Nombre de combinaisons testées : `16`

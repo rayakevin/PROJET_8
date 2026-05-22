@@ -1,8 +1,10 @@
 {
-  "legacy_project_path": "C:\\Users\\kevin\\Desktop\\FORMATION AI\\01_FORMATION AI ENGINEER\\02_PROJETS\\06_PROJET 06\\P6\\P6_MLOps_1-2",
   "selected_model_name": "lightgbm_bonus",
   "selected_model_family": "Boosting externe",
   "selection_source": "notebook_02",
+  "source_project": "P6_HOME_CREDIT_DEFAULT_RISK_MODEL",
+  "project8_reference_dataset": "data/reference/application_train_modeling_sample.parquet",
+  "project8_importance_report": "data/reference/lightgbm_bonus_native_importance.csv",
   "registered_model_name": "P6_HOME_CREDIT_DEFAULT_RISK_MODEL",
   "registered_model_version": "1",
   "decision_threshold_default": 0.5,
@@ -43,6 +45,6 @@
       "precision": 0.17750232717652245
     }
   },
-  "important_note": "Le seuil m?tier am?liore le rappel et le F-b?ta m?tier sur le jeu de validation final, mais le co?t m?tier export? est l?g?rement moins bon que la r?f?rence au seuil 0.5. Ce compromis devra ?tre document? avant usage en production.",
-  "artifact_policy": "L'artefact MLflow retenu est versionn? dans model/artifacts/mlflow_model pour le PoC de d?ploiement de la Mission 8. L'API devra charger cet artefact local avec mlflow.pyfunc.load_model et ne devra pas d?pendre de l'ancienne base de suivi mlflow.db."
+  "important_note": "Le seuil métier améliore le rappel et le F-bêta métier sur le jeu de validation final, mais le coût métier exporté est légèrement moins bon que la référence au seuil 0.5. Ce compromis devra être documenté avant usage en production.",
+  "artifact_policy": "L'artefact MLflow baseline est conservé dans model/artifacts/mlflow_model pour les scripts d'expérimentation. L'API charge l'artefact TOP30 local model/artifacts/mlflow_model_top30_optimized et ne dépend ni de l'ancien dépôt Projet 6 ni de son ancienne base de suivi mlflow.db."
 }

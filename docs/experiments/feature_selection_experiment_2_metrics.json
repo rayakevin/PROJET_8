@@ -6,8 +6,8 @@
     "random_state": 42,
     "test_size": 0.2
   },
-  "dataset_path": "<ancien projet local>/data/processed/application_train_full.parquet",
-  "importance_path": "<ancien projet local>/data/processed/reports/lightgbm_bonus_native_importance.csv",
+  "dataset_path": "data/reference/application_train_modeling_sample.parquet",
+  "importance_path": "data/reference/lightgbm_bonus_native_importance.csv",
   "data": {
     "raw_rows": 307507,
     "raw_columns": 735,

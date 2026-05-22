@@ -90,25 +90,26 @@ La variable `MONITORING_DATABASE_URL` permet de cibler une autre base.
 
 ## Référence de drift
 
-La référence est construite depuis le dataset préparé de l'ancien projet P6 :
-
-```text
-D:\FORMATION AI\01_FORMATION AI ENGINEER\02_PROJETS\06_PROJET 06\P6\P6_MLOps_1-2\data\processed\application_train_full.parquet
-```
-
-Commande :
-
-```powershell
-uv run python scripts/build_monitoring_reference.py
-```
-
-Sortie locale :
+La référence TOP30 est versionnée dans le dépôt pour que l'installation soit autonome :
 
 ```text
 monitoring/reference/top30_reference.parquet
 ```
 
-Ce fichier est généré localement et n'est pas versionné.
+Elle peut être régénérée depuis l'échantillon de modélisation versionné :
+
+```powershell
+uv run python scripts/build_monitoring_reference.py
+```
+
+Source par défaut du script :
+
+```text
+data/reference/application_train_modeling_sample.parquet
+```
+
+Pour recalculer la référence depuis le dataset P6 complet, il reste possible de fournir explicitement
+un autre parquet avec l'option `--source`.
 
 ## Analyse automatique
 

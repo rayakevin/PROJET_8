@@ -21,10 +21,14 @@ data/production/*.jsonl
 data/production/*.parquet
 data/reference/*.parquet
 data/reference/*.csv
+!data/reference/application_train_modeling_sample.parquet
+!data/reference/lightgbm_bonus_native_importance.csv
 data/sample/*.parquet
 logs/
 monitoring/reference/*.parquet
 monitoring/reference/*.json
+!monitoring/reference/top30_reference.parquet
+!monitoring/reference/top30_reference_metadata.json
 
 # Model artifacts exported locally
 model/artifacts/*

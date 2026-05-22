@@ -36,6 +36,9 @@ FEATURE_SCHEMA_PATH = PROJECT_ROOT / "model" / "schema" / "feature_schema.json"
 MODEL_METADATA_PATH = PROJECT_ROOT / "model" / "schema" / "model_metadata.json"
 DEFAULT_REPORT_PATH = PROJECT_ROOT / "docs" / "experiments" / "baseline_experiment_1.md"
 DEFAULT_METRICS_PATH = PROJECT_ROOT / "docs" / "experiments" / "baseline_experiment_1_metrics.json"
+DEFAULT_DATASET_PATH = (
+    PROJECT_ROOT / "data" / "reference" / "application_train_modeling_sample.parquet"
+)
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -54,16 +57,13 @@ def load_feature_names() -> list[str]:
     return [feature["name"] for feature in schema["features"]]
 
 
-def resolve_default_dataset(metadata: dict[str, Any]) -> Path:
-    legacy_project_path = Path(metadata["legacy_project_path"])
-    return legacy_project_path / "data" / "processed" / "application_train_full.parquet"
+def resolve_default_dataset() -> Path:
+    return DEFAULT_DATASET_PATH
 
 
-def format_dataset_reference(dataset_path: Path, metadata: dict[str, Any]) -> str:
-    legacy_project_path = Path(metadata["legacy_project_path"])
+def format_dataset_reference(dataset_path: Path) -> str:
     try:
-        relative_path = dataset_path.resolve().relative_to(legacy_project_path.resolve())
-        return f"<ancien projet local>/{relative_path.as_posix()}"
+        return dataset_path.resolve().relative_to(PROJECT_ROOT.resolve()).as_posix()
     except ValueError:
         return str(dataset_path)
 
@@ -250,9 +250,9 @@ sur `model/schema/feature_schema.json`.
 ## Résultats
 
 Les mesures recalculées ci-dessous sont réalisées sur un échantillon du parquet préparé
-`application_train_full.parquet`. Elles servent de contrôle technique du modèle importé et
-de mesure de latence. La colonne holdout P6 reste la référence de performance à utiliser pour
-comparer les futurs modèles simplifiés.
+`application_train_modeling_sample.parquet`. Elles servent de contrôle technique du modèle
+importé et de mesure de latence. La colonne holdout P6 reste la référence de performance à
+utiliser pour comparer les futurs modèles simplifiés.
 
 | Métrique | Contrôle local sur échantillon | Référence holdout P6 |
 | --- | ---: | ---: |
@@ -290,7 +290,7 @@ de comparaison pendant la construction d'un modèle simplifié.
 def run_experiment(args: argparse.Namespace) -> dict[str, Any]:
     metadata = load_json(MODEL_METADATA_PATH)
     feature_names = load_feature_names()
-    dataset_path = args.dataset or resolve_default_dataset(metadata)
+    dataset_path = args.dataset or resolve_default_dataset()
 
     frame, diagnostics = load_modeling_frame(dataset_path, feature_names)
     evaluated_frame = sample_frame(frame, args.sample_size, args.random_state)
@@ -338,7 +338,7 @@ def run_experiment(args: argparse.Namespace) -> dict[str, Any]:
             "sample_size": int(args.sample_size),
             "random_state": int(args.random_state),
         },
-        "dataset_path": format_dataset_reference(dataset_path, metadata),
+        "dataset_path": format_dataset_reference(dataset_path),
         "model": {
             "name": metadata["selected_model_name"],
             "family": metadata["selected_model_family"],

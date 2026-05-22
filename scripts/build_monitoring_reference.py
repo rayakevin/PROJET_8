@@ -6,24 +6,30 @@ from pathlib import Path
 import pandas as pd
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_SOURCE_PATH = Path(
-    r"D:\FORMATION AI\01_FORMATION AI ENGINEER\02_PROJETS\06_PROJET 06"
-    r"\P6\P6_MLOps_1-2\data\processed\application_train_full.parquet"
+DEFAULT_SOURCE_PATH = (
+    PROJECT_ROOT / "data" / "reference" / "application_train_modeling_sample.parquet"
 )
 FEATURE_SCHEMA_PATH = PROJECT_ROOT / "model" / "schema" / "top30_feature_schema.json"
 DEFAULT_OUTPUT_PATH = PROJECT_ROOT / "monitoring" / "reference" / "top30_reference.parquet"
 DEFAULT_METADATA_PATH = PROJECT_ROOT / "monitoring" / "reference" / "top30_reference_metadata.json"
 
 
+def format_project_path(path: Path) -> str:
+    try:
+        return path.resolve().relative_to(PROJECT_ROOT.resolve()).as_posix()
+    except ValueError:
+        return str(path)
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Construit la référence de drift à partir du dataset préparé historique."
+        description="Construit la référence de drift à partir du dataset préparé versionné."
     )
     parser.add_argument(
         "--source",
         type=Path,
         default=DEFAULT_SOURCE_PATH,
-        help="Chemin du parquet préparé historique.",
+        help="Chemin du parquet préparé.",
     )
     parser.add_argument(
         "--output",
@@ -100,8 +106,8 @@ def write_metadata(
     random_state: int,
 ) -> None:
     metadata = {
-        "source_path": str(source_path),
-        "output_path": str(output_path),
+        "source_path": format_project_path(source_path),
+        "output_path": format_project_path(output_path),
         "feature_count": len(feature_names),
         "row_count": len(reference),
         "sample_size": sample_size,
