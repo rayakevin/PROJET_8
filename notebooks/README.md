@@ -5,13 +5,6 @@
 - `analyse_data_drift.ipynb` : notebook d'analyse du data drift. Il charge les événements de
   monitoring, compare les features observées à la référence TOP30 et génère une synthèse Evidently.
 
-## Notebooks historiques
-
-Le dossier `legacy/` contient les trois notebooks importés depuis le projet P6 précédent :
-
-- `01_PREPARATION_DONNEES.ipynb`
-- `02_MODELISATION_BASELINES_MLFLOW.ipynb`
-- `03_OPTIMISATION_SEUIL_EXPLICABILITE.ipynb`
-
-Ils sont conservés pour la traçabilité de l'analyse et de la modélisation.
-L'API de production ne dépend pas de l'exécution de ces notebooks.
+Les anciens notebooks de préparation et de modélisation du projet P6 ne sont plus conservés dans le
+dépôt. Les éléments nécessaires à l'installation et aux contrôles du projet 8 sont versionnés sous
+`data/reference/`, `monitoring/reference/` et `model/`.

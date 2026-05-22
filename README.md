@@ -53,7 +53,7 @@ docs/                        documentation projet et rapports
 model/                       artefacts MLflow et schémas modèle
 data/reference/              échantillon de données et importance LightGBM versionnés
 monitoring/                  schéma PostgreSQL et référence locale générée
-notebooks/legacy/            notebooks conservés du projet précédent
+notebooks/                   notebook d'analyse du drift
 scripts/                     scripts d'import, benchmark, monitoring et vérification
 tests/                       tests unitaires et d'intégration
 ui/                          interface Streamlit de scoring
@@ -63,9 +63,6 @@ Dockerfile.ui                image de l'interface Streamlit
 docker-compose.monitoring.yml PostgreSQL local de monitoring
 pyproject.toml               configuration Python, dépendances et outils
 ```
-
-Les notebooks dans `notebooks/legacy/` sont conservés pour la traçabilité pédagogique. Ils ne font
-pas partie du chemin d'installation et peuvent contenir des sorties historiques de l'ancien projet.
 
 ## Installation locale
 
@@ -267,7 +264,6 @@ scripts de benchmark et les cas d'erreur.
 Documents principaux :
 
 - `docs/project_structure.md` : architecture du dépôt ;
-- `docs/legacy_model_summary.md` : modèle historique importé ;
 - `docs/model_simplification_plan.md` : synthèse de simplification vers le modèle TOP30 ;
 - `docs/api_contract.md` : contrat d'API ;
 - `docs/monitoring_plan.md` : architecture de monitoring ;

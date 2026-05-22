@@ -46,5 +46,5 @@
     }
   },
   "important_note": "Le seuil métier améliore le rappel et le F-bêta métier sur le jeu de validation final, mais le coût métier exporté est légèrement moins bon que la référence au seuil 0.5. Ce compromis devra être documenté avant usage en production.",
-  "artifact_policy": "L'artefact MLflow retenu est versionné dans model/artifacts/mlflow_model pour le PoC de déploiement de la Mission 8. L'API charge cet artefact localement et ne dépend ni de l'ancien dépôt Projet 6 ni de son ancienne base de suivi mlflow.db."
+  "artifact_policy": "L'artefact MLflow baseline est conservé dans model/artifacts/mlflow_model pour les scripts d'expérimentation. L'API charge l'artefact TOP30 local model/artifacts/mlflow_model_top30_optimized et ne dépend ni de l'ancien dépôt Projet 6 ni de son ancienne base de suivi mlflow.db."
 }
