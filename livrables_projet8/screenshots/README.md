@@ -8,6 +8,7 @@ l'étape 3.
 - `03_evenements_stockes_postgresql.png` : synthèse des événements stockés en base et exemples de
   lignes.
 - `04_artefacts_monitoring_generes.png` : logs JSONL et rapports de monitoring générés.
+- `05_DB_pgAdmin.png` : visualisation de la base PostgreSQL dans pgAdmin.
 
 La solution repose sur un double niveau de stockage :
 

@@ -8,15 +8,15 @@ copies incohérentes ; ce README sert de table d'orientation.
 
 | Livrable demandé | Emplacement |
 | --- | --- |
-| Historique des versions | `docs/livrables/historique_versions/historique_git.txt` |
-| Stratégie de branches | `docs/livrables/historique_versions/strategie_branches.md` |
+| Historique des versions | `livrables_projet8/historique_versions/historique_git.txt` |
+| Stratégie de branches | `livrables_projet8/historique_versions/strategie_branches.md` |
 | Scripts API | `app/main.py`, `app/services/` |
 | Dockerfile | `Dockerfile` |
 | Scripts de tests automatisés | `tests/` |
 | Pipeline CI/CD YAML | `.github/workflows/ci-cd.yml` |
 | Analyse du Data Drift au format notebook | `notebooks/analyse_data_drift.ipynb` |
-| Screenshots de la solution de stockage des données de production | `docs/livrables/screenshots/stockage_donnees_production/` |
-| Preuves d'exécution qualité/tests | `docs/livrables/preuves_execution/` |
+| Screenshots de la solution de stockage des données de production | `livrables_projet8/screenshots/` |
+| Preuves d'exécution qualité/tests | `livrables_projet8/preuves_execution/` |
 
 ## Historique des versions
 
@@ -27,8 +27,8 @@ L'historique de version est documenté à deux niveaux :
 
 Fichiers utiles :
 
-- `docs/livrables/historique_versions/historique_git.txt` : export de l'historique Git ;
-- `docs/livrables/historique_versions/strategie_branches.md` : stratégie de branches ;
+- `livrables_projet8/historique_versions/historique_git.txt` : export de l'historique Git ;
+- `livrables_projet8/historique_versions/strategie_branches.md` : stratégie de branches ;
 - `docs/experiments/` : rapports d'expérimentation modèle ;
 - `model/schema/model_metadata.json` et `model/schema/top30_model_metadata.json` : métadonnées modèle.
 
@@ -72,7 +72,7 @@ tests/
 Les preuves d'exécution sont exportées dans :
 
 ```text
-docs/livrables/preuves_execution/
+livrables_projet8/preuves_execution/
 ```
 
 Commandes utilisées :
@@ -120,7 +120,7 @@ monitoring/reference/top30_reference.parquet
 Les captures demandées sont dans :
 
 ```text
-docs/livrables/screenshots/stockage_donnees_production/
+livrables_projet8/screenshots/
 ```
 
 La solution de stockage de démonstration repose sur :
