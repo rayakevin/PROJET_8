@@ -6,7 +6,7 @@
     "sample_size": 5000,
     "random_state": 42
   },
-  "dataset_path": "<ancien projet local>/data/processed/application_train_full.parquet",
+  "dataset_path": "data/reference/application_train_modeling_sample.parquet",
   "model": {
     "name": "lightgbm_bonus",
     "family": "Boosting externe",

@@ -51,6 +51,7 @@ app/                         API FastAPI et services applicatifs
 dashboard/                   dashboard local de monitoring
 docs/                        documentation projet et rapports
 model/                       artefacts MLflow et schémas modèle
+data/reference/              échantillon de données et importance LightGBM versionnés
 monitoring/                  schéma PostgreSQL et référence locale générée
 notebooks/legacy/            notebooks conservés du projet précédent
 scripts/                     scripts d'import, benchmark, monitoring et vérification
@@ -63,11 +64,31 @@ docker-compose.monitoring.yml PostgreSQL local de monitoring
 pyproject.toml               configuration Python, dépendances et outils
 ```
 
+Les notebooks dans `notebooks/legacy/` sont conservés pour la traçabilité pédagogique. Ils ne font
+pas partie du chemin d'installation et peuvent contenir des sorties historiques de l'ancien projet.
+
 ## Installation locale
 
-Le projet utilise `uv`.
+Le dépôt est installable sans dépendance à un ancien dossier local du projet P6. Les artefacts
+minimums nécessaires au fonctionnement et aux contrôles sont versionnés :
+
+- modèle API TOP30 : `model/artifacts/mlflow_model_top30_optimized/` ;
+- schémas modèle : `model/schema/` ;
+- échantillon de modélisation : `data/reference/application_train_modeling_sample.parquet` ;
+- importance native LightGBM : `data/reference/lightgbm_bonus_native_importance.csv` ;
+- référence de drift TOP30 : `monitoring/reference/top30_reference.parquet`.
+
+Prérequis :
+
+- Python `3.12` ;
+- `uv` ;
+- Docker, uniquement pour lancer PostgreSQL local ou construire les images.
+
+Depuis un clone propre :
 
 ```powershell
+git clone <url-du-repo>
+cd PROJET_8
 uv sync --extra dev
 ```
 
@@ -81,6 +102,14 @@ Vérification du chargement du modèle :
 
 ```powershell
 uv run python scripts/check_model_load.py
+```
+
+Contrôles qualité :
+
+```powershell
+uv run ruff check .
+uv run ruff format --check .
+uv run pytest
 ```
 
 ## API de scoring
@@ -154,7 +183,8 @@ Import des logs :
 uv run python scripts/import_monitoring_logs_to_postgres.py --truncate
 ```
 
-Construction de la référence de drift :
+La référence de drift TOP30 est déjà versionnée dans `monitoring/reference/`. Pour la régénérer
+depuis l'échantillon versionné :
 
 ```powershell
 uv run python scripts/build_monitoring_reference.py

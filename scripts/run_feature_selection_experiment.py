@@ -45,6 +45,12 @@ DEFAULT_FEATURES_PATH = (
 DEFAULT_SUMMARY_PATH = (
     PROJECT_ROOT / "docs" / "experiments" / "feature_selection_experiment_2_summary.csv"
 )
+DEFAULT_DATASET_PATH = (
+    PROJECT_ROOT / "data" / "reference" / "application_train_modeling_sample.parquet"
+)
+DEFAULT_IMPORTANCE_PATH = (
+    PROJECT_ROOT / "data" / "reference" / "lightgbm_bonus_native_importance.csv"
+)
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -63,29 +69,23 @@ def load_feature_names() -> list[str]:
     return [feature["name"] for feature in schema["features"]]
 
 
-def resolve_default_dataset(metadata: dict[str, Any]) -> Path:
-    legacy_project_path = Path(metadata["legacy_project_path"])
-    return legacy_project_path / "data" / "processed" / "application_train_full.parquet"
+def resolve_default_dataset(metadata: dict[str, Any] | None = None) -> Path:
+    return DEFAULT_DATASET_PATH
 
 
-def resolve_default_importance(metadata: dict[str, Any]) -> Path:
-    legacy_project_path = Path(metadata["legacy_project_path"])
-    return (
-        legacy_project_path
-        / "data"
-        / "processed"
-        / "reports"
-        / "lightgbm_bonus_native_importance.csv"
-    )
+def resolve_default_importance(metadata: dict[str, Any] | None = None) -> Path:
+    return DEFAULT_IMPORTANCE_PATH
 
 
-def format_legacy_reference(path: Path, metadata: dict[str, Any]) -> str:
-    legacy_project_path = Path(metadata["legacy_project_path"])
+def format_project_reference(path: Path) -> str:
     try:
-        relative_path = path.resolve().relative_to(legacy_project_path.resolve())
-        return f"<ancien projet local>/{relative_path.as_posix()}"
+        return path.resolve().relative_to(PROJECT_ROOT.resolve()).as_posix()
     except ValueError:
         return str(path)
+
+
+def format_legacy_reference(path: Path, metadata: dict[str, Any] | None = None) -> str:
+    return format_project_reference(path)
 
 
 def load_modeling_frame(
@@ -421,8 +421,8 @@ def parse_feature_counts(value: str) -> list[int]:
 def run_experiment(args: argparse.Namespace) -> dict[str, Any]:
     metadata = load_json(MODEL_METADATA_PATH)
     feature_names = load_feature_names()
-    dataset_path = args.dataset or resolve_default_dataset(metadata)
-    importance_path = args.importance or resolve_default_importance(metadata)
+    dataset_path = args.dataset or resolve_default_dataset()
+    importance_path = args.importance or resolve_default_importance()
 
     frame, diagnostics = load_modeling_frame(dataset_path, feature_names)
     ranked_features = load_ranked_features(importance_path, set(feature_names))
@@ -469,8 +469,8 @@ def run_experiment(args: argparse.Namespace) -> dict[str, Any]:
             "random_state": int(args.random_state),
             "test_size": float(args.test_size),
         },
-        "dataset_path": format_legacy_reference(dataset_path, metadata),
-        "importance_path": format_legacy_reference(importance_path, metadata),
+        "dataset_path": format_project_reference(dataset_path),
+        "importance_path": format_project_reference(importance_path),
         "data": {
             **diagnostics,
             "train_rows": int(len(x_train)),

@@ -7,7 +7,7 @@ Elle sert de point de comparaison avant la réduction du nombre de variables.
 
 ## Données utilisées
 
-- Source : `<ancien projet local>/data/processed/application_train_full.parquet`
+- Source : `data/reference/application_train_modeling_sample.parquet`
 - Lignes disponibles : `307507`
 - Lignes évaluées : `5000`
 - Variables modèle : `733`
@@ -28,7 +28,7 @@ sur `model/schema/feature_schema.json`.
 ## Résultats
 
 Les mesures recalculées ci-dessous sont réalisées sur un échantillon du parquet préparé
-`application_train_full.parquet`. Elles servent de contrôle technique du modèle importé et
+`application_train_modeling_sample.parquet`. Elles servent de contrôle technique du modèle importé et
 de mesure de latence. La colonne holdout P6 reste la référence de performance à utiliser pour
 comparer les futurs modèles simplifiés.
 

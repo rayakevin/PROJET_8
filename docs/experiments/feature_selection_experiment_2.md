@@ -7,8 +7,8 @@ les plus importantes du modèle historique.
 
 ## Protocole
 
-- Données : `<ancien projet local>/data/processed/application_train_full.parquet`
-- Importance utilisée : `<ancien projet local>/data/processed/reports/lightgbm_bonus_native_importance.csv`
+- Données : `data/reference/application_train_modeling_sample.parquet`
+- Importance utilisée : `data/reference/lightgbm_bonus_native_importance.csv`
 - Split : holdout stratifié de `20 %`, `random_state=42`
 - Seuil métier appliqué : `0.45`
 - Coûts métier : faux négatif `10.0`,

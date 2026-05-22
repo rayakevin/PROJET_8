@@ -73,26 +73,26 @@ erreurs éventuelles. Les features sont stockées en `JSONB`.
 
 La détection de dérive nécessite une distribution de référence.
 
-Dans ce projet, la référence est construite à partir de l'ancien dataset préparé du projet P6 :
-
-```text
-D:\FORMATION AI\01_FORMATION AI ENGINEER\02_PROJETS\06_PROJET 06\P6\P6_MLOps_1-2\data\processed\application_train_full.parquet
-```
-
-Commande :
-
-```powershell
-uv run python scripts/build_monitoring_reference.py
-```
-
-Sortie locale :
+Dans ce projet, la référence TOP30 est versionnée dans le dépôt :
 
 ```text
 monitoring/reference/top30_reference.parquet
 ```
 
-Par défaut, la référence contient un échantillon reproductible de `10 000` lignes. Ce fichier est
-généré localement et n'est pas versionné dans Git.
+Elle peut être régénérée depuis l'échantillon de modélisation versionné :
+
+```powershell
+uv run python scripts/build_monitoring_reference.py
+```
+
+Source par défaut du script :
+
+```text
+data/reference/application_train_modeling_sample.parquet
+```
+
+La référence versionnée contient un échantillon reproductible de `10 000` lignes. Pour refaire une
+référence depuis un dataset complet externe, il faut passer explicitement le parquet avec `--source`.
 
 ## Analyse automatique
 
