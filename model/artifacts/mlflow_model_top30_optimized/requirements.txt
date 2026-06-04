@@ -1,5 +1,5 @@
 aiohappyeyeballs==2.6.1; sys_platform == "linux" or sys_platform == "win32"
-aiohttp==3.13.5; sys_platform == "linux" or sys_platform == "win32"
+aiohttp==3.14.0; sys_platform == "linux" or sys_platform == "win32"
 aiosignal==1.4.0; sys_platform == "linux" or sys_platform == "win32"
 alembic==1.18.4; sys_platform == "linux" or sys_platform == "win32"
 altair==6.1.0; sys_platform == "linux" or sys_platform == "win32"
